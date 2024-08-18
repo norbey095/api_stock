@@ -6,6 +6,4 @@ public interface ICategoryPersistencePort {
 
     void saveCategory(Category category);
 
-    Category getCategoryByName(String name);
-
 }

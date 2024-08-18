@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryRestController {
 
-    private final ICategoryHandler iCategoryHandler;
+    private final ICategoryHandler categoryHandler;
 
     @PostMapping("/createCategory")
     public ResponseEntity<Void> createCategory(@RequestBody CategoryDto categoryDto){
-        iCategoryHandler.saveCategory(categoryDto);
+        categoryHandler.saveCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

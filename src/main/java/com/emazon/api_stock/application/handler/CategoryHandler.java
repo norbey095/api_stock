@@ -16,14 +16,10 @@ public class CategoryHandler implements ICategoryHandler {
     private final ICategoryPersistencePort categoryPersistencePort;
     private final CategoryMapper categoryMapper;
 
-    @Override
-    public CategoryDto getCategoryByName(String name) {
-        return categoryMapper.categoryToCategoryDto(categoryPersistencePort.getCategoryByName(name));
-    }
 
     @Override
     public void saveCategory(CategoryDto categoryDto) {
-        Category category = categoryPersistencePort.getCategoryByName(categoryDto.getName());
+        Category category = categoryMapper.categoryDtoToCategory(categoryDto);
         categoryPersistencePort.saveCategory(category);
     }
 }

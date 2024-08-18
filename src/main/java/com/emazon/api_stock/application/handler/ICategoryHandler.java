@@ -6,6 +6,4 @@ public interface ICategoryHandler {
 
     void saveCategory(CategoryDto categoryDto);
 
-    CategoryDto getCategoryByName(String name);
-
 }

@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	compileOnly 'org.projectlombok:lombok'
@@ -39,11 +39,13 @@ dependencies {
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
 
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+	//testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

@@ -1,10 +1,10 @@
 package com.emazon.api_stock.domain.usecase;
 
-import com.emazon.api_stock.domain.api.ICategoryServiceRepository;
+import com.emazon.api_stock.domain.api.ICategoryServicePort;
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 
-public class CategoryUseCase implements ICategoryServiceRepository {
+public class CategoryUseCase implements ICategoryServicePort {
 
 
     private final ICategoryPersistencePort iCategoryPersistencePort;
@@ -18,7 +18,4 @@ public class CategoryUseCase implements ICategoryServiceRepository {
         this.iCategoryPersistencePort.saveCategory(category);
     }
 
-    public Category getCategoryByName(String name) {
-        return this.iCategoryPersistencePort.getCategoryByName(name);
-    }
 }
