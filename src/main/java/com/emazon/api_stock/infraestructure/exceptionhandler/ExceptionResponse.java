@@ -1,7 +1,10 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
+import lombok.Getter;
+
+@Getter
 public enum ExceptionResponse {
-    CATEGORY_ALREADY_EXISTS("There is already a category with that name");
+    CATEGORY_ALREADY_EXISTS("Ya existe una categoría con ese nombre");
 
     private final String message;
 
@@ -9,7 +12,4 @@ public enum ExceptionResponse {
         this.message = message;
     }
 
-    public String getMessage() {
-        return this.message;
-    }
 }
