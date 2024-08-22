@@ -1,15 +1,19 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import lombok.Getter;
-
-@Getter
-public enum ExceptionResponse {
-    CATEGORY_ALREADY_EXISTS("Ya existe una categoría con ese nombre");
-
+public class ExceptionResponse {
     private final String message;
+    private final String status;
 
-    ExceptionResponse(String message) {
+    public ExceptionResponse(String message, String status) {
         this.message = message;
+        this.status = status;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }
