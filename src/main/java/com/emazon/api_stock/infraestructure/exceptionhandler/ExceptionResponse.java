@@ -1,15 +1,19 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-public enum ExceptionResponse {
-    CATEGORY_ALREADY_EXISTS("There is already a category with that name");
-
+public class ExceptionResponse {
     private final String message;
+    private final String status;
 
-    ExceptionResponse(String message) {
+    public ExceptionResponse(String message, String status) {
         this.message = message;
+        this.status = status;
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
