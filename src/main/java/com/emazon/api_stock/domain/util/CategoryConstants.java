@@ -1,13 +1,19 @@
 package com.emazon.api_stock.domain.util;
 
-public class CategoryConstants {
+public enum CategoryConstants {
 
-    private CategoryConstants() {
-        throw new IllegalArgumentException("Utility class");
+    FIELD_NAME_NULL("El campo 'nombre' no puede ser vacío."),
+    FIELD_NAME_MAX("El campo 'nombre' no puede superar los 50 caracteres."),
+    FIELD_DESCRIPTION_NULL("El campo 'descripcion' no puede ser vacío"),
+    FIELD_DESCRIPTION_MAX("El campo 'descripcion' no puede superar los 90 caracteres");
+
+    private final String message;
+
+    CategoryConstants(String message) {
+        this.message = message;
     }
 
-    public static final String FIELD_NAME_MESSAGE = "El nombre no puede ser vacío y " +
-            "no puede superar los 50 caracteres.";
-    public static final String FIELD_DESCRIPTION_MESSAGE = "La descripción no puede ser vacía y " +
-            "no puede superar los 90 caracteres.";
+    public String getMessage() {
+        return message;
+    }
 }
