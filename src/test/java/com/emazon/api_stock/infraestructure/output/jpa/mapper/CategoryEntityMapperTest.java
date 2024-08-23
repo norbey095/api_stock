@@ -16,7 +16,7 @@ class CategoryEntityMapperTest {
         Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage()
                 ,ConstantsTest.FIELD_DESCRIPTION.getMessage());
 
-        CategoryEntity categoryEntity = categoryEntityMapper.categoyToCategoryEntity(category);
+        CategoryEntity categoryEntity = categoryEntityMapper.categoryToCategoryEntity(category);
 
         Assertions.assertNotNull(categoryEntity);
         Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), categoryEntity.getName());
@@ -25,7 +25,7 @@ class CategoryEntityMapperTest {
 
     @Test
     void testCategoryToCategoryEntity_NullInput() {
-        CategoryEntity categoryEntity = categoryEntityMapper.categoyToCategoryEntity(null);
+        CategoryEntity categoryEntity = categoryEntityMapper.categoryToCategoryEntity(null);
 
         Assertions.assertNull(categoryEntity);
     }

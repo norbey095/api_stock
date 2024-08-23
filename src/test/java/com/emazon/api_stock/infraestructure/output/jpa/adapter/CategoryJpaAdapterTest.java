@@ -56,7 +56,7 @@ class CategoryJpaAdapterTest {
         CategoryEntity categoryEntity = new CategoryEntity();
         Mockito.when(categoryRepository.findByName(ConstantsTest.FIELD_SEARCH_NAME.getMessage()))
                 .thenReturn(Optional.empty());
-        Mockito.when(categoryEntityMapper.categoyToCategoryEntity(category)).thenReturn(categoryEntity);
+        Mockito.when(categoryEntityMapper.categoryToCategoryEntity(category)).thenReturn(categoryEntity);
 
         categoryJpaAdapter.saveCategory(category);
 
