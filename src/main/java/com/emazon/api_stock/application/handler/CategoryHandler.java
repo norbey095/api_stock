@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,5 +23,10 @@ public class CategoryHandler implements ICategoryHandler {
     public void saveCategory(CategoryDto categoryDto) {
         Category category = categoryMapper.categoryDtoToCategory(categoryDto);
         categoryServicePort.saveCategory(category);
+    }
+
+    @Override
+    public List<CategoryDto> getAllCategorys(Integer page, Integer size,boolean descending) {
+        return categoryMapper.toCategoryDtoList(categoryServicePort.getAllCategorys(page,size,descending));
     }
 }
