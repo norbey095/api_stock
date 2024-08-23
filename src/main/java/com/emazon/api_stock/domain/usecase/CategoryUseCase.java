@@ -7,6 +7,8 @@ import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.CategoryConstants;
 
+import java.util.List;
+
 public class CategoryUseCase implements ICategoryServicePort {
 
     private final ICategoryPersistencePort iCategoryPersistencePort;
@@ -30,6 +32,11 @@ public class CategoryUseCase implements ICategoryServicePort {
             throw new InvalidCategoryDescriptionException(CategoryConstants.FIELD_DESCRIPTION_MAX.getMessage());
         }
         this.iCategoryPersistencePort.saveCategory(category);
+    }
+
+    @Override
+    public List<Category> getAllCategorys(Integer page, Integer size, boolean descending) {
+        return this.iCategoryPersistencePort.getAllCategorys(page, size,descending);
     }
 
 }

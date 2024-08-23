@@ -2,11 +2,9 @@ package com.emazon.api_stock.domain.model;
 
 public class Category {
 
-
     private Integer id;
     private String name;
     private String description;
-
 
     public Category(Integer id, String name, String description) {
         this.id = id;
