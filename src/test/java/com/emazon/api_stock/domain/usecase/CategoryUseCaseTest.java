@@ -5,12 +5,16 @@ import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,7 +47,8 @@ class CategoryUseCaseTest {
 
     @Test
     void shouldThrowExceptionWhenNameExceeds50Characters() {
-        Category category = new Category(1,ConstantsTest.NAME_INVALID.getMessage() , ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Category category = new Category(1,ConstantsTest.NAME_INVALID.getMessage()
+                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
 
         InvalidCategoryNameException exception = assertThrows(InvalidCategoryNameException.class, () -> {
             categoryUseCase.saveCategory(category);
@@ -77,6 +82,17 @@ class CategoryUseCaseTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenNameIsEmpty() {
+        Category category = new Category(1, "", ConstantsTest.FIELD_DESCRIPTION.getMessage());
+
+        InvalidCategoryNameException exception = assertThrows(InvalidCategoryNameException.class, () -> {
+            categoryUseCase.saveCategory(category);
+        });
+
+        assertEquals(ConstantsTest.MSN_NAME_NULL.getMessage(), exception.getMessage());
+    }
+
+    @Test
     void shouldThrowExceptionWhenDescriptionIsNull() {
         Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage(), null);
 
@@ -85,6 +101,34 @@ class CategoryUseCaseTest {
         });
 
         assertEquals(ConstantsTest.MSN_DESCRIPTION_NULL.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDescriptionIsEmpty() {
+        Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage(), "");
+
+        InvalidCategoryDescriptionException exception = assertThrows(InvalidCategoryDescriptionException.class, () -> {
+            categoryUseCase.saveCategory(category);
+        });
+
+        assertEquals(ConstantsTest.MSN_DESCRIPTION_NULL.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void shouldGetAllCategorys() {
+        Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage(), "");
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(category);
+
+        Mockito.when(iCategoryPersistencePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
+
+        List<Category> result = categoryUseCase.getAllCategorys(1,1,false);
+
+        Mockito.verify(iCategoryPersistencePort, Mockito.times(1))
+                .getAllCategorys(1,1,false);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.get(0).getName(), category.getName());
+        Assertions.assertEquals(result.get(0).getDescription(), category.getDescription());
     }
 
 }

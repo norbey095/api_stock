@@ -44,7 +44,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
         }
     }
 
-    private Pageable createPageable(Integer page, Integer size, boolean descending) {
+    protected Pageable createPageable(Integer page, Integer size, boolean descending) {
         Sort.Direction direction = descending ? Sort.Direction.DESC : Sort.Direction.ASC;
         return PageRequest.of(page, size, Sort.by(direction, "name"));
     }

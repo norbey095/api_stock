@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class CategoryMapperTest {
 
     private final CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
@@ -29,5 +32,27 @@ class CategoryMapperTest {
         Category category = categoryMapper.categoryDtoToCategory(null);
 
         Assertions.assertNull(category);
+    }
+
+    @Test
+    void testToCategoryDtoList() {
+        Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage()
+                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
+
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(category);
+
+        List<CategoryDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
+
+        Assertions.assertNotNull(categoryDtoList);
+        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), categoryDtoList.get(0).getName());
+        Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), categoryDtoList.get(0).getDescription());
+    }
+
+    @Test
+    void testToCategoryDtoList_NullInput() {
+        List<CategoryDto> categoryDtos = categoryMapper.toCategoryDtoList(null);
+
+        Assertions.assertNull(categoryDtos);
     }
 }
