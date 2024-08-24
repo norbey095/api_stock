@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @WebMvcTest(CategoryRestController.class)
 class CategoryRestControllerTest {
 
@@ -38,11 +41,32 @@ class CategoryRestControllerTest {
 
     @Test
     void createCategory_ShouldReturnStatusCreated() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(categoryDto)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         Mockito.verify(categoryHandler, Mockito.times(1)).saveCategory(categoryDto);
+    }
+
+    @Test
+    void getAllCategory_ShouldReturnCategoryDto() throws Exception {
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
+        categoryDtoList.add(categoryDto);
+        Mockito.when(categoryHandler.getAllCategorys(1, 1,false)).thenReturn(categoryDtoList);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
+                        .param("page", "1")
+                        .param("size", "1")
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].name")
+                                .value(ConstantsTest.FIELD_NAME.getMessage()))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
+                                .value(ConstantsTest.FIELD_DESCRIPTION.getMessage()));
+
+        Mockito.verify(categoryHandler, Mockito.times(1))
+                .getAllCategorys(1,1,false);
     }
 }

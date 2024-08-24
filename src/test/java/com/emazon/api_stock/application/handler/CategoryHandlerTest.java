@@ -14,6 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class CategoryHandlerTest {
 
     @InjectMocks
@@ -25,17 +28,18 @@ class CategoryHandlerTest {
     @Mock
     private CategoryMapper categoryMapper;
 
+    private CategoryDto categoryDto;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        categoryDto = new CategoryDto();
+        categoryDto.setName(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_NAME.getMessage());
+        categoryDto.setDescription(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_DESCRIPTION.getMessage());
     }
 
     @Test
     void shouldSaveCategory() {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
-
         Category category = new Category(null,ConstantsTest.FIELD_NAME.getMessage()
                 ,ConstantsTest.FIELD_DESCRIPTION.getMessage());
         when(categoryMapper.categoryDtoToCategory(categoryDto)).thenReturn(category);
@@ -45,5 +49,25 @@ class CategoryHandlerTest {
 
         verify(categoryMapper).categoryDtoToCategory(categoryDto);
         verify(categoryServicePort).saveCategory(category);
+    }
+
+    @Test
+    void shouldGetAllCategory() {
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
+        categoryDtoList.add(categoryDto);
+
+        Category category = new Category(null,ConstantsTest.FIELD_NAME.getMessage()
+                ,ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(category);
+
+        when(categoryMapper.toCategoryDtoList(categoryList)).thenReturn(categoryDtoList);
+        when(categoryServicePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
+
+        categoryHandler.getAllCategorys(1,1,false);
+
+
+        verify(categoryMapper).toCategoryDtoList(categoryList);
+        verify(categoryServicePort).getAllCategorys(1,1,false);
     }
 }

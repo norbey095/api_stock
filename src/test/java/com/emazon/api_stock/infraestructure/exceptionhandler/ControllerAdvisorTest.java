@@ -5,6 +5,8 @@ import com.emazon.api_stock.application.handler.ICategoryHandler;
 import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
 import com.emazon.api_stock.infraestructure.exception.CategoryAlreadyExistsException;
+import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
+import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
 import com.emazon.api_stock.infraestructure.util.ConstantsTest;
 import org.junit.jupiter.api.Test;
@@ -31,7 +33,7 @@ class ControllerAdvisorTest {
         Mockito.doThrow(new CategoryAlreadyExistsException()).when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
@@ -45,7 +47,7 @@ class ControllerAdvisorTest {
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -59,11 +61,41 @@ class ControllerAdvisorTest {
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
                         .value(ConstantsTest.INVALID_CATEGORY_DESCRIPTION.getMessage()));
+    }
+
+    @Test
+    void whenNoDataFoundException_thenReturnsNotFound() throws Exception {
+        Mockito.doThrow(new NoDataFoundException())
+                .when(categoryHandler)
+                .getAllCategorys(1,1,false);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
+                        .param("page", "1")
+                        .param("size", "1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                        .value(ConstantsTest.NO_DATA_FOUND_EXCEPTION_MESSAGE.getMessage()));
+    }
+
+    @Test
+    void whenNegativeNotAllowedException_thenReturnsbadRequest() throws Exception {
+        Mockito.doThrow(new NegativeNotAllowedException())
+                .when(categoryHandler)
+                .getAllCategorys(1,1,false);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
+                        .param("page", "1")
+                        .param("size", "1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                        .value(ConstantsTest.NEGATIVE_NOT_ALLOWED.getMessage()));
     }
 }
