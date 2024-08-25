@@ -2,7 +2,6 @@ package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
-import com.emazon.api_stock.infraestructure.exception.CategoryAlreadyExistsException;
 import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
@@ -24,9 +23,6 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     @Override
     public void saveCategory(Category category) {
-        if(categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new CategoryAlreadyExistsException();
-        }
         categoryRepository.save(categoryEntityMapper.categoryToCategoryEntity(category));
     }
 
@@ -36,6 +32,11 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
         Pageable pagination = createPageable(page, size, descending);
         List<CategoryEntity> categoryEntities = fetchCategories(pagination);
         return categoryEntityMapper.categoryEntityToCategory(categoryEntities);
+    }
+
+    @Override
+    public boolean getCategoryByName(String name) {
+        return categoryRepository.findByName(name).isPresent();
     }
 
     private void validateNegativeData(Integer page, Integer size){

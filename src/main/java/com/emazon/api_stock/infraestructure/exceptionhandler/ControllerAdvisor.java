@@ -2,7 +2,7 @@ package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
-import com.emazon.api_stock.infraestructure.exception.CategoryAlreadyExistsException;
+import com.emazon.api_stock.domain.exception.CategoryAlreadyExistsException;
 import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import org.springframework.http.HttpStatus;

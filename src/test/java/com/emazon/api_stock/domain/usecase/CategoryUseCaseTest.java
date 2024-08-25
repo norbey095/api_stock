@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.usecase;
 
+import com.emazon.api_stock.domain.exception.CategoryAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.model.Category;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CategoryUseCaseTest {
 
     @Mock
-    private ICategoryPersistencePort iCategoryPersistencePort;
+    private ICategoryPersistencePort categoryPersistencePort;
 
     @InjectMocks
     private CategoryUseCase categoryUseCase;
@@ -42,7 +43,21 @@ class CategoryUseCaseTest {
         categoryUseCase.saveCategory(category);
 
         // Assert - Afirmar
-        Mockito.verify(iCategoryPersistencePort, Mockito.times(1)).saveCategory(category);
+        Mockito.verify(categoryPersistencePort, Mockito.times(1)).saveCategory(category);
+    }
+
+    @Test
+    void shouldThrowsExceptionWhenCategoryExists() {
+        String name = ConstantsTest.FIELD_NAME.getMessage();
+        Mockito.when(categoryPersistencePort.getCategoryByName(name))
+                .thenReturn(true);
+
+        assertThrows(CategoryAlreadyExistsException.class, () -> {
+            categoryUseCase.validatedNamePresent(name);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(1))
+                .getCategoryByName(name);
     }
 
     @Test
@@ -120,15 +135,14 @@ class CategoryUseCaseTest {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
 
-        Mockito.when(iCategoryPersistencePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
+        Mockito.when(categoryPersistencePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
 
         List<Category> result = categoryUseCase.getAllCategorys(1,1,false);
 
-        Mockito.verify(iCategoryPersistencePort, Mockito.times(1))
+        Mockito.verify(categoryPersistencePort, Mockito.times(1))
                 .getAllCategorys(1,1,false);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.get(0).getName(), category.getName());
         Assertions.assertEquals(result.get(0).getDescription(), category.getDescription());
     }
-
 }
