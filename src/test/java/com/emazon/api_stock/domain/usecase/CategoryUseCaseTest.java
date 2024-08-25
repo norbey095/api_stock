@@ -1,8 +1,8 @@
 package com.emazon.api_stock.domain.usecase;
 
-import com.emazon.api_stock.domain.exception.CategoryAlreadyExistsException;
-import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
+import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsTest;
