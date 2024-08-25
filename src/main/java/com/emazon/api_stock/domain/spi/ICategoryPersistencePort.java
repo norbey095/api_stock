@@ -10,4 +10,6 @@ public interface ICategoryPersistencePort {
 
     List<Category> getAllCategorys(Integer page, Integer size,boolean descending);
 
+    boolean getCategoryByName(String name);
 }
+

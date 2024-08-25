@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
-import com.emazon.api_stock.infraestructure.exception.CategoryAlreadyExistsException;
+import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.ICategoryRepository;
@@ -38,28 +38,11 @@ class CategoryJpaAdapterTest {
     }
 
     @Test
-    void testSaveCategoryThrowsExceptionWhenCategoryExists() {
-        Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
-
-        Mockito.when(categoryRepository.findByName(ConstantsTest.FIELD_NAME.getMessage()))
-                .thenReturn(Optional.of(new CategoryEntity()));
-
-        assertThrows(CategoryAlreadyExistsException.class, () -> {
-            categoryJpaAdapter.saveCategory(category);
-        });
-
-        Mockito.verify(categoryRepository, Mockito.never()).save(Mockito.any(CategoryEntity.class));
-    }
-
-    @Test
-    void testSaveCategorySavesSuccessfullyWhenCategoryDoesNotExist() {
+    void testSaveCategorySavesSuccessfully() {
 
         Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_DESCRIPTION.getMessage());
         CategoryEntity categoryEntity = new CategoryEntity();
-        Mockito.when(categoryRepository.findByName(ConstantsTest.FIELD_SEARCH_NAME.getMessage()))
-                .thenReturn(Optional.empty());
         Mockito.when(categoryEntityMapper.categoryToCategoryEntity(category)).thenReturn(categoryEntity);
 
         categoryJpaAdapter.saveCategory(category);
@@ -90,6 +73,43 @@ class CategoryJpaAdapterTest {
         assertEquals(categories.size(), result.size());
         assertEquals(categories.get(0).getName(), result.get(0).getName());
         assertEquals(categories.get(0).getDescription(), result.get(0).getDescription());
+    }
+
+    @Test
+    void testGetAllCategory_WhitPageNegative() {
+        Integer page = -1;
+        Integer size = 1;
+
+        assertThrows(NegativeNotAllowedException.class, () -> {
+            categoryJpaAdapter.getAllCategorys(page, size, false);
+        });
+
+        Mockito.verify(categoryJpaAdapter, Mockito.times(0))
+                .createPageable(1,1,false);
+    }
+
+    @Test
+    void testGetAllCategory_WhitSizeNegative() {
+        Integer page = 1;
+        Integer size = -1;
+
+        assertThrows(NegativeNotAllowedException.class, () -> {
+            categoryJpaAdapter.getAllCategorys(page, size, false);
+        });
+
+        Mockito.verify(categoryJpaAdapter, Mockito.times(0))
+                .createPageable(1,1,false);
+    }
+
+    @Test
+    void testGetCategoryByNameSuccess() {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        Mockito.when(categoryRepository.findByName(ConstantsTest.FIELD_NAME.getMessage()))
+                .thenReturn(Optional.of(categoryEntity));
+
+        boolean result = categoryJpaAdapter.getCategoryByName(ConstantsTest.FIELD_NAME.getMessage());
+
+        assertEquals(true, result);
     }
 
     private CategoryEntity createCategoryEntity(){

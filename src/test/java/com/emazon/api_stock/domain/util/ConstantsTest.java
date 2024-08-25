@@ -9,6 +9,7 @@ public enum ConstantsTest {
     MSN_NAME_NULL("El campo 'nombre' no puede ser vacío."),
     DESCRIPTION_INVALID("This description is way too long and exceeds the maximum " +
             "allowed length of 90 characters..."),
+    INVALID_CATEGORY_NAME("Invalid argument"),
     MSN_DESCRIPTION_CARACTER("El campo 'descripcion' no puede superar los 90 caracteres"),
     MSN_DESCRIPTION_NULL("El campo 'descripcion' no puede ser vacío");
 
