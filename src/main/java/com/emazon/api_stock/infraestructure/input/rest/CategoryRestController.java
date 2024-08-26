@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
-import com.emazon.api_stock.application.handler.ICategoryHandler;
+import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

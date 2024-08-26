@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.handler.category.CategoryHandler;
 import com.emazon.api_stock.application.mapper.CategoryMapper;
 import com.emazon.api_stock.application.util.ConstantsTest;
 import com.emazon.api_stock.domain.api.ICategoryServicePort;

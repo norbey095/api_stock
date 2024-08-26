@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ControllerAdvisor {
+public class ControllerCategoryAdvisor {
 
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)

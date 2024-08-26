@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
-import com.emazon.api_stock.application.handler.ICategoryHandler;
+import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = {CategoryRestController.class, ControllerAdvisor.class})
-class ControllerAdvisorTest {
+@WebMvcTest(controllers = {CategoryRestController.class, ControllerCategoryAdvisor.class})
+class ControllerCategoryAdvisorTest {
 
     @Autowired
     private MockMvc mockMvc;

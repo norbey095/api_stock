@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
-import com.emazon.api_stock.application.handler.ICategoryHandler;
+import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.infraestructure.util.ConstantsTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
