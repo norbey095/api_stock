@@ -6,12 +6,16 @@ import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
 import com.emazon.api_stock.domain.model.Brand;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -123,5 +127,22 @@ class BrandUseCaseTest {
         });
 
         assertEquals(ConstantsTest.MSN_DESCRIPTION_NULL.getMessage(), exception.getMessage());
+    }
+
+    @Test
+    void shouldGetAllBrands() {
+        Brand brand = new Brand(1,ConstantsTest.FIELD_NAME.getMessage(), "");
+        List<Brand> brandList = new ArrayList<>();
+        brandList.add(brand);
+
+        Mockito.when(brandPersistencePort.getAllBrands(1,1,false)).thenReturn(brandList);
+
+        List<Brand> result = brandUseCase.getAllBrands(1,1,false);
+
+        Mockito.verify(brandPersistencePort, Mockito.times(1))
+                .getAllBrands(1,1,false);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.get(0).getName(), brand.getName());
+        Assertions.assertEquals(result.get(0).getDescription(), brand.getDescription());
     }
 }

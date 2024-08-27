@@ -8,6 +8,8 @@ import com.emazon.api_stock.domain.model.Brand;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
 import com.emazon.api_stock.domain.util.Constants;
 
+import java.util.List;
+
 public class BrandUseCase implements IBrandServicePort {
 
     private final IBrandPersistencePort brandPersistencePort;
@@ -22,6 +24,11 @@ public class BrandUseCase implements IBrandServicePort {
         validatedDescription(brand.getDescription());
         validatedNamePresent(brand.getName());
         this.brandPersistencePort.saveBrand(brand);
+    }
+
+    @Override
+    public List<Brand> getAllBrands(Integer page, Integer size, boolean descending) {
+        return this.brandPersistencePort.getAllBrands(page, size,descending);
     }
 
     protected void validatedNamePresent(String name){
