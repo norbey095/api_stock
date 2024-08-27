@@ -13,4 +13,5 @@ public interface BrandEntityMapper {
 
     BrandEntity brandToBrandEntity(Brand brand);
 
+    List<Brand> brandEntityToBrand(List<BrandEntity> brandEntity);
 }

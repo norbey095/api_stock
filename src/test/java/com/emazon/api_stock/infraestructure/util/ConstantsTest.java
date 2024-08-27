@@ -8,6 +8,7 @@ public enum ConstantsTest {
     URL_CREATE_CATEGORY("/stock/category/createCategory"),
     URL_CREATE_BRAND("/stock/brand/createBrand"),
     URL_GET_CATEGORY("/stock/category/getCategorys"),
+    URL_GET_BRAND("/stock/brand/getBrands"),
     JSON_REQUEST("{\"name\": \"Electronics\", \"description\": \"Category for electronics\"}"),
     JSON_BRAND_REQUEST("{\"name\": \"Electronics\", \"description\": \"brand for electronics\"}"),
     CATEGORY_EXISTS("There is already a category with that name"),

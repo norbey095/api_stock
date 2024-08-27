@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class BrandMapperTest {
 
     private final BrandMapper brandMapper = Mappers.getMapper(BrandMapper.class);
@@ -29,5 +32,27 @@ class BrandMapperTest {
         Brand brand = brandMapper.brandDtoToBrand(null);
 
         Assertions.assertNull(brand);
+    }
+
+    @Test
+    void testToBrandDtoList() {
+        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
+                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+
+        List<Brand> brandList = new ArrayList<>();
+        brandList.add(brand);
+
+        List<BrandDto> brandDtoList = brandMapper.toBrandDtoList(brandList);
+
+        Assertions.assertNotNull(brandDtoList);
+        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brandDtoList.get(0).getName());
+        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), brandDtoList.get(0).getDescription());
+    }
+
+    @Test
+    void testToBrandDtoList_NullInput() {
+        List<BrandDto> brandDtos = brandMapper.toBrandDtoList(null);
+
+        Assertions.assertNull(brandDtos);
     }
 }

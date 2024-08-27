@@ -12,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,5 +50,25 @@ class BrandHandlerTest {
 
         verify(brandMapper).brandDtoToBrand(brandDto);
         verify(brandServicePort).saveBrand(brand);
+    }
+
+    @Test
+    void shouldGetAllCategory() {
+        List<BrandDto> brandDtoList = new ArrayList<>();
+        brandDtoList.add(brandDto);
+
+        Brand brand = new Brand(null,ConstantsTest.FIELD_NAME.getMessage()
+                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        List<Brand> brandList = new ArrayList<>();
+        brandList.add(brand);
+
+        when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandDtoList);
+        when(brandServicePort.getAllBrands(1,1,false)).thenReturn(brandList);
+
+        brandHandler.getAllBrands(1,1,false);
+
+
+        verify(brandMapper).toBrandDtoList(brandList);
+        verify(brandServicePort).getAllBrands(1,1,false);
     }
 }
