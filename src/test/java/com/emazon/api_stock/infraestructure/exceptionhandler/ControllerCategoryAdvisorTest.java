@@ -43,7 +43,7 @@ class ControllerCategoryAdvisorTest {
 
     @Test
     void whenInvalidCategoryNameException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_CATEGORY_NAME.getMessage()))
+        Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_NAME.getMessage()))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
@@ -52,12 +52,12 @@ class ControllerCategoryAdvisorTest {
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_CATEGORY_NAME.getMessage()));
+                        .value(ConstantsTest.INVALID_NAME.getMessage()));
     }
 
     @Test
     void whenInvalidCategoryDescriptionException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_CATEGORY_DESCRIPTION.getMessage()))
+        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
@@ -66,7 +66,7 @@ class ControllerCategoryAdvisorTest {
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_CATEGORY_DESCRIPTION.getMessage()));
+                        .value(ConstantsTest.INVALID_DESCRIPTION.getMessage()));
     }
 
     @Test

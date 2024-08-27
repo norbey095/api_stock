@@ -35,8 +35,8 @@ class CategoryHandlerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         categoryDto = new CategoryDto();
-        categoryDto.setName(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_NAME.getMessage());
-        categoryDto.setDescription(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
     }
 
     @Test
