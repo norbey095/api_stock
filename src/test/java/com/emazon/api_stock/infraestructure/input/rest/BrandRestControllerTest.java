@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @WebMvcTest(BrandRestController.class)
 class BrandRestControllerTest {
 
@@ -44,5 +47,26 @@ class BrandRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         Mockito.verify(brandHandler, Mockito.times(1)).saveBrand(brandDto);
+    }
+
+    @Test
+    void getAllBrand_ShouldReturnBrandDto() throws Exception {
+        List<BrandDto> brandDtoList = new ArrayList<>();
+        brandDtoList.add(brandDto);
+        Mockito.when(brandHandler.getAllBrands(1, 1,false)).thenReturn(brandDtoList);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_BRAND.getMessage())
+                        .param("page", "1")
+                        .param("size", "1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name")
+                        .value(ConstantsTest.FIELD_NAME.getMessage()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
+                        .value(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage()));
+
+        Mockito.verify(brandHandler, Mockito.times(1))
+                .getAllBrands(1,1,false);
     }
 }

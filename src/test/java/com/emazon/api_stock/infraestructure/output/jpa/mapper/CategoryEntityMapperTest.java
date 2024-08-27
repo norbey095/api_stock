@@ -43,7 +43,7 @@ class CategoryEntityMapperTest {
 
         List<Category> category = categoryEntityMapper.categoryEntityToCategory(categoryList);
 
-        Assertions.assertNotNull(categoryEntity);
+        Assertions.assertNotNull(category);
         Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), category.get(0).getName());
         Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), category.get(0).getDescription());
     }
