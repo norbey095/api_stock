@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,5 +23,10 @@ public class BrandHandler implements IBrandHandler {
     public void saveBrand(BrandDto brandDto) {
         Brand brand = brandMapper.brandDtoToBrand(brandDto);
         brandServicePort.saveBrand(brand);
+    }
+
+    @Override
+    public List<BrandDto> getAllBrands(Integer page, Integer size, boolean descending) {
+        return brandMapper.toBrandDtoList(brandServicePort.getAllBrands(page,size,descending));
     }
 }

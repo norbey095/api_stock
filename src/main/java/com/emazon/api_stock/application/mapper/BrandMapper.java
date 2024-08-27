@@ -5,6 +5,8 @@ import com.emazon.api_stock.domain.model.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface BrandMapper {
 
@@ -12,4 +14,6 @@ public interface BrandMapper {
     @Mapping(source = "brandDto.name", target = "name")
     @Mapping(source = "brandDto.description", target = "description")
     Brand brandDtoToBrand(BrandDto brandDto);
+
+    List<BrandDto> toBrandDtoList(List<Brand> brands);
 }
