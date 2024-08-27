@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.handler.category.CategoryHandler;
 import com.emazon.api_stock.application.mapper.CategoryMapper;
 import com.emazon.api_stock.application.util.ConstantsTest;
 import com.emazon.api_stock.domain.api.ICategoryServicePort;
@@ -34,8 +35,8 @@ class CategoryHandlerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         categoryDto = new CategoryDto();
-        categoryDto.setName(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_NAME.getMessage());
-        categoryDto.setDescription(com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
     }
 
     @Test

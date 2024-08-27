@@ -1,4 +1,4 @@
-package com.emazon.api_stock.application.handler;
+package com.emazon.api_stock.application.handler.category;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
 import com.emazon.api_stock.application.mapper.CategoryMapper;

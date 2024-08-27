@@ -1,10 +1,10 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.dto.CategoryDto;
-import com.emazon.api_stock.application.handler.ICategoryHandler;
-import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
-import com.emazon.api_stock.domain.exception.CategoryAlreadyExistsException;
+import com.emazon.api_stock.application.handler.category.ICategoryHandler;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
+import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
 import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = {CategoryRestController.class, ControllerAdvisor.class})
-class ControllerAdvisorTest {
+@WebMvcTest(controllers = {CategoryRestController.class, ControllerCategoryAdvisor.class})
+class ControllerCategoryAdvisorTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,7 @@ class ControllerAdvisorTest {
 
     @Test
     void whenInvalidCategoryNameException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_CATEGORY_NAME.getMessage()))
+        Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_NAME.getMessage()))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
@@ -52,12 +52,12 @@ class ControllerAdvisorTest {
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_CATEGORY_NAME.getMessage()));
+                        .value(ConstantsTest.INVALID_NAME.getMessage()));
     }
 
     @Test
     void whenInvalidCategoryDescriptionException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_CATEGORY_DESCRIPTION.getMessage()))
+        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryDto.class));
 
@@ -66,7 +66,7 @@ class ControllerAdvisorTest {
                         .content(ConstantsTest.JSON_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_CATEGORY_DESCRIPTION.getMessage()));
+                        .value(ConstantsTest.INVALID_DESCRIPTION.getMessage()));
     }
 
     @Test

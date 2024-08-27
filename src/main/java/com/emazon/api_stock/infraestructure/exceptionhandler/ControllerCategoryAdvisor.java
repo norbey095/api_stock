@@ -1,8 +1,8 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import com.emazon.api_stock.domain.exception.InvalidCategoryDescriptionException;
-import com.emazon.api_stock.domain.exception.InvalidCategoryNameException;
-import com.emazon.api_stock.domain.exception.CategoryAlreadyExistsException;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
+import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
+import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
 import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ControllerAdvisor {
+public class ControllerCategoryAdvisor {
 
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
