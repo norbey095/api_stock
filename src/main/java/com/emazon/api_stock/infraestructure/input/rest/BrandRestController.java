@@ -1,6 +1,8 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.IBrandHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,9 +31,10 @@ public class BrandRestController {
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
     @PostMapping("/createBrand")
-    public ResponseEntity<Void> createBrand(@RequestBody BrandDto brandDto){
-        brandHandler.saveBrand(brandDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ResponseSuccess> createBrand(@RequestBody BrandRequestDto brandRequestDto){
+        ResponseSuccess responseSuccess = brandHandler.saveBrand(brandRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(responseSuccess);
     }
 
     @Operation(
@@ -41,13 +44,13 @@ public class BrandRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Brands successfully obtained.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = BrandDto.class))),
+                            schema = @Schema(implementation = BrandRequestDto.class))),
             @ApiResponse(responseCode = "400", description
                     = "Invalid request, for example if the `page` or `size` parameters are negative."),
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
     @GetMapping("/getBrands")
-    public ResponseEntity<List<BrandDto>> getAllBrands(@RequestParam Integer page, @RequestParam Integer size
+    public ResponseEntity<List<BrandResponseDto>> getAllBrands(@RequestParam Integer page, @RequestParam Integer size
             , @RequestParam(required = false, defaultValue = "false") boolean descending) {
         return ResponseEntity.ok(brandHandler.getAllBrands(page,size,descending));
     }

@@ -1,6 +1,6 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
@@ -29,7 +29,7 @@ class ControllerCategoryAdvisorTest {
     @Test
     void whenCategoryAlreadyExistsException_thenReturnsConflict() throws Exception {
         Mockito.doThrow(new CategoryAlreadyExistsException()).when(categoryHandler)
-                .saveCategory(Mockito.any(CategoryDto.class));
+                .saveCategory(Mockito.any(CategoryRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +43,7 @@ class ControllerCategoryAdvisorTest {
     void whenInvalidCategoryNameException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_NAME.getMessage()))
                 .when(categoryHandler)
-                .saveCategory(Mockito.any(CategoryDto.class));
+                .saveCategory(Mockito.any(CategoryRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ class ControllerCategoryAdvisorTest {
     void whenInvalidCategoryDescriptionException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
                 .when(categoryHandler)
-                .saveCategory(Mockito.any(CategoryDto.class));
+                .saveCategory(Mockito.any(CategoryRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)

@@ -1,6 +1,7 @@
 package com.emazon.api_stock.application.mapper;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.domain.model.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +14,7 @@ public interface BrandMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "brandDto.name", target = "name")
     @Mapping(source = "brandDto.description", target = "description")
-    Brand brandDtoToBrand(BrandDto brandDto);
+    Brand brandDtoToBrand(BrandRequestDto brandDto);
 
-    List<BrandDto> toBrandDtoList(List<Brand> brands);
+    List<BrandResponseDto> toBrandDtoList(List<Brand> brands);
 }

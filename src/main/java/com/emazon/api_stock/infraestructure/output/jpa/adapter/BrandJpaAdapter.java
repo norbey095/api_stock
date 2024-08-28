@@ -5,7 +5,6 @@ import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
 import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.BrandEntity;
-import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.BrandEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.IBrandRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.IBrandHandler;
 import com.emazon.api_stock.infraestructure.util.ConstantsTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,13 +31,19 @@ class BrandRestControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private BrandDto brandDto;
+    private BrandRequestDto brandDto;
+
+    private BrandResponseDto brandResponseDtoDto;
 
     @BeforeEach
     void setUp() {
-        brandDto = new BrandDto();
+        brandDto = new BrandRequestDto();
         brandDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         brandDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+
+        brandResponseDtoDto = new BrandResponseDto();
+        brandResponseDtoDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        brandResponseDtoDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
     }
 
     @Test
@@ -51,9 +58,9 @@ class BrandRestControllerTest {
 
     @Test
     void getAllBrand_ShouldReturnBrandDto() throws Exception {
-        List<BrandDto> brandDtoList = new ArrayList<>();
-        brandDtoList.add(brandDto);
-        Mockito.when(brandHandler.getAllBrands(1, 1,false)).thenReturn(brandDtoList);
+        List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
+        brandResponseDtoList.add(brandResponseDtoDto);
+        Mockito.when(brandHandler.getAllBrands(1, 1,false)).thenReturn(brandResponseDtoList);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_BRAND.getMessage())

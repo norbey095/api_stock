@@ -1,6 +1,7 @@
 package com.emazon.api_stock.application.mapper;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.util.ConstantsTest;
 import com.emazon.api_stock.domain.model.Brand;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ class BrandMapperTest {
 
     @Test
     void testBrandDtoToBrand() {
-        BrandDto brandDto = new BrandDto();
+        BrandRequestDto brandDto = new BrandRequestDto();
         brandDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         brandDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
 
@@ -42,7 +43,7 @@ class BrandMapperTest {
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
 
-        List<BrandDto> brandDtoList = brandMapper.toBrandDtoList(brandList);
+        List<BrandResponseDto> brandDtoList = brandMapper.toBrandDtoList(brandList);
 
         Assertions.assertNotNull(brandDtoList);
         Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brandDtoList.get(0).getName());
@@ -51,7 +52,7 @@ class BrandMapperTest {
 
     @Test
     void testToBrandDtoList_NullInput() {
-        List<BrandDto> brandDtos = brandMapper.toBrandDtoList(null);
+        List<BrandResponseDto> brandDtos = brandMapper.toBrandDtoList(null);
 
         Assertions.assertNull(brandDtos);
     }

@@ -3,7 +3,8 @@ package com.emazon.api_stock.application.handler;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
+import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.handler.category.CategoryHandler;
 import com.emazon.api_stock.application.mapper.CategoryMapper;
 import com.emazon.api_stock.application.util.ConstantsTest;
@@ -29,14 +30,20 @@ class CategoryHandlerTest {
     @Mock
     private CategoryMapper categoryMapper;
 
-    private CategoryDto categoryDto;
+    private CategoryRequestDto categoryDto;
+
+    private CategoryResponseDto categoryResponseDto;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        categoryDto = new CategoryDto();
+        categoryDto = new CategoryRequestDto();
         categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
+
+        categoryResponseDto = new CategoryResponseDto();
+        categoryResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        categoryResponseDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
     }
 
     @Test
@@ -54,8 +61,8 @@ class CategoryHandlerTest {
 
     @Test
     void shouldGetAllCategory() {
-        List<CategoryDto> categoryDtoList = new ArrayList<>();
-        categoryDtoList.add(categoryDto);
+        List<CategoryResponseDto> categoryDtoList = new ArrayList<>();
+        categoryDtoList.add(categoryResponseDto);
 
         Category category = new Category(null,ConstantsTest.FIELD_NAME.getMessage()
                 ,ConstantsTest.FIELD_DESCRIPTION.getMessage());

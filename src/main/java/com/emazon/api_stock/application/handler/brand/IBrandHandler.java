@@ -1,11 +1,14 @@
 package com.emazon.api_stock.application.handler.brand;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
+
 import java.util.List;
 
 public interface IBrandHandler {
 
-    void saveBrand(BrandDto brandDto);
+    ResponseSuccess saveBrand(BrandRequestDto brandDto);
 
-    List<BrandDto> getAllBrands(Integer page, Integer size, boolean descending);
+    List<BrandResponseDto> getAllBrands(Integer page, Integer size, boolean descending);
 }

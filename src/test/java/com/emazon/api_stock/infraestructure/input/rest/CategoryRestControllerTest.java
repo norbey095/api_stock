@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
+import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.infraestructure.util.ConstantsTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,13 +31,19 @@ class CategoryRestControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private CategoryDto categoryDto;
+    private CategoryRequestDto categoryDto;
+
+    private CategoryResponseDto categoryResponseDto;
 
     @BeforeEach
     void setUp() {
-        categoryDto = new CategoryDto();
+        categoryDto = new CategoryRequestDto();
         categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
+
+        categoryResponseDto = new CategoryResponseDto();
+        categoryResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        categoryResponseDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
     }
 
     @Test
@@ -51,9 +58,9 @@ class CategoryRestControllerTest {
 
     @Test
     void getAllCategory_ShouldReturnCategoryDto() throws Exception {
-        List<CategoryDto> categoryDtoList = new ArrayList<>();
-        categoryDtoList.add(categoryDto);
-        Mockito.when(categoryHandler.getAllCategorys(1, 1,false)).thenReturn(categoryDtoList);
+        List<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
+        categoryResponseDtoList.add(categoryResponseDto);
+        Mockito.when(categoryHandler.getAllCategorys(1, 1,false)).thenReturn(categoryResponseDtoList);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
