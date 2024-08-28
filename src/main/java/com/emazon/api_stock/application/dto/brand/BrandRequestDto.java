@@ -1,9 +1,9 @@
-package com.emazon.api_stock.application.dto;
+package com.emazon.api_stock.application.dto.brand;
 
 import lombok.Data;
 
 @Data
-public class CategoryDto {
+public class BrandRequestDto {
 
     private String name;
     private String description;

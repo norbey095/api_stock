@@ -1,6 +1,7 @@
 package com.emazon.api_stock.application.mapper;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
+import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.util.ConstantsTest;
 import com.emazon.api_stock.domain.model.Category;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ class CategoryMapperTest {
 
     @Test
     void testCategoryDtoToCategory() {
-        CategoryDto categoryDto = new CategoryDto();
+        CategoryRequestDto categoryDto = new CategoryRequestDto();
         categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
 
@@ -42,7 +43,7 @@ class CategoryMapperTest {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
 
-        List<CategoryDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
+        List<CategoryResponseDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
 
         Assertions.assertNotNull(categoryDtoList);
         Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), categoryDtoList.get(0).getName());
@@ -51,7 +52,7 @@ class CategoryMapperTest {
 
     @Test
     void testToCategoryDtoList_NullInput() {
-        List<CategoryDto> categoryDtos = categoryMapper.toCategoryDtoList(null);
+        List<CategoryResponseDto> categoryDtos = categoryMapper.toCategoryDtoList(null);
 
         Assertions.assertNull(categoryDtos);
     }

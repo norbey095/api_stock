@@ -1,6 +1,8 @@
 package com.emazon.api_stock.application.handler.category;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
+import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.mapper.CategoryMapper;
 import com.emazon.api_stock.domain.api.ICategoryServicePort;
 import com.emazon.api_stock.domain.model.Category;
@@ -20,13 +22,14 @@ public class CategoryHandler implements ICategoryHandler {
 
 
     @Override
-    public void saveCategory(CategoryDto categoryDto) {
+    public ResponseSuccess saveCategory(CategoryRequestDto categoryDto) {
         Category category = categoryMapper.categoryDtoToCategory(categoryDto);
         categoryServicePort.saveCategory(category);
+        return new ResponseSuccess("Category created successfully");
     }
 
     @Override
-    public List<CategoryDto> getAllCategorys(Integer page, Integer size,boolean descending) {
+    public List<CategoryResponseDto> getAllCategorys(Integer page, Integer size, boolean descending) {
         return categoryMapper.toCategoryDtoList(categoryServicePort.getAllCategorys(page,size,descending));
     }
 }

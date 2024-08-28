@@ -1,6 +1,6 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.handler.brand.IBrandHandler;
 import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
@@ -29,7 +29,7 @@ class ControllerBrandAdvisorTest {
     @Test
     void whenBrandAlreadyExistsException_thenReturnsConflict() throws Exception {
         Mockito.doThrow(new BrandAlreadyExistsException()).when(brandHandler)
-                .saveBrand(Mockito.any( BrandDto.class));
+                .saveBrand(Mockito.any(BrandRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +43,7 @@ class ControllerBrandAdvisorTest {
     void whenInvalidBrandNameException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidBrandNameException(ConstantsTest.INVALID_NAME.getMessage()))
                 .when(brandHandler)
-                .saveBrand(Mockito.any(BrandDto.class));
+                .saveBrand(Mockito.any(BrandRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ class ControllerBrandAdvisorTest {
     void whenInvalidBrandDescriptionException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidBrandDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
                 .when(brandHandler)
-                .saveBrand(Mockito.any(BrandDto.class));
+                .saveBrand(Mockito.any(BrandRequestDto.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
                         .contentType(MediaType.APPLICATION_JSON)

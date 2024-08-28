@@ -1,6 +1,7 @@
 package com.emazon.api_stock.application.handler;
 
-import com.emazon.api_stock.application.dto.BrandDto;
+import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
+import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.BrandHandler;
 import com.emazon.api_stock.application.mapper.BrandMapper;
 import com.emazon.api_stock.application.util.ConstantsTest;
@@ -29,40 +30,46 @@ class BrandHandlerTest {
     @Mock
     private BrandMapper brandMapper;
 
-    private BrandDto brandDto;
+    private BrandRequestDto brandRequestDto;
+
+    private BrandResponseDto brandResponseDto;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        brandDto = new BrandDto();
-        brandDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandRequestDto = new BrandRequestDto();
+        brandRequestDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        brandRequestDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+
+        brandResponseDto = new BrandResponseDto();
+        brandResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
+        brandResponseDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
     }
 
     @Test
     void shouldSaveBrand() {
         Brand brand = new Brand(null,ConstantsTest.FIELD_NAME.getMessage()
                 ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
-        when(brandMapper.brandDtoToBrand(brandDto)).thenReturn(brand);
+        when(brandMapper.brandDtoToBrand(brandRequestDto)).thenReturn(brand);
 
-        brandHandler.saveBrand(brandDto);
+        brandHandler.saveBrand(brandRequestDto);
 
 
-        verify(brandMapper).brandDtoToBrand(brandDto);
+        verify(brandMapper).brandDtoToBrand(brandRequestDto);
         verify(brandServicePort).saveBrand(brand);
     }
 
     @Test
     void shouldGetAllCategory() {
-        List<BrandDto> brandDtoList = new ArrayList<>();
-        brandDtoList.add(brandDto);
+        List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
+        brandResponseDtoList.add(brandResponseDto);
 
         Brand brand = new Brand(null,ConstantsTest.FIELD_NAME.getMessage()
                 ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
 
-        when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandDtoList);
+        when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandResponseDtoList);
         when(brandServicePort.getAllBrands(1,1,false)).thenReturn(brandList);
 
         brandHandler.getAllBrands(1,1,false);

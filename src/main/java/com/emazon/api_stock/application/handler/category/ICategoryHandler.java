@@ -1,12 +1,14 @@
 package com.emazon.api_stock.application.handler.category;
 
-import com.emazon.api_stock.application.dto.CategoryDto;
+import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
+import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 
 import java.util.List;
 
 public interface ICategoryHandler {
 
-    void saveCategory(CategoryDto categoryDto);
+    ResponseSuccess saveCategory(CategoryRequestDto categoryDto);
 
-    List<CategoryDto> getAllCategorys(Integer page, Integer size, boolean descending);
+    List<CategoryResponseDto> getAllCategorys(Integer page, Integer size, boolean descending);
 }
