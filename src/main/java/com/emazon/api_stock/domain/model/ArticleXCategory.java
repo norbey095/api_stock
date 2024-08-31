@@ -6,6 +6,9 @@ public class ArticleXCategory {
     private Integer idcategory;
     private Integer idarticles;
 
+    public ArticleXCategory() {
+    }
+
     public ArticleXCategory(Integer id, Integer idcategory, Integer idarticles) {
         this.id = id;
         this.idcategory = idcategory;

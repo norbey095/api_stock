@@ -15,6 +15,6 @@ public class ArticleXCategoryJpaAdapter implements IArticleXCategoryPersistenceP
     @Override
     public void saveArticleXCategory(ArticleXCategory articleXCategory) {
         articleXCategoryRepository.save(articleXCategoryEntityMapper
-                .articleToArticleXCategoryEntity(articleXCategory));
+                .articleXCategoryToArticleXCategoryEntity(articleXCategory));
     }
 }

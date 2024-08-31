@@ -16,7 +16,14 @@ public enum ConstantsTest {
     INVALID_NAME("Invalid argument"),
     INVALID_DESCRIPTION("Invalid argument"),
     NO_DATA_FOUND_EXCEPTION_MESSAGE("No data found in the database"),
-    NEGATIVE_NOT_ALLOWED("The page and size fields cannot be negative.");
+    NEGATIVE_NOT_ALLOWED("The page and size fields cannot be negative."),
+    FIELD_ARTICLE_DESCRIPTION("article for electronics"),
+    FIELD_CATEGORYS_INVALID_NUMBER("An article cannot have more than 3 categories."),
+    URL_CREATE_ARTICLE("/stock/article/createArticle"),
+    JSON_ARTICLE_REQUEST("{ \"name\": \"TEST\", \"description\": \"TEST\", \"quantity\": \"1\", \"" +
+            "price\": \"20000\", \"idbrand\": \"1\", \"categorys\": [10,9,10] }"),
+    FIELD_CATEGORYS_NULL("The 'categorys' field cannot be empty."),
+    REPEATED_CATEGORIES("Categories cannot be repeated");
 
     private final String message;
 

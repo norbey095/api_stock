@@ -14,7 +14,8 @@ public enum ConstantsTest {
             "length of 120 characters. Please adjust the description comment to make it a valid length."),
     MSN_DESCRIPTION_CARACTER("The 'description' field cannot exceed 90 characters"),
     MSN_DESCRIPTION_BRAND_CARACTER("The 'description' field cannot exceed 120 characters"),
-    MSN_DESCRIPTION_NULL("The 'description' field cannot be empty");
+    MSN_DESCRIPTION_NULL("The 'description' field cannot be empty"),
+    FIELD_ARTICLE_DESCRIPTION("article for electronics");
 
     private final String message;
 
