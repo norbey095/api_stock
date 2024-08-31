@@ -1,0 +1,17 @@
+package com.emazon.api_stock.application.dto.article;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class ArticleResponseDto {
+
+    private Integer id;
+    private String name;
+    private String description;
+    private Integer quantity;
+    private double price;
+    private Integer brand;
+    private List<Integer> categorys;
+}
