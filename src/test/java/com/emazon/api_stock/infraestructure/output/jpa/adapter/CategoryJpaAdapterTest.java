@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.ICategoryRepository;
@@ -80,7 +80,7 @@ class CategoryJpaAdapterTest {
         Integer page = -1;
         Integer size = 1;
 
-        assertThrows(NegativeNotAllowedException.class, () -> {
+        assertThrows(PaginationNotAllowedException.class, () -> {
             categoryJpaAdapter.getAllCategorys(page, size, false);
         });
 
@@ -93,7 +93,7 @@ class CategoryJpaAdapterTest {
         Integer page = 1;
         Integer size = -1;
 
-        assertThrows(NegativeNotAllowedException.class, () -> {
+        assertThrows(PaginationNotAllowedException.class, () -> {
             categoryJpaAdapter.getAllCategorys(page, size, false);
         });
 
@@ -109,7 +109,7 @@ class CategoryJpaAdapterTest {
 
         boolean result = categoryJpaAdapter.getCategoryByName(ConstantsTest.FIELD_NAME.getMessage());
 
-        assertEquals(true, result);
+        assertTrue(result);
     }
 
     private CategoryEntity createCategoryEntity(){

@@ -36,7 +36,7 @@ class BrandEntityMapperTest {
     @Test
     void testBrandEntityToBrand() {
         BrandEntity brandEntity = new BrandEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(),null);
 
         List<BrandEntity> brandList = new ArrayList<>();
         brandList.add(brandEntity);

@@ -2,8 +2,8 @@ package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Brand;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.BrandEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.BrandEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.IBrandRepository;
@@ -40,7 +40,7 @@ public class BrandJpaAdapter implements IBrandPersistencePort {
 
     private void validateNegativeData(Integer page, Integer size){
         if (page < 0 || size < 0) {
-            throw new NegativeNotAllowedException();
+            throw new PaginationNotAllowedException();
         }
     }
 

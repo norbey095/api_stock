@@ -3,7 +3,7 @@ package com.emazon.api_stock.domain.usecase;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
-import com.emazon.api_stock.domain.model.Article;
+import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
 import com.emazon.api_stock.domain.spi.IArticleXCategoryPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsTest;
@@ -39,7 +39,7 @@ class ArticleUseCaseTest {
 
     @Test
     void shouldCallSaveArticleInPersistencePort() {
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, Collections.singletonList(1));
 
@@ -52,7 +52,7 @@ class ArticleUseCaseTest {
 
     @Test
     void shouldThrowsExceptionWhenCateryIsNull() {
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, null);
 
@@ -67,7 +67,7 @@ class ArticleUseCaseTest {
 
     @Test
     void shouldThrowsExceptionWhenCateryIsEmpty() {
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, new ArrayList<>());
 
@@ -83,7 +83,7 @@ class ArticleUseCaseTest {
     @Test
     void shouldThrowsExceptionWhenCateryIsGreaterThan3() {
         List<Integer> list = Arrays.asList(1, 2, 3, 4);
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, list);
 
@@ -99,7 +99,7 @@ class ArticleUseCaseTest {
     @Test
     void shouldThrowsExceptionWhenCateryIsRepeated() {
         List<Integer> list = Arrays.asList(2, 2, 3);
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, list);
 

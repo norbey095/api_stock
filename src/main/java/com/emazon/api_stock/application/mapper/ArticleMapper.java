@@ -1,9 +1,14 @@
 package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.domain.model.Article;
+import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.domain.model.ArticleResponse;
+import com.emazon.api_stock.domain.model.ArticleSave;
+import com.emazon.api_stock.domain.model.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ArticleMapper {
@@ -15,5 +20,12 @@ public interface ArticleMapper {
     @Mapping(source = "articleRequestDto.price", target = "price")
     @Mapping(source = "articleRequestDto.idbrand", target = "idbrand")
     @Mapping(source = "articleRequestDto.categorys", target = "categorys")
-    Article articleDtoToArticle(ArticleRequestDto articleRequestDto);
+    ArticleSave articleDtoToArticle(ArticleRequestDto articleRequestDto);
+
+    @Mapping(source = "brand.id", target = "brand")
+    List<ArticleResponseDto> toArticleDtoList(List<ArticleResponse> article);
+
+    default Integer map(Brand brand) {
+        return brand != null ? brand.getId() : null;
+    }
 }

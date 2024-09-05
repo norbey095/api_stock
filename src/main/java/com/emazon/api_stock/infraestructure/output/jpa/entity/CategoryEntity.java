@@ -3,6 +3,8 @@ package com.emazon.api_stock.infraestructure.output.jpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "category")
 @NoArgsConstructor
@@ -15,4 +17,7 @@ public class CategoryEntity {
     private Integer id;
     private String name;
     private String description;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<ArticleEntity> articles;
 }

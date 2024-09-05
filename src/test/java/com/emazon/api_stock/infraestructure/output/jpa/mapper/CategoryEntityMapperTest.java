@@ -36,7 +36,7 @@ class CategoryEntityMapperTest {
     @Test
     void testCategoryEntityToCategory() {
         CategoryEntity categoryEntity = new CategoryEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_DESCRIPTION.getMessage());
+                ,ConstantsTest.FIELD_DESCRIPTION.getMessage(),null);
 
         List<CategoryEntity> categoryList = new ArrayList<>();
         categoryList.add(categoryEntity);
