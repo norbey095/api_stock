@@ -1,6 +1,6 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class ControllerGeneralAdvisor {
                 , HttpStatus.NOT_FOUND.toString()));
     }
 
-    @ExceptionHandler(NegativeNotAllowedException.class)
-    public ResponseEntity<ExceptionResponse> handleNegativeNotAllowedException() {
+    @ExceptionHandler(PaginationNotAllowedException.class)
+    public ResponseEntity<ExceptionResponse> handlePaginationNotAllowedException() {
         return ResponseEntity.badRequest().body(new ExceptionResponse(
                 ExceptionResponseConstants.NEGATIVE_NOT_ALLOWED.getMessage()
                 , HttpStatus.BAD_REQUEST.toString()));

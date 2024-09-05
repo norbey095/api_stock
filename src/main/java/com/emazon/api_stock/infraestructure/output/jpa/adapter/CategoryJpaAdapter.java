@@ -2,8 +2,8 @@ package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.ICategoryRepository;
@@ -41,7 +41,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     private void validateNegativeData(Integer page, Integer size){
         if (page < 0 || size < 0) {
-            throw new NegativeNotAllowedException();
+            throw new PaginationNotAllowedException();
         }
     }
 
