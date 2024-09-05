@@ -4,7 +4,8 @@ import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
-import com.emazon.api_stock.domain.model.Article;
+import com.emazon.api_stock.domain.model.ArticleResponse;
+import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.ArticleXCategory;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
 import com.emazon.api_stock.domain.spi.IArticleXCategoryPersistencePort;
@@ -26,10 +27,15 @@ public class ArticleUseCase implements IArticleServicePort {
     }
 
     @Override
-    public void saveArticle(Article article) {
-        validatedNumberCategory(article.getCategorys());
-        validatedUniqueCategory(article.getCategorys());
-        saveArticleXCategory(this.articlePersistencePort.saveArticle(article),article.getCategorys());
+    public void saveArticle(ArticleSave articleSave) {
+        validatedNumberCategory(articleSave.getCategorys());
+        validatedUniqueCategory(articleSave.getCategorys());
+        saveArticleXCategory(this.articlePersistencePort.saveArticle(articleSave),articleSave.getCategorys());
+    }
+
+    @Override
+    public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
+        return this.articlePersistencePort.getAllArticles(page, size, descending, filterBy);
     }
 
     private void validatedNumberCategory(List<Integer> categorys){
@@ -52,7 +58,7 @@ public class ArticleUseCase implements IArticleServicePort {
     }
 
     private void saveArticleXCategory(Integer idArticle,List<Integer> categorys) {
-            List<ArticleXCategory> list = categorys.stream().map(category ->
+        List<ArticleXCategory> list = categorys.stream().map(category ->
                     new ArticleXCategory(null, category,idArticle)).toList();
             list.forEach(articleXCategoryPersistencePort::saveArticleXCategory);
     }

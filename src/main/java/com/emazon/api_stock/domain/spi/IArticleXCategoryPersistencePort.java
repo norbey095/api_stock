@@ -1,7 +1,7 @@
 package com.emazon.api_stock.domain.spi;
 
-import com.emazon.api_stock.domain.model.ArticleXCategory;
 
+import com.emazon.api_stock.domain.model.ArticleXCategory;
 
 public interface IArticleXCategoryPersistencePort {
 

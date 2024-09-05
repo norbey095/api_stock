@@ -2,7 +2,7 @@ package com.emazon.api_stock.domain.model;
 
 import java.util.List;
 
-public class Article {
+public class ArticleSave {
 
     private Integer id;
     private String name;
@@ -12,7 +12,7 @@ public class Article {
     private Integer idbrand;
     private List<Integer> categorys;
 
-    public Article(Integer id, String name, String description, Integer quantity, double price, Integer idbrand, List<Integer> categorys) {
+    public ArticleSave(Integer id, String name, String description, Integer quantity, double price, Integer idbrand, List<Integer> categorys) {
         this.id = id;
         this.name = name;
         this.description = description;
