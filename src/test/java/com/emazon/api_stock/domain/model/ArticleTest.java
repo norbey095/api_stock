@@ -14,7 +14,7 @@ class ArticleTest {
 
     @Test
     void shouldCreateArticleWhenNameAndDescriptionAreValid() {
-        Article article = new Article(1, ConstantsTest.FIELD_NAME.getMessage()
+        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
                 , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
                 , 1, 2.0, 1, Collections.singletonList(1));
 

@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Brand;
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.BrandEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.BrandEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.IBrandRepository;
@@ -80,7 +80,7 @@ class BrandJpaAdapterTest {
         Integer page = -1;
         Integer size = 1;
 
-        assertThrows(NegativeNotAllowedException.class, () -> {
+        assertThrows(PaginationNotAllowedException.class, () -> {
             brandJpaAdapter.getAllBrands(page, size, false);
         });
 
@@ -93,7 +93,7 @@ class BrandJpaAdapterTest {
         Integer page = 1;
         Integer size = -1;
 
-        assertThrows(NegativeNotAllowedException.class, () -> {
+        assertThrows(PaginationNotAllowedException.class, () -> {
             brandJpaAdapter.getAllBrands(page, size, false);
         });
 
@@ -109,7 +109,7 @@ class BrandJpaAdapterTest {
 
         boolean result = brandJpaAdapter.getBrandByName(ConstantsTest.FIELD_NAME.getMessage());
 
-        assertEquals(true, result);
+        assertTrue(result);
     }
 
     private BrandEntity createBrandEntity(){

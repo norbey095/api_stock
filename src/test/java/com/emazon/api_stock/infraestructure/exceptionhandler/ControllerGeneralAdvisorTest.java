@@ -1,8 +1,8 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
-import com.emazon.api_stock.infraestructure.exception.NegativeNotAllowedException;
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
+import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
 import com.emazon.api_stock.infraestructure.util.ConstantsTest;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class ControllerGeneralAdvisorTest {
 
     @Test
     void whenNegativeNotAllowedException_thenReturnsbadRequest() throws Exception {
-        Mockito.doThrow(new NegativeNotAllowedException())
+        Mockito.doThrow(new PaginationNotAllowedException())
                 .when(categoryHandler)
                 .getAllCategorys(1,1,false);
 
