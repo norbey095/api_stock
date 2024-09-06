@@ -11,5 +11,7 @@ public interface IArticlePersistencePort {
     Integer saveArticle(ArticleSave articleSave);
 
     List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
+
+    boolean getArticleByName(String name);
 }
 

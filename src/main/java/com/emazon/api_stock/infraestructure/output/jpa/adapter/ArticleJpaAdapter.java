@@ -35,6 +35,11 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         return articleEntityMapper.articleEntityToArticleResponse(articleEntities);
     }
 
+    @Override
+    public boolean getArticleByName(String name) {
+        return articleRepository.findByName(name).isPresent();
+    }
+
     private void validatePaginationData(Integer page, Integer size){
         if (page == null || size == null){
             throw new PaginationNotAllowedException();
@@ -51,15 +56,11 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
     }
 
     private String getSortField(String filterBy) {
-        switch (filterBy.toLowerCase()) {
-            case "brand":
-                return "b.name";
-            case "category":
-                return "c.name";
-            case "article":
-            default:
-                return "a.name";
-        }
+        return switch (filterBy.toLowerCase()) {
+            case "brand" -> "b.name";
+            case "category" -> "c.name";
+            default -> "a.name";
+        };
     }
 
 

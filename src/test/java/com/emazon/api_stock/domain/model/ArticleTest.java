@@ -3,7 +3,6 @@ package com.emazon.api_stock.domain.model;
 import com.emazon.api_stock.domain.util.ConstantsTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +24,7 @@ class ArticleTest {
         assertEquals(1, article.getQuantity());
         assertEquals(2.0, article.getPrice());
         assertEquals(1, article.getIdbrand());
-        List<Integer> expectedCategories = Arrays.asList(1);
+        List<Integer> expectedCategories = List.of(1);
         assertEquals(expectedCategories, article.getCategorys());
     }
 }

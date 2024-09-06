@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -112,6 +113,17 @@ class ArticleJpaAdapterTest {
                 .createPageable(1,1,false, "a.name");
     }
 
+    @Test
+    void testGetArticleByNameSuccess() {
+        ArticleEntity articleEntity = new ArticleEntity();
+        Mockito.when(articleRepository.findByName(ConstantsTest.FIELD_NAME.getMessage()))
+                .thenReturn(Optional.of(articleEntity));
+
+        boolean result = articleJpaAdapter.getArticleByName(ConstantsTest.FIELD_NAME.getMessage());
+
+        assertTrue(result);
+    }
+
     private ArticleEntity createArticleEntity(){
         ArticleEntity articleEntity = new ArticleEntity();
 
@@ -123,12 +135,13 @@ class ArticleJpaAdapterTest {
     }
 
     private ArticleResponse createArticle(){
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage());
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category());
+        Brand brand = new Brand(1,ConstantsTest.FIELD_NAME.getMessage()
+                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category(1, ConstantsTest.FIELD_NAME.getMessage()
+                ,ConstantsTest.FIELD_DESCRIPTION.getMessage()));
 
-        return new ArticleResponse(1,"","", 1, 1000, brand ,
-                categories);
+        return new ArticleResponse(1, ConstantsTest.FIELD_NAME.getMessage()
+                ,ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage(),2, 2000, brand,categoryList);
     }
 }

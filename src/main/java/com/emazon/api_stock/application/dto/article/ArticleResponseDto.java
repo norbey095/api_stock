@@ -1,6 +1,5 @@
 package com.emazon.api_stock.application.dto.article;
 
-import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import lombok.Data;
 
