@@ -44,10 +44,14 @@ class ArticleHandlerTest {
         articleRequestDto = new ArticleRequestDto();
         articleRequestDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         articleRequestDto.setDescription(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
+        articleRequestDto.setQuantity(3);
+        articleRequestDto.setPrice(20000);
 
         articleResponseDto = new ArticleResponseDto();
         articleResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
         articleResponseDto.setDescription(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
+        articleResponseDto.setQuantity(3);
+        articleRequestDto.setPrice(20000);
     }
 
     @Test
@@ -80,13 +84,13 @@ class ArticleHandlerTest {
         articleResponses.add(articleResponse);
 
         when(articleMapper.toArticleDtoList(articleResponses)).thenReturn(articleResponseDtoList);
-        when(articleServicePort.getAllArticles(1,1,false,"article"))
+        when(articleServicePort.getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage()))
                 .thenReturn(articleResponses);
 
-        articleHandler.getAllArticles(1,1,false,"article");
+        articleHandler.getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage());
 
 
         verify(articleMapper).toArticleDtoList(articleResponses);
-        verify(articleServicePort).getAllArticles(1,1,false,"article");
+        verify(articleServicePort).getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage());
     }
 }

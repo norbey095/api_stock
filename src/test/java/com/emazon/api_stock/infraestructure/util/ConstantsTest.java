@@ -20,11 +20,13 @@ public enum ConstantsTest {
     FIELD_ARTICLE_DESCRIPTION("article for electronics"),
     FIELD_CATEGORYS_INVALID_NUMBER("An article cannot have more than 3 categories."),
     URL_CREATE_ARTICLE("/stock/article/createArticle"),
+    URL_GET_ARTICLE("/stock/article/getArticles"),
     JSON_ARTICLE_REQUEST("{ \"name\": \"TEST\", \"description\": \"TEST\", \"quantity\": \"1\", \"" +
             "price\": \"20000\", \"idbrand\": \"1\", \"categorys\": [10,9,10] }"),
     FIELD_CATEGORYS_NULL("The 'categorys' field cannot be empty."),
     REPEATED_CATEGORIES("Categories cannot be repeated"),
-    FIELD_ARTICLES_DESCRIPTION("articles for electronics");
+    FIELD_ARTICLES_DESCRIPTION("articles for electronics"),
+    ARTICLE_EXISTS("There is already an article with that name");
 
     private final String message;
 

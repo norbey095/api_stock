@@ -2,6 +2,7 @@ package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
+import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
@@ -25,6 +26,19 @@ class ControllerArticleAdvisorTest {
 
     @MockBean
     private IArticleHandler articleHandler;
+
+    @Test
+    void whenArticleAlreadyExistsException_thenReturnsConflict() throws Exception {
+        Mockito.doThrow(new ArticleAlreadyExistsException()).when(articleHandler)
+                .saveArticle(Mockito.any(ArticleRequestDto.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_ARTICLE.getMessage())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
+                        .value(ConstantsTest.ARTICLE_EXISTS.getMessage()));
+    }
 
     @Test
     void whenInvalidArticleCategoryException_thenReturnsBadRequest() throws Exception {

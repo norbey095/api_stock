@@ -1,6 +1,7 @@
 package com.emazon.api_stock.domain.usecase;
 
 import com.emazon.api_stock.domain.api.IArticleServicePort;
+import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
@@ -28,6 +29,7 @@ public class ArticleUseCase implements IArticleServicePort {
 
     @Override
     public void saveArticle(ArticleSave articleSave) {
+        validatedNamePresent(articleSave.getName());
         validatedNumberCategory(articleSave.getCategorys());
         validatedUniqueCategory(articleSave.getCategorys());
         saveArticleXCategory(this.articlePersistencePort.saveArticle(articleSave),articleSave.getCategorys());
@@ -36,6 +38,12 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
         return this.articlePersistencePort.getAllArticles(page, size, descending, filterBy);
+    }
+
+    protected void validatedNamePresent(String name){
+        if(this.articlePersistencePort.getArticleByName(name)) {
+            throw new ArticleAlreadyExistsException();
+        }
     }
 
     private void validatedNumberCategory(List<Integer> categorys){
