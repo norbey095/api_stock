@@ -26,7 +26,7 @@ class ArticleMapperTest {
         articleDto.setQuantity(1);
         articleDto.setPrice(1);
         articleDto.setIdbrand(1);
-        articleDto.setCategorys(new ArrayList<>());
+        articleDto.setCategories(new ArrayList<>());
 
 
         ArticleSave article = articleMapper.articleDtoToArticle(articleDto);
@@ -37,7 +37,7 @@ class ArticleMapperTest {
         Assertions.assertEquals(1, article.getQuantity());
         Assertions.assertEquals(1, article.getPrice());
         Assertions.assertEquals(1, article.getIdbrand());
-        Assertions.assertEquals(new ArrayList<>(), article.getCategorys());
+        Assertions.assertEquals(new ArrayList<>(), article.getCategories());
     }
 
     @Test

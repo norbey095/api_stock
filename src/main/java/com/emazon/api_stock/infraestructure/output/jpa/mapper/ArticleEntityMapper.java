@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ArticleEntityMapper {
 
+    @Mapping(target = "categories", ignore = true)
     ArticleEntity articleToArticleEntity(ArticleSave article);
 
     @Mapping(target = "idbrand", ignore = true)

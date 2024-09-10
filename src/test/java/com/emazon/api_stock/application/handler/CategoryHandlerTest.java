@@ -70,12 +70,12 @@ class CategoryHandlerTest {
         categoryList.add(category);
 
         when(categoryMapper.toCategoryDtoList(categoryList)).thenReturn(categoryDtoList);
-        when(categoryServicePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
+        when(categoryServicePort.getAllCategories(1,1,false)).thenReturn(categoryList);
 
-        categoryHandler.getAllCategorys(1,1,false);
+        categoryHandler.getAllCategories(1,1,false);
 
 
         verify(categoryMapper).toCategoryDtoList(categoryList);
-        verify(categoryServicePort).getAllCategorys(1,1,false);
+        verify(categoryServicePort).getAllCategories(1,1,false);
     }
 }

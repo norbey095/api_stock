@@ -4,11 +4,30 @@ import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedExcept
 import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ControllerGeneralAdvisor {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException
+            (MethodArgumentNotValidException ex) {
+        StringBuilder messageBuilder = new StringBuilder();
+
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String errorMessage = error.getDefaultMessage();
+            messageBuilder.append(errorMessage);
+        });
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                messageBuilder.toString().trim(),
+                HttpStatus.BAD_REQUEST.toString()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+    }
 
     @ExceptionHandler(NoDataFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNoDataFoundException() {

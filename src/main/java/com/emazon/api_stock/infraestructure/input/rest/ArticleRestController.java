@@ -12,9 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/stock/article")
@@ -31,7 +30,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
     @PostMapping("/createArticle")
-    public ResponseEntity<ResponseSuccess> createArticle(@RequestBody ArticleRequestDto articleRequestDto){
+    public ResponseEntity<ResponseSuccess> createArticle(@Validated @RequestBody ArticleRequestDto articleRequestDto){
         ResponseSuccess responseSuccess = articleHandler.saveArticle(articleRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseSuccess);
@@ -52,9 +51,12 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
     @GetMapping("/getArticles")
-    public ResponseEntity<List<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
+    public ResponseEntity<PaginatedResponse<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
             , @RequestParam(required = false, defaultValue = "false") boolean descending
             , @RequestParam(required = false, defaultValue = "article") String filterBy) {
-        return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));
+
+        PaginatedResponse<ArticleResponseDto> response = articleHandler.getAllArticles(page, size, descending, filterBy);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -29,7 +29,7 @@ public class CategoryHandler implements ICategoryHandler {
     }
 
     @Override
-    public List<CategoryResponseDto> getAllCategorys(Integer page, Integer size, boolean descending) {
-        return categoryMapper.toCategoryDtoList(categoryServicePort.getAllCategorys(page,size,descending));
+    public List<CategoryResponseDto> getAllCategories(Integer page, Integer size, boolean descending) {
+        return categoryMapper.toCategoryDtoList(categoryServicePort.getAllCategories(page,size,descending));
     }
 }

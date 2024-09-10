@@ -51,7 +51,7 @@ class CategoryJpaAdapterTest {
     }
 
     @Test
-    void testGetAllCategorySuccess() {
+    void testGetAllCategoriesSuccess() {
         Integer page = 0;
         Integer size = 1;
 
@@ -67,7 +67,7 @@ class CategoryJpaAdapterTest {
         Mockito.when(categoryRepository.findAll(pagination)).thenReturn(new PageImpl<>(categoryEntities));
         Mockito.when(categoryEntityMapper.categoryEntityToCategory(categoryEntities)).thenReturn(categories);
 
-        List<Category> result = categoryJpaAdapter.getAllCategorys(page, size, false);
+        List<Category> result = categoryJpaAdapter.getAllCategories(page, size, false);
 
         assertNotNull(result);
         assertEquals(categories.size(), result.size());
@@ -81,7 +81,7 @@ class CategoryJpaAdapterTest {
         Integer size = 1;
 
         assertThrows(PaginationNotAllowedException.class, () -> {
-            categoryJpaAdapter.getAllCategorys(page, size, false);
+            categoryJpaAdapter.getAllCategories(page, size, false);
         });
 
         Mockito.verify(categoryJpaAdapter, Mockito.times(0))
@@ -94,7 +94,7 @@ class CategoryJpaAdapterTest {
         Integer size = -1;
 
         assertThrows(PaginationNotAllowedException.class, () -> {
-            categoryJpaAdapter.getAllCategorys(page, size, false);
+            categoryJpaAdapter.getAllCategories(page, size, false);
         });
 
         Mockito.verify(categoryJpaAdapter, Mockito.times(0))

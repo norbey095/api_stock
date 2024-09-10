@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.dto.article;
 
+import com.emazon.api_stock.application.dto.brand.BrandArticleResponseDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import lombok.Data;
 
@@ -13,6 +14,6 @@ public class ArticleResponseDto {
     private String description;
     private Integer quantity;
     private double price;
-    private Integer brand;
-    private List<CategoryResponseListDto> categorys;
+    private BrandArticleResponseDto brand;
+    private List<CategoryResponseListDto> categories;
 }

@@ -10,5 +10,5 @@ public interface ICategoryHandler {
 
     ResponseSuccess saveCategory(CategoryRequestDto categoryDto);
 
-    List<CategoryResponseDto> getAllCategorys(Integer page, Integer size, boolean descending);
+    List<CategoryResponseDto> getAllCategories(Integer page, Integer size, boolean descending);
 }

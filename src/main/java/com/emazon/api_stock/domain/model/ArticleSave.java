@@ -10,16 +10,17 @@ public class ArticleSave {
     private Integer quantity;
     private double price;
     private Integer idbrand;
-    private List<Integer> categorys;
+    private List<Integer> categories;
 
-    public ArticleSave(Integer id, String name, String description, Integer quantity, double price, Integer idbrand, List<Integer> categorys) {
+    public ArticleSave(Integer id, String name, String description, Integer quantity, double price, Integer idbrand,
+                       List<Integer> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
         this.idbrand = idbrand;
-        this.categorys = categorys;
+        this.categories = categories;
     }
 
     public Integer getId() {
@@ -46,7 +47,7 @@ public class ArticleSave {
         return idbrand;
     }
 
-    public List<Integer> getCategorys() {
-        return categorys;
+    public List<Integer> getCategories() {
+        return categories;
     }
 }

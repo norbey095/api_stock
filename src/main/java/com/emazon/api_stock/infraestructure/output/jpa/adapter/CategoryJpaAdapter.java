@@ -27,7 +27,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     }
 
     @Override
-    public List<Category> getAllCategorys(Integer page, Integer size,boolean descending) {
+    public List<Category> getAllCategories(Integer page, Integer size,boolean descending) {
         validateNegativeData(page,size);
         Pageable pagination = createPageable(page, size, descending);
         List<CategoryEntity> categoryEntities = fetchCategories(pagination);

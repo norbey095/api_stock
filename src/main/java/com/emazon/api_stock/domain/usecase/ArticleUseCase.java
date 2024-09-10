@@ -30,9 +30,9 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public void saveArticle(ArticleSave articleSave) {
         validatedNamePresent(articleSave.getName());
-        validatedNumberCategory(articleSave.getCategorys());
-        validatedUniqueCategory(articleSave.getCategorys());
-        saveArticleXCategory(this.articlePersistencePort.saveArticle(articleSave),articleSave.getCategorys());
+        validatedNumberCategory(articleSave.getCategories());
+        validatedUniqueCategory(articleSave.getCategories());
+        saveArticleXCategory(this.articlePersistencePort.saveArticle(articleSave),articleSave.getCategories());
     }
 
     @Override
@@ -46,17 +46,17 @@ public class ArticleUseCase implements IArticleServicePort {
         }
     }
 
-    private void validatedNumberCategory(List<Integer> categorys){
-        if (categorys == null || categorys.isEmpty()) {
-            throw new InvalidArticleCategoryException(Constants.FIELD_CATEGORYS_NULL.getMessage());
+    private void validatedNumberCategory(List<Integer> categories){
+        if (categories == null || categories.isEmpty()) {
+            throw new InvalidArticleCategoryException(Constants.FIELD_CATEGORIES_NULL.getMessage());
         }
-        if (categorys.size() > 3) {
-            throw new InvalidArticleCategoryNumberException(Constants.FIELD_CATEGORYS_INVALID_NUMBER.getMessage());
+        if (categories.size() > 3) {
+            throw new InvalidArticleCategoryNumberException(Constants.FIELD_CATEGORIES_INVALID_NUMBER.getMessage());
         }
     }
 
-    private void validatedUniqueCategory(List<Integer> categorys){
-        Map<Integer, Long> idCounts = categorys.stream()
+    private void validatedUniqueCategory(List<Integer> categories){
+        Map<Integer, Long> idCounts = categories.stream()
                 .collect(Collectors.groupingBy(id -> id, Collectors.counting()));
 
         boolean result = idCounts.values().stream().anyMatch(count -> count > 1);
@@ -65,8 +65,8 @@ public class ArticleUseCase implements IArticleServicePort {
         }
     }
 
-    private void saveArticleXCategory(Integer idArticle,List<Integer> categorys) {
-        List<ArticleXCategory> list = categorys.stream().map(category ->
+    private void saveArticleXCategory(Integer idArticle,List<Integer> categories) {
+        List<ArticleXCategory> list = categories.stream().map(category ->
                     new ArticleXCategory(null, category,idArticle)).toList();
             list.forEach(articleXCategoryPersistencePort::saveArticleXCategory);
     }
