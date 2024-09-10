@@ -28,7 +28,7 @@ class ControllerGeneralAdvisorTest {
     void whenNoDataFoundException_thenReturnsNotFound() throws Exception {
         Mockito.doThrow(new NoDataFoundException())
                 .when(categoryHandler)
-                .getAllCategorys(1,1,false);
+                .getAllCategories(1,1,false);
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
                         .param("page", "1")
@@ -43,7 +43,7 @@ class ControllerGeneralAdvisorTest {
     void whenNegativeNotAllowedException_thenReturnsbadRequest() throws Exception {
         Mockito.doThrow(new PaginationNotAllowedException())
                 .when(categoryHandler)
-                .getAllCategorys(1,1,false);
+                .getAllCategories(1,1,false);
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
                         .param("page", "1")

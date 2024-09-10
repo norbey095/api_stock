@@ -38,7 +38,7 @@ public class CategoryRestController {
     }
 
     @Operation(
-            summary = "Get all categorys",
+            summary = "Get all categories",
             description = "Get all categories ascending or descending."
     )
     @ApiResponses(value = {
@@ -49,10 +49,10 @@ public class CategoryRestController {
                     = "Invalid request, for example if the `page` or `size` parameters are negative."),
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
-    @GetMapping("/getCategorys")
-    public ResponseEntity<List<CategoryResponseDto>> getAllCategorys(@RequestParam Integer page, @RequestParam Integer size
+    @GetMapping("/getCategories")
+    public ResponseEntity<List<CategoryResponseDto>> getAllCategories(@RequestParam Integer page, @RequestParam Integer size
             , @RequestParam(required = false, defaultValue = "false") boolean descending) {
-        return ResponseEntity.ok(categoryHandler.getAllCategorys(page,size,descending));
+        return ResponseEntity.ok(categoryHandler.getAllCategories(page,size,descending));
     }
 
 }

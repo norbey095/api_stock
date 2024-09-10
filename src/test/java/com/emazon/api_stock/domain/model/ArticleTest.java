@@ -25,6 +25,6 @@ class ArticleTest {
         assertEquals(2.0, article.getPrice());
         assertEquals(1, article.getIdbrand());
         List<Integer> expectedCategories = List.of(1);
-        assertEquals(expectedCategories, article.getCategorys());
+        assertEquals(expectedCategories, article.getCategories());
     }
 }

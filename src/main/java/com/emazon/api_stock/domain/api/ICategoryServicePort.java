@@ -8,6 +8,6 @@ public interface ICategoryServicePort {
 
         void saveCategory(Category category);
 
-        List<Category> getAllCategorys(Integer page, Integer size, boolean descending);
+        List<Category> getAllCategories(Integer page, Integer size, boolean descending);
 
 }

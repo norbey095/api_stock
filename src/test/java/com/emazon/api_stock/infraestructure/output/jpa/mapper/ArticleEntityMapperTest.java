@@ -32,7 +32,7 @@ class ArticleEntityMapperTest {
         Assertions.assertEquals(1,articleEntity.getQuantity());
         Assertions.assertEquals(1,articleEntity.getPrice());
         Assertions.assertEquals(1,articleEntity.getIdbrand());
-        Assertions.assertEquals(Collections.singletonList(1), article.getCategorys());
+        Assertions.assertEquals(Collections.singletonList(1), article.getCategories());
     }
 
     @Test

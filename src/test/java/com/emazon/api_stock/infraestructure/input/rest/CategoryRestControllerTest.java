@@ -60,7 +60,7 @@ class CategoryRestControllerTest {
     void getAllCategory_ShouldReturnCategoryDto() throws Exception {
         List<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
         categoryResponseDtoList.add(categoryResponseDto);
-        Mockito.when(categoryHandler.getAllCategorys(1, 1,false)).thenReturn(categoryResponseDtoList);
+        Mockito.when(categoryHandler.getAllCategories(1, 1,false)).thenReturn(categoryResponseDtoList);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
@@ -74,6 +74,6 @@ class CategoryRestControllerTest {
                                 .value(ConstantsTest.FIELD_DESCRIPTION.getMessage()));
 
         Mockito.verify(categoryHandler, Mockito.times(1))
-                .getAllCategorys(1,1,false);
+                .getAllCategories(1,1,false);
     }
 }

@@ -27,8 +27,8 @@ public class CategoryUseCase implements ICategoryServicePort {
     }
 
     @Override
-    public List<Category> getAllCategorys(Integer page, Integer size, boolean descending) {
-        return this.categoryPersistencePort.getAllCategorys(page, size,descending);
+    public List<Category> getAllCategories(Integer page, Integer size, boolean descending) {
+        return this.categoryPersistencePort.getAllCategories(page, size,descending);
     }
 
     protected void validatedNamePresent(String name){

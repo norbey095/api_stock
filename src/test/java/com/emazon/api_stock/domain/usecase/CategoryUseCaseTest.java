@@ -130,17 +130,17 @@ class CategoryUseCaseTest {
     }
 
     @Test
-    void shouldGetAllCategorys() {
+    void shouldGetAllCategories() {
         Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage(), "");
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
 
-        Mockito.when(categoryPersistencePort.getAllCategorys(1,1,false)).thenReturn(categoryList);
+        Mockito.when(categoryPersistencePort.getAllCategories(1,1,false)).thenReturn(categoryList);
 
-        List<Category> result = categoryUseCase.getAllCategorys(1,1,false);
+        List<Category> result = categoryUseCase.getAllCategories(1,1,false);
 
         Mockito.verify(categoryPersistencePort, Mockito.times(1))
-                .getAllCategorys(1,1,false);
+                .getAllCategories(1,1,false);
         Assertions.assertNotNull(result);
         Assertions.assertEquals(result.get(0).getName(), category.getName());
         Assertions.assertEquals(result.get(0).getDescription(), category.getDescription());

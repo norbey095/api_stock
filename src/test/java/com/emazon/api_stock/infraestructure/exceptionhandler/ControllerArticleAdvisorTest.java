@@ -42,7 +42,7 @@ class ControllerArticleAdvisorTest {
 
     @Test
     void whenInvalidArticleCategoryException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidArticleCategoryException(ConstantsTest.FIELD_CATEGORYS_NULL.getMessage()))
+        Mockito.doThrow(new InvalidArticleCategoryException(ConstantsTest.FIELD_CATEGORIES_NULL.getMessage()))
                 .when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
@@ -51,13 +51,13 @@ class ControllerArticleAdvisorTest {
                         .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.FIELD_CATEGORYS_NULL.getMessage()));
+                        .value(ConstantsTest.FIELD_CATEGORIES_NULL.getMessage()));
     }
 
     @Test
     void whenInvalidArticleCategoryNumberException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidArticleCategoryNumberException(
-                ConstantsTest.FIELD_CATEGORYS_INVALID_NUMBER.getMessage()))
+                ConstantsTest.FIELD_CATEGORIES_INVALID_NUMBER.getMessage()))
                 .when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
@@ -66,7 +66,7 @@ class ControllerArticleAdvisorTest {
                         .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.FIELD_CATEGORYS_INVALID_NUMBER.getMessage()));
+                        .value(ConstantsTest.FIELD_CATEGORIES_INVALID_NUMBER.getMessage()));
     }
 
     @Test

@@ -12,8 +12,6 @@ import java.util.List;
 public interface BrandMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "brandDto.name", target = "name")
-    @Mapping(source = "brandDto.description", target = "description")
     Brand brandDtoToBrand(BrandRequestDto brandDto);
 
     List<BrandResponseDto> toBrandDtoList(List<Brand> brands);
