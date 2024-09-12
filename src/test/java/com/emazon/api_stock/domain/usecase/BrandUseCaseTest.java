@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.usecase;
 
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
@@ -172,5 +173,45 @@ class BrandUseCaseTest {
 
         Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
                 .getAllBrands(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void testGetAllBrand_WhitPageNull() {
+        Integer page = null;
+        Integer size = ConstantsDomain.VALUE_1;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            brandUseCase.getAllBrands(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllBrands(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void testGetAllBrand_WhitSizeNull() {
+        Integer page = ConstantsDomain.VALUE_1;
+        Integer size = null;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            brandUseCase.getAllBrands(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllBrands(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllBrandNoData() {
+        Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new ArrayList<>());
+
+        assertThrows(NoDataFoundException.class, () -> {
+            brandUseCase.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
     }
 }

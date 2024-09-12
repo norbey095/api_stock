@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.usecase;
 
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
@@ -177,6 +178,19 @@ class ArticleUseCaseTest {
     }
 
     @Test
+    void testGetAllBrand_WhitPageNull() {
+        Integer page = null;
+        Integer size = ConstantsDomain.VALUE_1;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            articleUseCase.getAllArticles(page, size, ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE_NAME);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllArticles(page,size,ConstantsDomain.VALUE_FALSE,  ConstantsDomain.ARTICLE_NAME);
+    }
+
+    @Test
     void testGetAllBrand_WhitSizeNegative() {
         Integer page = ConstantsDomain.VALUE_1;
         Integer size = ConstantsDomain.VALUE_N1;
@@ -187,5 +201,33 @@ class ArticleUseCaseTest {
 
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
                 .getAllArticles(page,size,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE_NAME);
+    }
+
+    @Test
+    void testGetAllBrand_WhitSizeNull() {
+        Integer page = ConstantsDomain.VALUE_1;
+        Integer size = null;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            articleUseCase.getAllArticles(page, size, ConstantsDomain.VALUE_FALSE,  ConstantsDomain.ARTICLE_NAME);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllArticles(page,size,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE_NAME);
+    }
+
+    @Test
+    void shouldGetAllArticleNoData() {
+        Mockito.when(articlePersistencePort.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(new ArrayList<>());
+
+        assertThrows(NoDataFoundException.class, () -> {
+            articleUseCase.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE
+                        , ConstantsDomain.ARTICLE);
     }
 }

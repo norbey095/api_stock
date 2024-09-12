@@ -40,7 +40,8 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
         validatePaginationData(page,size);
-        List<ArticleResponse> articleResponseList = this.articlePersistencePort.getAllArticles(page, size, descending, filterBy);
+        List<ArticleResponse> articleResponseList = this.articlePersistencePort.getAllArticles(page, size
+                , descending, filterBy);
         validateData(articleResponseList);
         return articleResponseList;
     }

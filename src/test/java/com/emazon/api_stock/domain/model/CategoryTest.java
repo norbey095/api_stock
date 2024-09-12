@@ -18,4 +18,5 @@ class CategoryTest {
         assertEquals(ConstantsDomain.FIELD_NAME, category.getName());
         assertEquals(ConstantsDomain.FIELD_DESCRIPTION, category.getDescription());
     }
+
 }

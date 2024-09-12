@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.usecase;
 
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
@@ -173,5 +174,45 @@ class CategoryUseCaseTest {
 
         Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
                 .getAllCategories(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void testGetAllCategory_WhitPageNull() {
+        Integer page = null;
+        Integer size = ConstantsDomain.VALUE_1;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            categoryUseCase.getAllCategories(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllCategories(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void testGetAllCategory_WhitSizeNull() {
+        Integer page = ConstantsDomain.VALUE_1;
+        Integer size = null;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            categoryUseCase.getAllCategories(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllCategories(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllCategoryNoData() {
+        Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new ArrayList<>());
+
+        assertThrows(NoDataFoundException.class, () -> {
+            categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
     }
 }
