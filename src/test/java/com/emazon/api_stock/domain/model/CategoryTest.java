@@ -1,6 +1,6 @@
 package com.emazon.api_stock.domain.model;
 
-import com.emazon.api_stock.domain.util.ConstantsTest;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,12 +10,13 @@ class CategoryTest {
 
     @Test
     void shouldCreateCategoryWhenNameAndDescriptionAreValid() {
-        Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage(),
-                ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Category category = new Category(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME,
+                ConstantsDomain.FIELD_DESCRIPTION);
 
         assertNotNull(category);
-        assertEquals(1, category.getId());
-        assertEquals(ConstantsTest.FIELD_NAME.getMessage(), category.getName());
-        assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), category.getDescription());
+        assertEquals(ConstantsDomain.VALUE_1, category.getId());
+        assertEquals(ConstantsDomain.FIELD_NAME, category.getName());
+        assertEquals(ConstantsDomain.FIELD_DESCRIPTION, category.getDescription());
     }
+
 }

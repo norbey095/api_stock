@@ -7,6 +7,8 @@ import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.Constants;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
+import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 
 import java.util.List;
 
@@ -28,10 +30,13 @@ public class CategoryUseCase implements ICategoryServicePort {
 
     @Override
     public List<Category> getAllCategories(Integer page, Integer size, boolean descending) {
-        return this.categoryPersistencePort.getAllCategories(page, size,descending);
+        validateNegativeData(page,size);
+        List<Category> categoryList = this.categoryPersistencePort.getAllCategories(page, size,descending);
+        validateData(categoryList);
+        return categoryList;
     }
 
-    protected void validatedNamePresent(String name){
+    private void validatedNamePresent(String name){
         if(this.categoryPersistencePort.getCategoryByName(name)) {
             throw new CategoryAlreadyExistsException();
         }
@@ -39,19 +44,34 @@ public class CategoryUseCase implements ICategoryServicePort {
 
     private void validatedName(String name){
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidCategoryNameException(Constants.FIELD_NAME_NULL.getMessage());
+            throw new InvalidCategoryNameException(Constants.FIELD_NAME_NULL);
         }
-        if (name.length() > 50) {
-            throw new InvalidCategoryNameException(Constants.FIELD_NAME_MAX.getMessage());
+        if (name.length() > Constants.VALUE_50) {
+            throw new InvalidCategoryNameException(Constants.FIELD_NAME_MAX);
         }
     }
 
     private void validatedDescription(String description){
         if (description == null || description.trim().isEmpty()) {
-            throw new InvalidCategoryDescriptionException(Constants.FIELD_DESCRIPTION_NULL.getMessage());
+            throw new InvalidCategoryDescriptionException(Constants.FIELD_DESCRIPTION_NULL);
         }
-        if (description.length() > 90) {
-            throw new InvalidCategoryDescriptionException(Constants.FIELD_DESCRIPTION_CATEGORY_MAX.getMessage());
+        if (description.length() > Constants.VALUE_90) {
+            throw new InvalidCategoryDescriptionException(Constants.FIELD_DESCRIPTION_CATEGORY_MAX);
+        }
+    }
+
+    private void validateNegativeData(Integer page, Integer size){
+        if (page == null || size == null){
+            throw new PaginationNotAllowedException();
+        }
+        if (page < Constants.VALUE_0 || size < Constants.VALUE_0) {
+            throw new PaginationNotAllowedException();
+        }
+    }
+
+    private void validateData(List<Category> categoryList){
+        if (categoryList.isEmpty()) {
+            throw new NoDataFoundException();
         }
     }
 }

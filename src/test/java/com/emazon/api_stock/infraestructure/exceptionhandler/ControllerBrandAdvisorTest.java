@@ -6,7 +6,7 @@ import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
 import com.emazon.api_stock.infraestructure.input.rest.BrandRestController;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +31,39 @@ class ControllerBrandAdvisorTest {
         Mockito.doThrow(new BrandAlreadyExistsException()).when(brandHandler)
                 .saveBrand(Mockito.any(BrandRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_BRAND)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_BRAND_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_BRAND_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.BRAND_EXISTS.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.BRAND_EXISTS));
     }
 
     @Test
     void whenInvalidBrandNameException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidBrandNameException(ConstantsTest.INVALID_NAME.getMessage()))
+        Mockito.doThrow(new InvalidBrandNameException(ConstantsInfraestructure.INVALID_NAME))
                 .when(brandHandler)
                 .saveBrand(Mockito.any(BrandRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_BRAND)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_BRAND_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_BRAND_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_NAME.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.INVALID_NAME));
     }
 
     @Test
     void whenInvalidBrandDescriptionException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidBrandDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
+        Mockito.doThrow(new InvalidBrandDescriptionException(ConstantsInfraestructure.INVALID_DESCRIPTION))
                 .when(brandHandler)
                 .saveBrand(Mockito.any(BrandRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_BRAND)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_BRAND_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_BRAND_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_DESCRIPTION.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.INVALID_DESCRIPTION));
     }
 }

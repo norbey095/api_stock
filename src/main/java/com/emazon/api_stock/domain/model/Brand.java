@@ -5,6 +5,8 @@ public class Brand {
     private String name;
     private String description;
 
+    public Brand() {
+    }
 
     public Brand(Integer id, String name, String description) {
         this.id = id;

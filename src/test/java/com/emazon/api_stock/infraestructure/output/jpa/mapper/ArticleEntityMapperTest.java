@@ -5,7 +5,7 @@ import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.ArticleEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.BrandEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -20,19 +20,20 @@ class ArticleEntityMapperTest {
 
     @Test
     void testArticleToArticleEntity() {
-        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), 1, 1,
-                1, Collections.singletonList(1));
+        ArticleSave article = new ArticleSave(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.PRICE,ConstantsInfraestructure.VALUE_1
+                , Collections.singletonList(ConstantsInfraestructure.VALUE_1));
 
         ArticleEntity articleEntity = articleEntityMapper.articleToArticleEntity(article);
 
         Assertions.assertNotNull(articleEntity);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), articleEntity.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), articleEntity.getDescription());
-        Assertions.assertEquals(1,articleEntity.getQuantity());
-        Assertions.assertEquals(1,articleEntity.getPrice());
-        Assertions.assertEquals(1,articleEntity.getIdbrand());
-        Assertions.assertEquals(Collections.singletonList(1), article.getCategories());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, articleEntity.getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, articleEntity.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleEntity.getQuantity());
+        Assertions.assertEquals(ConstantsInfraestructure.PRICE,articleEntity.getPrice());
+        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleEntity.getIdbrand());
+        Assertions.assertEquals(Collections.singletonList(ConstantsInfraestructure.VALUE_1), article.getCategories());
     }
 
     @Test
@@ -44,16 +45,19 @@ class ArticleEntityMapperTest {
 
     @Test
     void testArticleEntityToArticleResponse() {
-        BrandEntity brandEntity = new BrandEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage(),new ArrayList<>());
+        BrandEntity brandEntity = new BrandEntity(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,new ArrayList<>());
 
-        CategoryEntity categoryEntity = new CategoryEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage(),new ArrayList<>());
+        CategoryEntity categoryEntity = new CategoryEntity(ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,new ArrayList<>());
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         categoryEntities.add(categoryEntity);
 
-        ArticleEntity articleEntity = new ArticleEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage(),2, 25000, 1, brandEntity
+        ArticleEntity articleEntity = new ArticleEntity(ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.FIELD_NAME, ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION
+                ,ConstantsInfraestructure.VALUE_2, ConstantsInfraestructure.PRICE
+                , ConstantsInfraestructure.VALUE_1, brandEntity
         , categoryEntities);
 
         List<ArticleEntity> articleList = new ArrayList<>();
@@ -64,11 +68,14 @@ class ArticleEntityMapperTest {
 
 
         Assertions.assertNotNull(articleResponses);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), articleResponses.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage(),
-                articleResponses.get(0).getDescription());
-        Assertions.assertEquals(brandEntity.getId(), articleResponses.get(0).getId());
-        Assertions.assertEquals(categoryEntities.get(0).getId(), articleResponses.get(0).getCategories().get(0).getId());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, articleResponses
+                .get(ConstantsInfraestructure.VALUE_0).getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,
+                articleResponses.get(ConstantsInfraestructure.VALUE_0).getDescription());
+        Assertions.assertEquals(brandEntity.getId(), articleResponses.get(ConstantsInfraestructure.VALUE_0).getId());
+        Assertions.assertEquals(categoryEntities.get(ConstantsInfraestructure.VALUE_0).getId()
+                , articleResponses.get(ConstantsInfraestructure.VALUE_0).getCategories()
+                        .get(ConstantsInfraestructure.VALUE_0).getId());
     }
 
     @Test

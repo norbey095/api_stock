@@ -2,11 +2,10 @@ package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
-import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
-import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.ICategoryRepository;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +27,8 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     @Override
     public List<Category> getAllCategories(Integer page, Integer size,boolean descending) {
-        validateNegativeData(page,size);
         Pageable pagination = createPageable(page, size, descending);
-        List<CategoryEntity> categoryEntities = fetchCategories(pagination);
+        List<CategoryEntity> categoryEntities = categoryRepository.findAll(pagination).getContent();
         return categoryEntityMapper.categoryEntityToCategory(categoryEntities);
     }
 
@@ -39,22 +37,8 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
         return categoryRepository.findByName(name).isPresent();
     }
 
-    private void validateNegativeData(Integer page, Integer size){
-        if (page < 0 || size < 0) {
-            throw new PaginationNotAllowedException();
-        }
-    }
-
-    protected Pageable createPageable(Integer page, Integer size, boolean descending) {
+    private Pageable createPageable(Integer page, Integer size, boolean descending) {
         Sort.Direction direction = descending ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return PageRequest.of(page, size, Sort.by(direction, "name"));
-    }
-
-    private List<CategoryEntity> fetchCategories(Pageable pageable) {
-        List<CategoryEntity> categories = categoryRepository.findAll(pageable).getContent();
-        if (categories.isEmpty()) {
-            throw new NoDataFoundException();
-        }
-        return categories;
+        return PageRequest.of(page, size, Sort.by(direction, InfraestructureConstants.NAME));
     }
 }

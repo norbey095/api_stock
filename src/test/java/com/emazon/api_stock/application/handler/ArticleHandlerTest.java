@@ -4,7 +4,7 @@ import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.handler.article.ArticleHandler;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
-import com.emazon.api_stock.application.util.ConstantsTest;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
@@ -42,23 +42,23 @@ class ArticleHandlerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         articleRequestDto = new ArticleRequestDto();
-        articleRequestDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        articleRequestDto.setDescription(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
-        articleRequestDto.setQuantity(3);
-        articleRequestDto.setPrice(20000);
+        articleRequestDto.setName(ConstantsApplication.FIELD_NAME);
+        articleRequestDto.setDescription(ConstantsApplication.FIELD_ARTICLE_DESCRIPTION);
+        articleRequestDto.setQuantity(ConstantsApplication.VALOR_3);
+        articleRequestDto.setPrice(ConstantsApplication.PRICE);
 
         articleResponseDto = new ArticleResponseDto();
-        articleResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        articleResponseDto.setDescription(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
-        articleResponseDto.setQuantity(3);
-        articleRequestDto.setPrice(20000);
+        articleResponseDto.setName(ConstantsApplication.FIELD_NAME);
+        articleResponseDto.setDescription(ConstantsApplication.FIELD_ARTICLE_DESCRIPTION);
+        articleResponseDto.setQuantity(ConstantsApplication.VALOR_3);
+        articleRequestDto.setPrice(ConstantsApplication.PRICE);
     }
 
     @Test
     void shouldSaveArticle() {
-        ArticleSave articleSave = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
-                , 1, 2.0, 1, Collections.singletonList(1));
+        ArticleSave articleSave = new ArticleSave(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_ARTICLE_DESCRIPTION
+                , ConstantsApplication.VALOR_1, ConstantsApplication.PRICE, ConstantsApplication.VALOR_1, Collections.singletonList(1));
         when(articleMapper.articleDtoToArticle(articleRequestDto)).thenReturn(articleSave);
 
         articleHandler.saveArticle(articleRequestDto);
@@ -73,24 +73,25 @@ class ArticleHandlerTest {
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
         articleResponseDtoList.add(articleResponseDto);
 
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_ARTICLE_DESCRIPTION);
         List<Category> categories = new ArrayList<>();
         categories.add(new Category());
 
-        ArticleResponse articleResponse = new ArticleResponse(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), 1, 1000, brand,categories);
+        ArticleResponse articleResponse = new ArticleResponse(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_BRAND_DESCRIPTION, ConstantsApplication.VALOR_1, ConstantsApplication.PRICE, brand,categories);
         List<ArticleResponse> articleResponses = new ArrayList<>();
         articleResponses.add(articleResponse);
 
         when(articleMapper.toArticleDtoList(articleResponses)).thenReturn(articleResponseDtoList);
-        when(articleServicePort.getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage()))
+        when(articleServicePort.getAllArticles(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1,false, ConstantsApplication.ARTICLE))
                 .thenReturn(articleResponses);
 
-        articleHandler.getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage());
+        articleHandler.getAllArticles(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1,false, ConstantsApplication.ARTICLE);
 
 
         verify(articleMapper).toArticleDtoList(articleResponses);
-        verify(articleServicePort).getAllArticles(1,1,false,ConstantsTest.ARTICLE.getMessage());
+        verify(articleServicePort).getAllArticles(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1,
+                false, ConstantsApplication.ARTICLE);
     }
 }

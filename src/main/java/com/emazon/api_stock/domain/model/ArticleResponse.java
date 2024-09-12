@@ -12,6 +12,9 @@ public class ArticleResponse {
     private Brand brand;
     private List<Category> categories;
 
+    public ArticleResponse() {
+    }
+
     public ArticleResponse(Integer id, String name, String description, Integer quantity, double price, Brand brand, List<Category> categories) {
         this.id = id;
         this.name = name;

@@ -4,6 +4,7 @@ import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsExcepti
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +16,7 @@ public class ControllerArticleAdvisor {
     @ExceptionHandler(ArticleAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleArticleAlreadyExistsException(ArticleAlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponse(
-                ExceptionResponseConstants.ARTICLE_ALREADY_EXISTS.getMessage(),
+                InfraestructureConstants.ARTICLE_ALREADY_EXISTS,
                 HttpStatus.CONFLICT.toString()));
     }
 

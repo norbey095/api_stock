@@ -2,7 +2,7 @@ package com.emazon.api_stock.infraestructure.output.jpa.mapper;
 
 import com.emazon.api_stock.domain.model.Category;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -16,14 +16,14 @@ class CategoryEntityMapperTest {
 
     @Test
     void testCategoryToCategoryEntity() {
-        Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Category category = new Category(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_DESCRIPTION);
 
         CategoryEntity categoryEntity = categoryEntityMapper.categoryToCategoryEntity(category);
 
         Assertions.assertNotNull(categoryEntity);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), categoryEntity.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), categoryEntity.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, categoryEntity.getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_DESCRIPTION, categoryEntity.getDescription());
     }
 
     @Test
@@ -35,8 +35,9 @@ class CategoryEntityMapperTest {
 
     @Test
     void testCategoryEntityToCategory() {
-        CategoryEntity categoryEntity = new CategoryEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_DESCRIPTION.getMessage(),null);
+        CategoryEntity categoryEntity = new CategoryEntity(ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_DESCRIPTION,null);
 
         List<CategoryEntity> categoryList = new ArrayList<>();
         categoryList.add(categoryEntity);
@@ -44,8 +45,10 @@ class CategoryEntityMapperTest {
         List<Category> category = categoryEntityMapper.categoryEntityToCategory(categoryList);
 
         Assertions.assertNotNull(category);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), category.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), category.get(0).getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME
+                , category.get(ConstantsInfraestructure.VALUE_0).getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_DESCRIPTION
+                , category.get(ConstantsInfraestructure.VALUE_0).getDescription());
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
-import com.emazon.api_stock.application.util.ConstantsTest;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.model.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ class CategoryMapperTest {
     @Test
     void testCategoryDtoToCategory() {
         CategoryRequestDto categoryDto = new CategoryRequestDto();
-        categoryDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        categoryDto.setDescription(ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        categoryDto.setName(ConstantsApplication.FIELD_NAME);
+        categoryDto.setDescription(ConstantsApplication.FIELD_DESCRIPTION);
 
         Category category = categoryMapper.categoryDtoToCategory(categoryDto);
 
         Assertions.assertNotNull(category);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), category.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), category.getDescription());
+        Assertions.assertEquals(categoryDto.getName(), category.getName());
+        Assertions.assertEquals(categoryDto.getDescription(), category.getDescription());
     }
 
     @Test
@@ -37,8 +37,8 @@ class CategoryMapperTest {
 
     @Test
     void testToCategoryDtoList() {
-        Category category = new Category(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Category category = new Category(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_DESCRIPTION);
 
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
@@ -46,8 +46,9 @@ class CategoryMapperTest {
         List<CategoryResponseDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
 
         Assertions.assertNotNull(categoryDtoList);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), categoryDtoList.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_DESCRIPTION.getMessage(), categoryDtoList.get(0).getDescription());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, categoryDtoList.get(ConstantsApplication.VALOR_0).getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_DESCRIPTION, categoryDtoList
+                .get(ConstantsApplication.VALOR_0).getDescription());
     }
 
     @Test

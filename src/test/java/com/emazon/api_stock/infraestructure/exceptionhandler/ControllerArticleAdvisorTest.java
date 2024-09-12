@@ -7,7 +7,7 @@ import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryExcep
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
 import com.emazon.api_stock.infraestructure.input.rest.ArticleRestController;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,55 +32,55 @@ class ControllerArticleAdvisorTest {
         Mockito.doThrow(new ArticleAlreadyExistsException()).when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_ARTICLE.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_ARTICLE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_ARTICLE_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.ARTICLE_EXISTS.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.ARTICLE_EXISTS));
     }
 
     @Test
     void whenInvalidArticleCategoryException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidArticleCategoryException(ConstantsTest.FIELD_CATEGORIES_NULL.getMessage()))
+        Mockito.doThrow(new InvalidArticleCategoryException(ConstantsInfraestructure.FIELD_CATEGORIES_NULL))
                 .when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_ARTICLE.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_ARTICLE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_ARTICLE_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.FIELD_CATEGORIES_NULL.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.FIELD_CATEGORIES_NULL));
     }
 
     @Test
     void whenInvalidArticleCategoryNumberException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidArticleCategoryNumberException(
-                ConstantsTest.FIELD_CATEGORIES_INVALID_NUMBER.getMessage()))
+                ConstantsInfraestructure.FIELD_CATEGORIES_INVALID_NUMBER))
                 .when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_ARTICLE.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_ARTICLE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_ARTICLE_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.FIELD_CATEGORIES_INVALID_NUMBER.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.FIELD_CATEGORIES_INVALID_NUMBER));
     }
 
     @Test
     void whenRepeatedCategoryException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new RepeatedCategoryException(
-                        ConstantsTest.REPEATED_CATEGORIES.getMessage()))
+                        ConstantsInfraestructure.REPEATED_CATEGORIES))
                 .when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_ARTICLE.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_ARTICLE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_ARTICLE_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_ARTICLE_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.REPEATED_CATEGORIES.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.REPEATED_CATEGORIES));
     }
 }

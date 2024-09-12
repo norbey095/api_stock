@@ -4,6 +4,7 @@ import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/stock/article")
@@ -29,7 +32,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "201", description = "article created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
-    @PostMapping("/createArticle")
+    @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createArticle(@Validated @RequestBody ArticleRequestDto articleRequestDto){
         ResponseSuccess responseSuccess = articleHandler.saveArticle(articleRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -50,13 +53,10 @@ public class ArticleRestController {
                     = "Invalid request, for example if the `page` or `size` parameters are negative."),
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
-    @GetMapping("/getArticles")
-    public ResponseEntity<PaginatedResponse<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
-            , @RequestParam(required = false, defaultValue = "false") boolean descending
-            , @RequestParam(required = false, defaultValue = "article") String filterBy) {
-
-        PaginatedResponse<ArticleResponseDto> response = articleHandler.getAllArticles(page, size, descending, filterBy);
-
-        return ResponseEntity.ok(response);
+    @GetMapping("/")
+    public ResponseEntity<List<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
+            , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending
+            , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_ARTICLE) String filterBy) {
+        return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));
     }
 }

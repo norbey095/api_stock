@@ -1,11 +1,10 @@
 package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
-import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.ICategoryRepository;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -40,20 +39,20 @@ class CategoryJpaAdapterTest {
     @Test
     void testSaveCategorySavesSuccessfully() {
 
-        Category category = new Category(1,ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Category category = new Category(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_DESCRIPTION);
         CategoryEntity categoryEntity = new CategoryEntity();
         Mockito.when(categoryEntityMapper.categoryToCategoryEntity(category)).thenReturn(categoryEntity);
 
         categoryJpaAdapter.saveCategory(category);
 
-        Mockito.verify(categoryRepository, Mockito.times(1)).save(categoryEntity);
+        Mockito.verify(categoryRepository, Mockito.times(ConstantsInfraestructure.VALUE_1)).save(categoryEntity);
     }
 
     @Test
     void testGetAllCategoriesSuccess() {
-        Integer page = 0;
-        Integer size = 1;
+        Integer page = ConstantsInfraestructure.VALUE_0;
+        Integer size = ConstantsInfraestructure.VALUE_1;
 
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         categoryEntities.add(createCategoryEntity());
@@ -61,53 +60,28 @@ class CategoryJpaAdapterTest {
         List<Category> categories = new ArrayList<>();
         categories.add(createCategory());
 
-        Pageable pagination = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name"));
+        Pageable pagination = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, ConstantsInfraestructure.NAME));
 
-        Mockito.doReturn(pagination).when(categoryJpaAdapter).createPageable(page, size, false);
         Mockito.when(categoryRepository.findAll(pagination)).thenReturn(new PageImpl<>(categoryEntities));
         Mockito.when(categoryEntityMapper.categoryEntityToCategory(categoryEntities)).thenReturn(categories);
 
-        List<Category> result = categoryJpaAdapter.getAllCategories(page, size, false);
+        List<Category> result = categoryJpaAdapter.getAllCategories(page, size, ConstantsInfraestructure.VALUE_FALSE);
 
         assertNotNull(result);
         assertEquals(categories.size(), result.size());
-        assertEquals(categories.get(0).getName(), result.get(0).getName());
-        assertEquals(categories.get(0).getDescription(), result.get(0).getDescription());
-    }
-
-    @Test
-    void testGetAllCategory_WhitPageNegative() {
-        Integer page = -1;
-        Integer size = 1;
-
-        assertThrows(PaginationNotAllowedException.class, () -> {
-            categoryJpaAdapter.getAllCategories(page, size, false);
-        });
-
-        Mockito.verify(categoryJpaAdapter, Mockito.times(0))
-                .createPageable(1,1,false);
-    }
-
-    @Test
-    void testGetAllCategory_WhitSizeNegative() {
-        Integer page = 1;
-        Integer size = -1;
-
-        assertThrows(PaginationNotAllowedException.class, () -> {
-            categoryJpaAdapter.getAllCategories(page, size, false);
-        });
-
-        Mockito.verify(categoryJpaAdapter, Mockito.times(0))
-                .createPageable(1,1,false);
+        assertEquals(categories.get(ConstantsInfraestructure.VALUE_0).getName()
+                , result.get(ConstantsInfraestructure.VALUE_0).getName());
+        assertEquals(categories.get(ConstantsInfraestructure.VALUE_0).getDescription()
+                , result.get(ConstantsInfraestructure.VALUE_0).getDescription());
     }
 
     @Test
     void testGetCategoryByNameSuccess() {
         CategoryEntity categoryEntity = new CategoryEntity();
-        Mockito.when(categoryRepository.findByName(ConstantsTest.FIELD_NAME.getMessage()))
+        Mockito.when(categoryRepository.findByName(ConstantsInfraestructure.FIELD_NAME))
                 .thenReturn(Optional.of(categoryEntity));
 
-        boolean result = categoryJpaAdapter.getCategoryByName(ConstantsTest.FIELD_NAME.getMessage());
+        boolean result = categoryJpaAdapter.getCategoryByName(ConstantsInfraestructure.FIELD_NAME);
 
         assertTrue(result);
     }
@@ -115,14 +89,15 @@ class CategoryJpaAdapterTest {
     private CategoryEntity createCategoryEntity(){
         CategoryEntity categoryEntity = new CategoryEntity();
 
-        categoryEntity.setId(1);
-        categoryEntity.setName("");
-        categoryEntity.setDescription("");
+        categoryEntity.setId(ConstantsInfraestructure.VALUE_1);
+        categoryEntity.setName(ConstantsInfraestructure.COMILLAS);
+        categoryEntity.setDescription(ConstantsInfraestructure.COMILLAS);
 
         return categoryEntity;
     }
 
     private Category createCategory(){
-        return new Category(1,"","");
+        return new Category(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.COMILLAS
+                ,ConstantsInfraestructure.COMILLAS);
     }
 }
