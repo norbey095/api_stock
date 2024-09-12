@@ -11,6 +11,12 @@ public class Constants {
     public static final String PRICE_NOT_NULL = "The price cannot be null";
     public static final String PRICE_NOT_NEGATIVE = "The price cannot be negative";
     public static final String BRAND_REQUIRED = "The parameter 'brand' cannot be empty";
+    public static final String MESSAGES_SUCCESS = "Article created successfully";
+    public static final String BRAND_MESSAGES_SUCCESS = "Brand created successfully";
+    public static final String CATEGORY_MESSAGES_SUCCESS = "Category created successfully";
+    public static final String BRAND = "brand";
+    public static final String CATEGORIES = "categories";
+    public static final String ID = "id";
 
     private Constants() {
 

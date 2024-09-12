@@ -2,7 +2,7 @@ package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.util.ConstantsTest;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.Brand;
@@ -21,22 +21,22 @@ class ArticleMapperTest {
     @Test
     void testArticleDtoToArticle() {
         ArticleRequestDto articleDto = new ArticleRequestDto();
-        articleDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        articleDto.setDescription(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage());
-        articleDto.setQuantity(1);
-        articleDto.setPrice(1);
-        articleDto.setIdbrand(1);
+        articleDto.setName(ConstantsApplication.FIELD_NAME);
+        articleDto.setDescription(ConstantsApplication.FIELD_ARTICLE_DESCRIPTION);
+        articleDto.setQuantity(ConstantsApplication.VALOR_1);
+        articleDto.setPrice(ConstantsApplication.PRICE);
+        articleDto.setIdbrand(ConstantsApplication.VALOR_1);
         articleDto.setCategories(new ArrayList<>());
 
 
         ArticleSave article = articleMapper.articleDtoToArticle(articleDto);
 
         Assertions.assertNotNull(article);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), article.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage(), article.getDescription());
-        Assertions.assertEquals(1, article.getQuantity());
-        Assertions.assertEquals(1, article.getPrice());
-        Assertions.assertEquals(1, article.getIdbrand());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, article.getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_ARTICLE_DESCRIPTION, article.getDescription());
+        Assertions.assertEquals(ConstantsApplication.VALOR_1, article.getQuantity());
+        Assertions.assertEquals(ConstantsApplication.PRICE, article.getPrice());
+        Assertions.assertEquals(ConstantsApplication.VALOR_1, article.getIdbrand());
         Assertions.assertEquals(new ArrayList<>(), article.getCategories());
     }
 
@@ -50,13 +50,13 @@ class ArticleMapperTest {
     @Test
     void testToArticleDtoList() {
 
-        Brand brand = new Brand(1, com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_NAME.getMessage()
-                , com.emazon.api_stock.infraestructure.util.ConstantsTest.FIELD_ARTICLES_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_ARTICLE_DESCRIPTION);
         List<Category> categories = new ArrayList<>();
         categories.add(new Category());
 
-        ArticleResponse articleResponse = new ArticleResponse(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), 1, 1000, brand,categories);
+        ArticleResponse articleResponse = new ArticleResponse(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_BRAND_DESCRIPTION, ConstantsApplication.VALOR_1, ConstantsApplication.PRICE, brand,categories);
 
         List<ArticleResponse> articleList = new ArrayList<>();
         articleList.add(articleResponse);
@@ -64,8 +64,9 @@ class ArticleMapperTest {
         List<ArticleResponseDto> articleDtoList = articleMapper.toArticleDtoList(articleList);
 
         Assertions.assertNotNull(articleDtoList);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), articleDtoList.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), articleDtoList.get(0).getDescription());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, articleDtoList.get(ConstantsApplication.VALOR_0).getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_BRAND_DESCRIPTION, articleDtoList.get(ConstantsApplication.VALOR_0)
+                .getDescription());
     }
 
     @Test

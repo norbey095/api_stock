@@ -2,7 +2,7 @@ package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
-import com.emazon.api_stock.application.util.ConstantsTest;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.model.Brand;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ class BrandMapperTest {
     @Test
     void testBrandDtoToBrand() {
         BrandRequestDto brandDto = new BrandRequestDto();
-        brandDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandDto.setName(ConstantsApplication.FIELD_NAME);
+        brandDto.setDescription(ConstantsApplication.FIELD_BRAND_DESCRIPTION);
 
         Brand brand = brandMapper.brandDtoToBrand(brandDto);
 
         Assertions.assertNotNull(brand);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brand.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), brand.getDescription());
+        Assertions.assertEquals(brandDto.getName(), brand.getName());
+        Assertions.assertEquals(brandDto.getDescription(), brand.getDescription());
     }
 
     @Test
@@ -37,8 +37,8 @@ class BrandMapperTest {
 
     @Test
     void testToBrandDtoList() {
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_BRAND_DESCRIPTION);
 
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
@@ -46,8 +46,9 @@ class BrandMapperTest {
         List<BrandResponseDto> brandDtoList = brandMapper.toBrandDtoList(brandList);
 
         Assertions.assertNotNull(brandDtoList);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brandDtoList.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), brandDtoList.get(0).getDescription());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, brandDtoList.get(ConstantsApplication.VALOR_0).getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_BRAND_DESCRIPTION, brandDtoList.get(ConstantsApplication.VALOR_0)
+                .getDescription());
     }
 
     @Test

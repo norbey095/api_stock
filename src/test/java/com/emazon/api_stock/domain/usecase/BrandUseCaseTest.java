@@ -1,11 +1,12 @@
 package com.emazon.api_stock.domain.usecase;
 
+import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
 import com.emazon.api_stock.domain.model.Brand;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
-import com.emazon.api_stock.domain.util.ConstantsTest;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,114 +36,141 @@ class BrandUseCaseTest {
 
     @Test
     void shouldCallSaveBrandInPersistencePort() {
-        // Arrange - Preparar
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_BRAND_DESCRIPTION);
 
-        //Act - Actuar
         brandUseCase.saveBrand(brand);
 
-        // Assert - Afirmar
-        Mockito.verify(brandPersistencePort, Mockito.times(1)).saveBrand(brand);
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1)).saveBrand(brand);
     }
 
     @Test
     void shouldThrowsExceptionWhenBrandExists() {
-        String name = ConstantsTest.FIELD_NAME.getMessage();
+        String name = ConstantsDomain.FIELD_NAME;
         Mockito.when(brandPersistencePort.getBrandByName(name))
-                .thenReturn(true);
+                .thenReturn(ConstantsDomain.VALUE_TRUE);
 
         assertThrows(BrandAlreadyExistsException.class, () -> {
             brandUseCase.validatedNamePresent(name);
         });
 
-        Mockito.verify(brandPersistencePort, Mockito.times(1))
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getBrandByName(name);
     }
 
     @Test
     void shouldThrowExceptionWhenNameExceeds50Characters() {
-        Brand brand = new Brand(1,ConstantsTest.NAME_INVALID.getMessage()
-                , ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.NAME_INVALID
+                , ConstantsDomain.FIELD_BRAND_DESCRIPTION);
 
         InvalidBrandNameException exception = assertThrows(InvalidBrandNameException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_NAME_CARACTER.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_NAME_CARACTER, exception.getMessage());
     }
 
 
     @Test
     void shouldThrowExceptionWhenDescriptionExceeds120Characters() {
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.DESCRIPTION_BRAND_INVALID.getMessage());
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.DESCRIPTION_BRAND_INVALID);
 
         InvalidBrandDescriptionException exception = assertThrows(InvalidBrandDescriptionException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_DESCRIPTION_BRAND_CARACTER.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_DESCRIPTION_BRAND_CARACTER, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenNameIsNull() {
-        Brand brand = new Brand(1, null, ConstantsTest.FIELD_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, null, ConstantsDomain.FIELD_DESCRIPTION);
 
         InvalidBrandNameException exception = assertThrows(InvalidBrandNameException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_NAME_NULL.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_NAME_NULL, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenNameIsEmpty() {
-        Brand brand = new Brand(1, "", ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.COMILLAS
+                , ConstantsDomain.FIELD_BRAND_DESCRIPTION);
 
         InvalidBrandNameException exception = assertThrows(InvalidBrandNameException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_NAME_NULL.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_NAME_NULL, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenDescriptionIsNull() {
-        Brand brand = new Brand(1,ConstantsTest.FIELD_NAME.getMessage(), null);
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME, null);
 
         InvalidBrandDescriptionException exception = assertThrows(InvalidBrandDescriptionException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_DESCRIPTION_NULL.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_DESCRIPTION_NULL, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenDescriptionIsEmpty() {
-        Brand brand = new Brand(1,ConstantsTest.FIELD_NAME.getMessage(), "");
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME, ConstantsDomain.COMILLAS);
 
         InvalidBrandDescriptionException exception = assertThrows(InvalidBrandDescriptionException.class, () -> {
             brandUseCase.saveBrand(brand);
         });
 
-        assertEquals(ConstantsTest.MSN_DESCRIPTION_NULL.getMessage(), exception.getMessage());
+        assertEquals(ConstantsDomain.MSN_DESCRIPTION_NULL, exception.getMessage());
     }
 
     @Test
     void shouldGetAllBrands() {
-        Brand brand = new Brand(1,ConstantsTest.FIELD_NAME.getMessage(), "");
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME, ConstantsDomain.COMILLAS);
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
 
-        Mockito.when(brandPersistencePort.getAllBrands(1,1,false)).thenReturn(brandList);
+        Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,
+                        ConstantsDomain.VALUE_FALSE))
+                .thenReturn(brandList);
 
-        List<Brand> result = brandUseCase.getAllBrands(1,1,false);
+        List<Brand> result = brandUseCase.getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,
+                ConstantsDomain.VALUE_FALSE);
 
-        Mockito.verify(brandPersistencePort, Mockito.times(1))
-                .getAllBrands(1,1,false);
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.get(0).getName(), brand.getName());
-        Assertions.assertEquals(result.get(0).getDescription(), brand.getDescription());
+        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getName(), brand.getName());
+        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getDescription(), brand.getDescription());
+    }
+
+    @Test
+    void testGetAllBrand_WhitPageNegative() {
+        Integer page = ConstantsDomain.VALUE_N1;
+        Integer size = ConstantsDomain.VALUE_1;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            brandUseCase.getAllBrands(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllBrands(page,size,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void testGetAllBrand_WhitSizeNegative() {
+        Integer page = ConstantsDomain.VALUE_1;
+        Integer size = ConstantsDomain.VALUE_N1;
+
+        assertThrows(PaginationNotAllowedException.class, () -> {
+            brandUseCase.getAllBrands(page, size, ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .getAllBrands(page,size,ConstantsDomain.VALUE_FALSE);
     }
 }

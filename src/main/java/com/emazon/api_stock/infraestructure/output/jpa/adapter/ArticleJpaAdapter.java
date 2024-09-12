@@ -3,11 +3,10 @@ package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
-import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
-import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.ArticleEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.ArticleEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.IArticleRepository;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,9 +28,8 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     @Override
     public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
-        validatePaginationData(page,size);
         Pageable pagination = createPageable(page, size, descending,filterBy);
-        List<ArticleEntity> articleEntities = fetchArticle(pagination);
+        List<ArticleEntity> articleEntities = articleRepository.findAllItemsByBrandName(pagination).getContent();
         return articleEntityMapper.articleEntityToArticleResponse(articleEntities);
     }
 
@@ -40,16 +38,7 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         return articleRepository.findByName(name).isPresent();
     }
 
-    private void validatePaginationData(Integer page, Integer size){
-        if (page == null || size == null){
-            throw new PaginationNotAllowedException();
-        }
-        if (page < 0 || size < 0) {
-            throw new PaginationNotAllowedException();
-        }
-    }
-
-    protected Pageable createPageable(Integer page, Integer size, boolean descending,String filterBy) {
+    private Pageable createPageable(Integer page, Integer size, boolean descending,String filterBy) {
         Sort.Direction direction = descending ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(direction, getSortField(filterBy));
         return PageRequest.of(page, size, sort);
@@ -57,18 +46,9 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     private String getSortField(String filterBy) {
         return switch (filterBy.toLowerCase()) {
-            case "brand" -> "b.name";
-            case "category" -> "c.name";
-            default -> "a.name";
+            case InfraestructureConstants.BRAND -> InfraestructureConstants.BRAND_NAME;
+            case InfraestructureConstants.CATEGORY -> InfraestructureConstants.CATEGORY_NAME;
+            default -> InfraestructureConstants.ARTICLE_NAME;
         };
-    }
-
-
-    private List<ArticleEntity> fetchArticle(Pageable pageable) {
-        List<ArticleEntity> articles = articleRepository.findAllItemsByBrandName(pageable).getContent();
-        if (articles.isEmpty()) {
-            throw new NoDataFoundException();
-        }
-        return articles;
     }
 }

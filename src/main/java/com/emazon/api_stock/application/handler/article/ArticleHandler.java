@@ -4,6 +4,7 @@ import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
+import com.emazon.api_stock.application.util.Constants;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import jakarta.transaction.Transactional;
@@ -25,7 +26,7 @@ public class ArticleHandler implements IArticleHandler {
     public ResponseSuccess saveArticle(ArticleRequestDto articleRequestDto) {
         ArticleSave article = articleMapper.articleDtoToArticle(articleRequestDto);
         articleServicePort.saveArticle(article);
-        return new ResponseSuccess("Article created successfully");
+        return new ResponseSuccess(Constants.MESSAGES_SUCCESS);
     }
 
     @Override

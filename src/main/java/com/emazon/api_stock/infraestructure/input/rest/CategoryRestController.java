@@ -4,6 +4,7 @@ import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +31,7 @@ public class CategoryRestController {
             @ApiResponse(responseCode = "409", description = "Category already exists", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
-    @PostMapping("/createCategory")
+    @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createCategory(@RequestBody CategoryRequestDto categoryRequestDto){
         ResponseSuccess responseSuccess = categoryHandler.saveCategory(categoryRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -49,9 +50,9 @@ public class CategoryRestController {
                     = "Invalid request, for example if the `page` or `size` parameters are negative."),
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
-    @GetMapping("/getCategories")
+    @GetMapping("/")
     public ResponseEntity<List<CategoryResponseDto>> getAllCategories(@RequestParam Integer page, @RequestParam Integer size
-            , @RequestParam(required = false, defaultValue = "false") boolean descending) {
+            , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending) {
         return ResponseEntity.ok(categoryHandler.getAllCategories(page,size,descending));
     }
 

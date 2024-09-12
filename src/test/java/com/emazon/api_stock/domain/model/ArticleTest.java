@@ -1,6 +1,6 @@
 package com.emazon.api_stock.domain.model;
 
-import com.emazon.api_stock.domain.util.ConstantsTest;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -13,18 +13,19 @@ class ArticleTest {
 
     @Test
     void shouldCreateArticleWhenNameAndDescriptionAreValid() {
-        ArticleSave article = new ArticleSave(1, ConstantsTest.FIELD_NAME.getMessage()
-                , ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage()
-                , 1, 2.0, 1, Collections.singletonList(1));
+        ArticleSave article = new ArticleSave(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_ARTICLE_DESCRIPTION
+                , ConstantsDomain.VALUE_1, ConstantsDomain.PRICE, ConstantsDomain.VALUE_1,
+                Collections.singletonList(ConstantsDomain.VALUE_1));
 
         assertNotNull(article);
-        assertEquals(1, article.getId());
-        assertEquals(ConstantsTest.FIELD_NAME.getMessage(), article.getName());
-        assertEquals(ConstantsTest.FIELD_ARTICLE_DESCRIPTION.getMessage(), article.getDescription());
-        assertEquals(1, article.getQuantity());
-        assertEquals(2.0, article.getPrice());
-        assertEquals(1, article.getIdbrand());
-        List<Integer> expectedCategories = List.of(1);
+        assertEquals(ConstantsDomain.VALUE_1, article.getId());
+        assertEquals(ConstantsDomain.FIELD_NAME, article.getName());
+        assertEquals(ConstantsDomain.FIELD_ARTICLE_DESCRIPTION, article.getDescription());
+        assertEquals(ConstantsDomain.VALUE_1, article.getQuantity());
+        assertEquals(ConstantsDomain.PRICE, article.getPrice());
+        assertEquals(ConstantsDomain.VALUE_1, article.getIdbrand());
+        List<Integer> expectedCategories = List.of(ConstantsDomain.VALUE_1);
         assertEquals(expectedCategories, article.getCategories());
     }
 }

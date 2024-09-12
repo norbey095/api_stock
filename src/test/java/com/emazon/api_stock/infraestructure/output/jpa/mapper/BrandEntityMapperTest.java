@@ -2,7 +2,7 @@ package com.emazon.api_stock.infraestructure.output.jpa.mapper;
 
 import com.emazon.api_stock.domain.model.Brand;
 import com.emazon.api_stock.infraestructure.output.jpa.entity.BrandEntity;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -16,14 +16,14 @@ class BrandEntityMapperTest {
 
     @Test
     void testBrandToBrandEntity() {
-        Brand brand = new Brand(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION);
 
         BrandEntity brandEntity = brandEntityMapper.brandToBrandEntity(brand);
 
         Assertions.assertNotNull(brandEntity);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brandEntity.getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), brandEntity.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, brandEntity.getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, brandEntity.getDescription());
     }
 
     @Test
@@ -35,8 +35,8 @@ class BrandEntityMapperTest {
 
     @Test
     void testBrandEntityToBrand() {
-        BrandEntity brandEntity = new BrandEntity(1, ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(),null);
+        BrandEntity brandEntity = new BrandEntity(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION,null);
 
         List<BrandEntity> brandList = new ArrayList<>();
         brandList.add(brandEntity);
@@ -44,8 +44,10 @@ class BrandEntityMapperTest {
         List<Brand> brand = brandEntityMapper.brandEntityToBrand(brandList);
 
         Assertions.assertNotNull(brand);
-        Assertions.assertEquals(ConstantsTest.FIELD_NAME.getMessage(), brand.get(0).getName());
-        Assertions.assertEquals(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage(), brand.get(0).getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, brand.get(ConstantsInfraestructure.VALUE_0)
+                .getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, brand.get(ConstantsInfraestructure
+                .VALUE_0).getDescription());
     }
 
     @Test

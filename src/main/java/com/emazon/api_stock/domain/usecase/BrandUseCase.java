@@ -1,6 +1,8 @@
 package com.emazon.api_stock.domain.usecase;
 
 import com.emazon.api_stock.domain.api.IBrandServicePort;
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
+import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
@@ -28,7 +30,10 @@ public class BrandUseCase implements IBrandServicePort {
 
     @Override
     public List<Brand> getAllBrands(Integer page, Integer size, boolean descending) {
-        return this.brandPersistencePort.getAllBrands(page, size,descending);
+        validateNegativeData(page,size);
+        List<Brand> brandList = this.brandPersistencePort.getAllBrands(page, size,descending);
+        validateData(brandList);
+        return brandList;
     }
 
     protected void validatedNamePresent(String name){
@@ -39,19 +44,34 @@ public class BrandUseCase implements IBrandServicePort {
 
     private void validatedName(String name){
         if (name == null || name.trim().isEmpty()) {
-            throw new InvalidBrandNameException(Constants.FIELD_NAME_NULL.getMessage());
+            throw new InvalidBrandNameException(Constants.FIELD_NAME_NULL);
         }
-        if (name.length() > 50) {
-            throw new InvalidBrandNameException(Constants.FIELD_NAME_MAX.getMessage());
+        if (name.length() > Constants.VALUE_50) {
+            throw new InvalidBrandNameException(Constants.FIELD_NAME_MAX);
         }
     }
 
     private void validatedDescription(String description){
         if (description == null || description.trim().isEmpty()) {
-            throw new InvalidBrandDescriptionException(Constants.FIELD_DESCRIPTION_NULL.getMessage());
+            throw new InvalidBrandDescriptionException(Constants.FIELD_DESCRIPTION_NULL);
         }
-        if (description.length() > 120) {
-            throw new InvalidBrandDescriptionException(Constants.FIELD_DESCRIPTION_BRAND_MAX.getMessage());
+        if (description.length() > Constants.VALUE_120) {
+            throw new InvalidBrandDescriptionException(Constants.FIELD_DESCRIPTION_BRAND_MAX);
+        }
+    }
+
+    private void validateNegativeData(Integer page, Integer size){
+        if (page == null || size == null){
+            throw new PaginationNotAllowedException();
+        }
+        if (page <  Constants.VALUE_0 || size < Constants.VALUE_0) {
+            throw new PaginationNotAllowedException();
+        }
+    }
+
+    private void validateData( List<Brand> brandList){
+        if (brandList.isEmpty()) {
+            throw new NoDataFoundException();
         }
     }
 }

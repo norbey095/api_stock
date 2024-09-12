@@ -4,6 +4,7 @@ import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.mapper.BrandMapper;
+import com.emazon.api_stock.application.util.Constants;
 import com.emazon.api_stock.domain.api.IBrandServicePort;
 import com.emazon.api_stock.domain.model.Brand;
 import jakarta.transaction.Transactional;
@@ -25,7 +26,7 @@ public class BrandHandler implements IBrandHandler {
     public ResponseSuccess saveBrand(BrandRequestDto brandDto) {
         Brand brand = brandMapper.brandDtoToBrand(brandDto);
         brandServicePort.saveBrand(brand);
-        return new ResponseSuccess("Brand created successfully");
+        return new ResponseSuccess(Constants.BRAND_MESSAGES_SUCCESS);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
-import com.emazon.api_stock.infraestructure.exception.NoDataFoundException;
-import com.emazon.api_stock.infraestructure.exception.PaginationNotAllowedException;
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
+import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,29 +28,31 @@ class ControllerGeneralAdvisorTest {
     void whenNoDataFoundException_thenReturnsNotFound() throws Exception {
         Mockito.doThrow(new NoDataFoundException())
                 .when(categoryHandler)
-                .getAllCategories(1,1,false);
+                .getAllCategories(ConstantsInfraestructure.VALUE_1,
+                        ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_FALSE);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
-                        .param("page", "1")
-                        .param("size", "1")
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_CATEGORY)
+                        .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
+                        .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.NO_DATA_FOUND_EXCEPTION_MESSAGE.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.NO_DATA_FOUND_EXCEPTION_MESSAGE));
     }
 
     @Test
     void whenNegativeNotAllowedException_thenReturnsbadRequest() throws Exception {
         Mockito.doThrow(new PaginationNotAllowedException())
                 .when(categoryHandler)
-                .getAllCategories(1,1,false);
+                .getAllCategories(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1
+                        ,ConstantsInfraestructure.VALUE_FALSE);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_CATEGORY.getMessage())
-                        .param("page", "1")
-                        .param("size", "1")
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_CATEGORY)
+                        .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
+                        .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.NEGATIVE_NOT_ALLOWED.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.NEGATIVE_NOT_ALLOWED));
     }
 }

@@ -4,7 +4,7 @@ import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.BrandHandler;
 import com.emazon.api_stock.application.mapper.BrandMapper;
-import com.emazon.api_stock.application.util.ConstantsTest;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.IBrandServicePort;
 import com.emazon.api_stock.domain.model.Brand;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,18 +38,18 @@ class BrandHandlerTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         brandRequestDto = new BrandRequestDto();
-        brandRequestDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandRequestDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandRequestDto.setName(ConstantsApplication.FIELD_NAME);
+        brandRequestDto.setDescription(ConstantsApplication.FIELD_BRAND_DESCRIPTION);
 
         brandResponseDto = new BrandResponseDto();
-        brandResponseDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandResponseDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandResponseDto.setName(ConstantsApplication.FIELD_NAME);
+        brandResponseDto.setDescription(ConstantsApplication.FIELD_BRAND_DESCRIPTION);
     }
 
     @Test
     void shouldSaveBrand() {
-        Brand brand = new Brand(null,ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(null, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_BRAND_DESCRIPTION);
         when(brandMapper.brandDtoToBrand(brandRequestDto)).thenReturn(brand);
 
         brandHandler.saveBrand(brandRequestDto);
@@ -64,18 +64,19 @@ class BrandHandlerTest {
         List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
         brandResponseDtoList.add(brandResponseDto);
 
-        Brand brand = new Brand(null,ConstantsTest.FIELD_NAME.getMessage()
-                ,ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        Brand brand = new Brand(null, ConstantsApplication.FIELD_NAME
+                , ConstantsApplication.FIELD_BRAND_DESCRIPTION);
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
 
         when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandResponseDtoList);
-        when(brandServicePort.getAllBrands(1,1,false)).thenReturn(brandList);
+        when(brandServicePort.getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE))
+                .thenReturn(brandList);
 
-        brandHandler.getAllBrands(1,1,false);
+        brandHandler.getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE);
 
 
         verify(brandMapper).toBrandDtoList(brandList);
-        verify(brandServicePort).getAllBrands(1,1,false);
+        verify(brandServicePort).getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE);
     }
 }

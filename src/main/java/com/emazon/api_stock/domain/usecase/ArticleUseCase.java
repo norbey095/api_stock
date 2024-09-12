@@ -1,6 +1,8 @@
 package com.emazon.api_stock.domain.usecase;
 
 import com.emazon.api_stock.domain.api.IArticleServicePort;
+import com.emazon.api_stock.domain.exception.NoDataFoundException;
+import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
@@ -37,10 +39,13 @@ public class ArticleUseCase implements IArticleServicePort {
 
     @Override
     public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
-        return this.articlePersistencePort.getAllArticles(page, size, descending, filterBy);
+        validatePaginationData(page,size);
+        List<ArticleResponse> articleResponseList = this.articlePersistencePort.getAllArticles(page, size, descending, filterBy);
+        validateData(articleResponseList);
+        return articleResponseList;
     }
 
-    protected void validatedNamePresent(String name){
+    private void validatedNamePresent(String name){
         if(this.articlePersistencePort.getArticleByName(name)) {
             throw new ArticleAlreadyExistsException();
         }
@@ -48,10 +53,10 @@ public class ArticleUseCase implements IArticleServicePort {
 
     private void validatedNumberCategory(List<Integer> categories){
         if (categories == null || categories.isEmpty()) {
-            throw new InvalidArticleCategoryException(Constants.FIELD_CATEGORIES_NULL.getMessage());
+            throw new InvalidArticleCategoryException(Constants.FIELD_CATEGORIES_NULL);
         }
-        if (categories.size() > 3) {
-            throw new InvalidArticleCategoryNumberException(Constants.FIELD_CATEGORIES_INVALID_NUMBER.getMessage());
+        if (categories.size() > Constants.VALUE_3) {
+            throw new InvalidArticleCategoryNumberException(Constants.FIELD_CATEGORIES_INVALID_NUMBER);
         }
     }
 
@@ -59,9 +64,9 @@ public class ArticleUseCase implements IArticleServicePort {
         Map<Integer, Long> idCounts = categories.stream()
                 .collect(Collectors.groupingBy(id -> id, Collectors.counting()));
 
-        boolean result = idCounts.values().stream().anyMatch(count -> count > 1);
+        boolean result = idCounts.values().stream().anyMatch(count -> count > Constants.VALUE_1);
         if (result) {
-            throw new RepeatedCategoryException(Constants.REPEATED_CATEGORIES.getMessage());
+            throw new RepeatedCategoryException(Constants.REPEATED_CATEGORIES);
         }
     }
 
@@ -69,5 +74,20 @@ public class ArticleUseCase implements IArticleServicePort {
         List<ArticleXCategory> list = categories.stream().map(category ->
                     new ArticleXCategory(null, category,idArticle)).toList();
             list.forEach(articleXCategoryPersistencePort::saveArticleXCategory);
+    }
+
+    private void validatePaginationData(Integer page, Integer size){
+        if (page == null || size == null){
+            throw new PaginationNotAllowedException();
+        }
+        if (page < Constants.VALUE_0 || size <  Constants.VALUE_0) {
+            throw new PaginationNotAllowedException();
+        }
+    }
+
+    private void validateData(List<ArticleResponse> articleResponseList){
+        if (articleResponseList.isEmpty()) {
+            throw new NoDataFoundException();
+        }
     }
 }

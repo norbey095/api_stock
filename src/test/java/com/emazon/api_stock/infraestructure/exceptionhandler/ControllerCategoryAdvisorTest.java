@@ -6,7 +6,7 @@ import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescription
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
 import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +31,39 @@ class ControllerCategoryAdvisorTest {
         Mockito.doThrow(new CategoryAlreadyExistsException()).when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_CATEGORY)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.CATEGORY_EXISTS.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.CATEGORY_EXISTS));
     }
 
     @Test
     void whenInvalidCategoryNameException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryNameException(ConstantsTest.INVALID_NAME.getMessage()))
+        Mockito.doThrow(new InvalidCategoryNameException(ConstantsInfraestructure.INVALID_NAME))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_CATEGORY)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_NAME.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.INVALID_NAME));
     }
 
     @Test
     void whenInvalidCategoryDescriptionException_thenReturnsBadRequest() throws Exception {
-        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsTest.INVALID_DESCRIPTION.getMessage()))
+        Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsInfraestructure.INVALID_DESCRIPTION))
                 .when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryRequestDto.class));
 
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_CATEGORY.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_CATEGORY)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ConstantsTest.JSON_REQUEST.getMessage()))
+                        .content(ConstantsInfraestructure.JSON_REQUEST))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message")
-                        .value(ConstantsTest.INVALID_DESCRIPTION.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.INVALID_DESCRIPTION));
     }
 }

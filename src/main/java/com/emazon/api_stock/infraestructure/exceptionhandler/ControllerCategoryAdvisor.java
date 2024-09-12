@@ -3,6 +3,7 @@ package com.emazon.api_stock.infraestructure.exceptionhandler;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +16,7 @@ public class ControllerCategoryAdvisor {
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponse(
-                ExceptionResponseConstants.CATEGORY_ALREADY_EXISTS.getMessage(),
+                InfraestructureConstants.CATEGORY_ALREADY_EXISTS,
                 HttpStatus.CONFLICT.toString()));
     }
 

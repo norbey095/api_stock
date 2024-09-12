@@ -3,7 +3,7 @@ package com.emazon.api_stock.infraestructure.input.rest;
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.IBrandHandler;
-import com.emazon.api_stock.infraestructure.util.ConstantsTest;
+import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,42 +38,44 @@ class BrandRestControllerTest {
     @BeforeEach
     void setUp() {
         brandDto = new BrandRequestDto();
-        brandDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandDto.setName(ConstantsInfraestructure.FIELD_NAME);
+        brandDto.setDescription(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION);
 
         brandResponseDtoDto = new BrandResponseDto();
-        brandResponseDtoDto.setName(ConstantsTest.FIELD_NAME.getMessage());
-        brandResponseDtoDto.setDescription(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage());
+        brandResponseDtoDto.setName(ConstantsInfraestructure.FIELD_NAME);
+        brandResponseDtoDto.setDescription(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION);
     }
 
     @Test
     void createBrand_ShouldReturnStatusCreated() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsTest.URL_CREATE_BRAND.getMessage())
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_BRAND)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(brandDto)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
-        Mockito.verify(brandHandler, Mockito.times(1)).saveBrand(brandDto);
+        Mockito.verify(brandHandler, Mockito.times(ConstantsInfraestructure.VALUE_1)).saveBrand(brandDto);
     }
 
     @Test
     void getAllBrand_ShouldReturnBrandDto() throws Exception {
         List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
         brandResponseDtoList.add(brandResponseDtoDto);
-        Mockito.when(brandHandler.getAllBrands(1, 1,false)).thenReturn(brandResponseDtoList);
+        Mockito.when(brandHandler.getAllBrands(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.VALUE_1
+                ,ConstantsInfraestructure.VALUE_FALSE)).thenReturn(brandResponseDtoList);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsTest.URL_GET_BRAND.getMessage())
-                        .param("page", "1")
-                        .param("size", "1")
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_BRAND)
+                        .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
+                        .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name")
-                        .value(ConstantsTest.FIELD_NAME.getMessage()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description")
-                        .value(ConstantsTest.FIELD_BRAND_DESCRIPTION.getMessage()));
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_NAME)
+                        .value(ConstantsInfraestructure.FIELD_NAME))
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_DESCRIPTION)
+                        .value(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION));
 
-        Mockito.verify(brandHandler, Mockito.times(1))
-                .getAllBrands(1,1,false);
+        Mockito.verify(brandHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .getAllBrands(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1
+                        ,ConstantsInfraestructure.VALUE_FALSE);
     }
 }
