@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class CategoryRestController {
             @ApiResponse(responseCode = "409", description = "Category already exists", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createCategory(@RequestBody CategoryRequestDto categoryRequestDto){
         ResponseSuccess responseSuccess = categoryHandler.saveCategory(categoryRequestDto);

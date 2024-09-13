@@ -19,7 +19,12 @@ public class InfraestructureConstants {
     public static final String ARTICLE_NAME = "a.name";
     public static final String CATEGORIES = "categories";
     public static final String ID_BRAND = "idbrand";
-
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    public static final Integer VALUE_7 = 7;
+    public static final String AUTHORITIES = "authorities";
+    public static final String JWT_SECRET = "${jwt.secret}";
+    public static final String COMA = "";
 
     private InfraestructureConstants() {
     }

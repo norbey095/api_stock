@@ -6,19 +6,21 @@ import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsExcepti
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
 import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
 import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
-import com.emazon.api_stock.infraestructure.input.rest.ArticleRestController;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = {ArticleRestController.class, ControllerArticleAdvisor.class})
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 class ControllerArticleAdvisorTest {
 
     @Autowired
@@ -28,6 +30,7 @@ class ControllerArticleAdvisorTest {
     private IArticleHandler articleHandler;
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenArticleAlreadyExistsException_thenReturnsConflict() throws Exception {
         Mockito.doThrow(new ArticleAlreadyExistsException()).when(articleHandler)
                 .saveArticle(Mockito.any(ArticleRequestDto.class));
@@ -41,6 +44,7 @@ class ControllerArticleAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenInvalidArticleCategoryException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidArticleCategoryException(ConstantsInfraestructure.FIELD_CATEGORIES_NULL))
                 .when(articleHandler)
@@ -55,6 +59,7 @@ class ControllerArticleAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenInvalidArticleCategoryNumberException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidArticleCategoryNumberException(
                 ConstantsInfraestructure.FIELD_CATEGORIES_INVALID_NUMBER))
@@ -70,6 +75,7 @@ class ControllerArticleAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenRepeatedCategoryException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new RepeatedCategoryException(
                         ConstantsInfraestructure.REPEATED_CATEGORIES))
