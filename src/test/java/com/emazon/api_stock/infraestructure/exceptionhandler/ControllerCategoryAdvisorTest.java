@@ -5,19 +5,21 @@ import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
-import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = {CategoryRestController.class, ControllerCategoryAdvisor.class})
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 class ControllerCategoryAdvisorTest {
 
     @Autowired
@@ -27,6 +29,7 @@ class ControllerCategoryAdvisorTest {
     private ICategoryHandler categoryHandler;
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenCategoryAlreadyExistsException_thenReturnsConflict() throws Exception {
         Mockito.doThrow(new CategoryAlreadyExistsException()).when(categoryHandler)
                 .saveCategory(Mockito.any(CategoryRequestDto.class));
@@ -40,6 +43,7 @@ class ControllerCategoryAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenInvalidCategoryNameException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidCategoryNameException(ConstantsInfraestructure.INVALID_NAME))
                 .when(categoryHandler)
@@ -54,6 +58,7 @@ class ControllerCategoryAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenInvalidCategoryDescriptionException_thenReturnsBadRequest() throws Exception {
         Mockito.doThrow(new InvalidCategoryDescriptionException(ConstantsInfraestructure.INVALID_DESCRIPTION))
                 .when(categoryHandler)

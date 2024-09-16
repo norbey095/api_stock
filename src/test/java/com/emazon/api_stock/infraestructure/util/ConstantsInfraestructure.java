@@ -47,6 +47,8 @@ public class ConstantsInfraestructure {
     public static final String ARTICLE_NAME = "a.name";
     public static final String NAME = "name";
     public static final double PRICE = 20000;
+    public static final String USER_NAME = "testuser";
+    public static final String ADMIN = "ADMIN";
 
 
     private ConstantsInfraestructure() {

@@ -9,9 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -19,7 +22,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebMvcTest(BrandRestController.class)
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 class BrandRestControllerTest {
 
     @Autowired
@@ -47,6 +51,7 @@ class BrandRestControllerTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void createBrand_ShouldReturnStatusCreated() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_BRAND)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,6 +62,7 @@ class BrandRestControllerTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void getAllBrand_ShouldReturnBrandDto() throws Exception {
         List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
         brandResponseDtoList.add(brandResponseDtoDto);

@@ -19,7 +19,17 @@ public class InfraestructureConstants {
     public static final String ARTICLE_NAME = "a.name";
     public static final String CATEGORIES = "categories";
     public static final String ID_BRAND = "idbrand";
-
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    public static final Integer VALUE_7 = 7;
+    public static final String AUTHORITIES = "authorities";
+    public static final String JWT_SECRET = "${jwt.secret}";
+    public static final String COMA = "";
+    public static final String ADMIN = "ADMIN";
+    public static final String INVALID_HEADER = "InvalidHeader";
+    public static final String FILTER_INTERNAL = "doFilterInternal";
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String TOKEN_INVALID = "Invalid token: signature does not match.";
 
     private InfraestructureConstants() {
     }

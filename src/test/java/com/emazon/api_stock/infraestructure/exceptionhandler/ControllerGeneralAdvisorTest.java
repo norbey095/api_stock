@@ -3,19 +3,21 @@ package com.emazon.api_stock.infraestructure.exceptionhandler;
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
-import com.emazon.api_stock.infraestructure.input.rest.CategoryRestController;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@WebMvcTest(controllers = {CategoryRestController.class, ControllerCategoryAdvisor.class})
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 class ControllerGeneralAdvisorTest {
 
     @Autowired
@@ -25,6 +27,7 @@ class ControllerGeneralAdvisorTest {
     private ICategoryHandler categoryHandler;
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenNoDataFoundException_thenReturnsNotFound() throws Exception {
         Mockito.doThrow(new NoDataFoundException())
                 .when(categoryHandler)
@@ -41,6 +44,7 @@ class ControllerGeneralAdvisorTest {
     }
 
     @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void whenNegativeNotAllowedException_thenReturnsbadRequest() throws Exception {
         Mockito.doThrow(new PaginationNotAllowedException())
                 .when(categoryHandler)
