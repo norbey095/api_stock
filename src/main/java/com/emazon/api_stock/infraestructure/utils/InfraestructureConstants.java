@@ -25,6 +25,14 @@ public class InfraestructureConstants {
     public static final String AUTHORITIES = "authorities";
     public static final String JWT_SECRET = "${jwt.secret}";
     public static final String COMA = "";
+    public static final String ADMIN = "ADMIN";
+    public static final String INVALID_HEADER = "InvalidHeader";
+    public static final String FILTER_INTERNAL = "doFilterInternal";
+    public static final String EMAIL_EJEM = "test@example.com";
+    public static final String NAME_INVALID = "The extracted username is not the expected one.";
+    public static final Integer VALUE_100 = 1000;
+    public static final Integer VALUE_60 = 60;
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     private InfraestructureConstants() {
     }
