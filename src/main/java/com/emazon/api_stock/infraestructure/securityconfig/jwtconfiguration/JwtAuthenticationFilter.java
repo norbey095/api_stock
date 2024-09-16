@@ -1,12 +1,16 @@
 package com.emazon.api_stock.infraestructure.securityconfig.jwtconfiguration;
 
+import com.emazon.api_stock.infraestructure.exceptionhandler.ExceptionResponse;
 import com.emazon.api_stock.infraestructure.securityconfig.UserDetailService;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,19 +31,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        String authHeader = request.getHeader(InfraestructureConstants.AUTHORIZATION);
+        try {
+            String authHeader = request.getHeader(InfraestructureConstants.AUTHORIZATION);
 
-        if (authHeader == null || !authHeader.startsWith(InfraestructureConstants.BEARER)) {
-            filterChain.doFilter(request, response);
+            if (authHeader == null || !authHeader.startsWith(InfraestructureConstants.BEARER)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            String jwt = authHeader.substring(InfraestructureConstants.VALUE_7);
+            UserDetails user = userDetailService.loadUserByUsername(jwt);
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, jwt,
+                    user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
+        }  catch (Exception ex) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(InfraestructureConstants.APPLICATION_JSON);
+            response.getWriter().write(new ObjectMapper().writeValueAsString(new ExceptionResponse(
+                    InfraestructureConstants.TOKEN_INVALID,
+                    HttpStatus.UNAUTHORIZED.toString()
+            )));
             return;
         }
-
-        String jwt = authHeader.substring(InfraestructureConstants.VALUE_7);
-        UserDetails user = userDetailService.loadUserByUsername(jwt);
-
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, jwt,
-                user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
     }
 }
