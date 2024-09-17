@@ -2,6 +2,7 @@ package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.Constants;
 import com.emazon.api_stock.domain.model.ArticleResponse;
@@ -17,6 +18,10 @@ public interface ArticleMapper {
 
     @Mapping(target = Constants.ID, ignore = true)
     ArticleSave articleDtoToArticle(ArticleRequestDto articleRequestDto);
+
+    @Mapping(source = "articleUpdateRequestDto.id", target = "id")
+    @Mapping(source = "articleUpdateRequestDto.quantity", target = "quantity")
+    ArticleSave articleUpdateDtoToArticlesave(ArticleUpdateRequestDto articleUpdateRequestDto);
 
     @Mapping(source = Constants.BRAND, target = Constants.BRAND)
     @Mapping(source = Constants.CATEGORIES, target = Constants.CATEGORIES)

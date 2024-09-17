@@ -3,10 +3,7 @@ package com.emazon.api_stock.domain.usecase;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
-import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
-import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
+import com.emazon.api_stock.domain.exception.article.*;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.ArticleXCategory;
@@ -44,6 +41,13 @@ public class ArticleUseCase implements IArticleServicePort {
                 , descending, filterBy);
         validateData(articleResponseList);
         return articleResponseList;
+    }
+
+    @Override
+    public void updateArticle(ArticleSave articleRequest){
+        ArticleSave articleUpdate = validatedIdPresent(articleRequest.getId());
+        updatedQuantity(articleRequest,articleUpdate);
+        this.articlePersistencePort.updateArticle(articleUpdate);
     }
 
     private void validatedNamePresent(String name){
@@ -90,5 +94,18 @@ public class ArticleUseCase implements IArticleServicePort {
         if (articleResponseList.isEmpty()) {
             throw new NoDataFoundException();
         }
+    }
+
+    private ArticleSave validatedIdPresent(Integer id){
+        ArticleSave articleSave = this.articlePersistencePort.getArticleById(id);
+        if(articleSave == null) {
+            throw new TheArticleDoesNotExistException();
+        }
+        return articleSave;
+    }
+
+    private void updatedQuantity(ArticleSave articleRequest,ArticleSave articleUpdate){
+        Integer updatedQuantity = articleRequest.getQuantity() + articleUpdate.getQuantity();
+        articleUpdate.setQuantity(updatedQuantity);
     }
 }

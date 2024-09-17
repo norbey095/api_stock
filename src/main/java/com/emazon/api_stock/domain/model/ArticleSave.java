@@ -35,6 +35,10 @@ public class ArticleSave {
         return description;
     }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }

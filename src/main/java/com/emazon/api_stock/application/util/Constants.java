@@ -17,6 +17,9 @@ public class Constants {
     public static final String BRAND = "brand";
     public static final String CATEGORIES = "categories";
     public static final String ID = "id";
+    public static final String ID_NOT_NULL = "The id cannot be null";
+    public static final String UPDATE_SUCCESS = "The amount was updated correctly";
+    public static final int VALUE_0 = 0;
 
     private Constants() {
 

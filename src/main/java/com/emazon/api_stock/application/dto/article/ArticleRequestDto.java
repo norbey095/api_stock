@@ -16,10 +16,10 @@ public class ArticleRequestDto {
     @NotBlank(message = Constants.DESCRIPTION_REQUIRED)
     private String description;
     @NotNull(message = Constants.QUANTITY_NOT_NULL)
-    @Min(value = 0, message = Constants.QUANTITY_NOT_NEGATIVE)
+    @Min(value = Constants.VALUE_0, message = Constants.QUANTITY_NOT_NEGATIVE)
     private Integer quantity;
     @NotNull(message = Constants.PRICE_NOT_NULL)
-    @Min(value = 0, message = Constants.PRICE_NOT_NEGATIVE)
+    @Min(value = Constants.VALUE_0, message = Constants.PRICE_NOT_NEGATIVE)
     private double price;
     @NotNull(message = Constants.BRAND_REQUIRED)
     private Integer idbrand;

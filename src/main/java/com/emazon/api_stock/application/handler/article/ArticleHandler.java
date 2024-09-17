@@ -3,6 +3,7 @@ package com.emazon.api_stock.application.handler.article;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
 import com.emazon.api_stock.application.util.Constants;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
@@ -32,5 +33,12 @@ public class ArticleHandler implements IArticleHandler {
     @Override
     public List<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
         return articleMapper.toArticleDtoList(articleServicePort.getAllArticles(page,size,descending,filterBy));
+    }
+
+    @Override
+    public ResponseSuccess updateArticle(ArticleUpdateRequestDto articleUpdateRequestDto) {
+        ArticleSave article = articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto);
+        articleServicePort.updateArticle(article);
+        return new ResponseSuccess(Constants.UPDATE_SUCCESS);
     }
 }

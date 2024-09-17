@@ -3,6 +3,7 @@ package com.emazon.api_stock.infraestructure.input.rest;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,5 +61,20 @@ public class ArticleRestController {
             , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending
             , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_ARTICLE) String filterBy) {
         return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));
+    }
+
+    @Operation(summary = "Add a new article",
+            description = "Save an article, each article must have its respective brand, a minimum of one " +
+                    "associated category and a maximum of 3 categories.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "article created", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
+    })
+    @PreAuthorize("hasRole('ROLE_AUX_WAREHOUSE')")
+    @PostMapping("/update")
+    public ResponseEntity<ResponseSuccess> updateArticle(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
+        ResponseSuccess responseSuccess = articleHandler.updateArticle(articleUpdateRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(responseSuccess);
     }
 }

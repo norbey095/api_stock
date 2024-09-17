@@ -30,6 +30,7 @@ public class InfraestructureConstants {
     public static final String FILTER_INTERNAL = "doFilterInternal";
     public static final String APPLICATION_JSON = "application/json";
     public static final String TOKEN_INVALID = "Invalid token: signature does not match.";
+    public static final String ARTICLE_NOT_FOUND = "The article does not exist.";
 
     private InfraestructureConstants() {
     }

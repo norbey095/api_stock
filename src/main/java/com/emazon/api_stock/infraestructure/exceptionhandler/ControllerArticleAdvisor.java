@@ -1,9 +1,6 @@
 package com.emazon.api_stock.infraestructure.exceptionhandler;
 
-import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
-import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
+import com.emazon.api_stock.domain.exception.article.*;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +39,13 @@ public class ControllerArticleAdvisor {
         return ResponseEntity.badRequest().body(new ExceptionResponse(
                 exception.getMessage(),
                 HttpStatus.BAD_REQUEST.toString()));
+    }
+
+    @ExceptionHandler(TheArticleDoesNotExistException.class)
+    public ResponseEntity<ExceptionResponse> handleTheArticleDoesNotExistException
+            (TheArticleDoesNotExistException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ExceptionResponse(
+                InfraestructureConstants.ARTICLE_NOT_FOUND,
+                HttpStatus.CONFLICT.toString()));
     }
 }
