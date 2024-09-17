@@ -58,7 +58,7 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         return PageRequest.of(page, size, sort);
     }
 
-    private String getSortField(String filterBy) {
+    String getSortField(String filterBy) {
         return switch (filterBy.toLowerCase()) {
             case InfraestructureConstants.BRAND -> InfraestructureConstants.BRAND_NAME;
             case InfraestructureConstants.CATEGORY -> InfraestructureConstants.CATEGORY_NAME;

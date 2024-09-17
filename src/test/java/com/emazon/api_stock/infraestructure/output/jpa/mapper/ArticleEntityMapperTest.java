@@ -84,4 +84,22 @@ class ArticleEntityMapperTest {
 
         Assertions.assertNull(articleResponses);
     }
+
+    @Test
+    void testArticleEntityToArticleSave() {
+        ArticleEntity articleEntity;
+        articleEntity = new ArticleEntity(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.PRICE,ConstantsInfraestructure.VALUE_1
+                , null
+                , null);
+
+        ArticleSave articleSave = articleEntityMapper.articleEntityToArticleSave(articleEntity);
+
+        Assertions.assertNotNull(articleSave);
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, articleSave.getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, articleSave.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleSave.getQuantity());
+        Assertions.assertEquals(ConstantsInfraestructure.PRICE,articleSave.getPrice());
+    }
 }

@@ -1,6 +1,6 @@
 package com.emazon.api_stock.infraestructure.utils;
 
-import lombok.Getter;;
+import lombok.Getter;
 
 @Getter
 public class InfraestructureConstants {

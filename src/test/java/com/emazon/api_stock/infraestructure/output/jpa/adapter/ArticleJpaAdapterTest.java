@@ -8,6 +8,7 @@ import com.emazon.api_stock.infraestructure.output.jpa.entity.ArticleEntity;
 import com.emazon.api_stock.infraestructure.output.jpa.mapper.ArticleEntityMapper;
 import com.emazon.api_stock.infraestructure.output.jpa.repository.IArticleRepository;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
+import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -101,6 +102,19 @@ class ArticleJpaAdapterTest {
         assertTrue(result);
     }
 
+    @Test
+    void testGetArticleByIdSuccess() {
+        ArticleEntity articleEntity = new ArticleEntity();
+        Mockito.when(articleRepository.findById(ConstantsInfraestructure.VALUE_1))
+                .thenReturn(Optional.of(articleEntity));
+
+        ArticleSave result = articleJpaAdapter.getArticleById(ConstantsInfraestructure.VALUE_1);
+
+        Mockito.verify(articleJpaAdapter, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .getArticleById(ConstantsInfraestructure.VALUE_1);
+        assertNull(result);
+    }
+
     private ArticleEntity createArticleEntity(){
         ArticleEntity articleEntity = new ArticleEntity();
 
@@ -121,5 +135,40 @@ class ArticleJpaAdapterTest {
         return new ArticleResponse(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
                 , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,ConstantsInfraestructure.VALUE_2
                 , ConstantsInfraestructure.PRICE, brand,categoryList);
+    }
+
+    @Test
+    void testUpdateArticle() {
+        ArticleSave article = new ArticleSave(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_ARTICLE_DESCRIPTION
+                , ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.PRICE, ConstantsInfraestructure.VALUE_1
+                , Collections.singletonList(ConstantsInfraestructure.VALUE_1));
+        ArticleEntity articleEntity = new ArticleEntity();
+
+        Mockito.when(articleEntityMapper.articleToArticleEntity(article)).thenReturn(articleEntity);
+
+        articleJpaAdapter.updateArticle(article);
+
+        Mockito.verify(articleEntityMapper).articleToArticleEntity(article);
+
+        Mockito.verify(articleRepository).save(articleEntity);
+    }
+
+    @Test
+    void testGetSortFieldBrand() {
+        String result = articleJpaAdapter.getSortField(InfraestructureConstants.BRAND);
+        assertEquals(InfraestructureConstants.BRAND_NAME, result);
+    }
+
+    @Test
+    void testGetSortFieldCategory() {
+        String result = articleJpaAdapter.getSortField(InfraestructureConstants.CATEGORY);
+        assertEquals(InfraestructureConstants.CATEGORY_NAME, result);
+    }
+
+    @Test
+    void testGetSortFieldDefault() {
+        String result = articleJpaAdapter.getSortField("someOtherValue");
+        assertEquals(InfraestructureConstants.ARTICLE_NAME, result);
     }
 }

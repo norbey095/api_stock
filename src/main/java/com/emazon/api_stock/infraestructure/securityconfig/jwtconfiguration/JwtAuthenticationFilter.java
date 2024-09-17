@@ -4,7 +4,6 @@ import com.emazon.api_stock.infraestructure.exceptionhandler.ExceptionResponse;
 import com.emazon.api_stock.infraestructure.securityconfig.UserDetailService;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

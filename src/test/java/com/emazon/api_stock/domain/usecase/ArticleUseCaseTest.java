@@ -2,10 +2,7 @@ package com.emazon.api_stock.domain.usecase;
 
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
-import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
-import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
+import com.emazon.api_stock.domain.exception.article.*;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.Brand;
@@ -27,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 class ArticleUseCaseTest {
 
@@ -229,5 +227,44 @@ class ArticleUseCaseTest {
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE
                         , ConstantsDomain.ARTICLE);
+    }
+
+
+    @Test
+    void shouldThrowsUpdateSuccessfully() {
+        ArticleSave articleDataBase  = new ArticleSave(ConstantsDomain.VALUE_1,ConstantsDomain.FIELD_NAME
+        ,ConstantsDomain.FIELD_ARTICLE_DESCRIPTION,ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1
+        ,ConstantsDomain.VALUE_1, new ArrayList<>());
+
+        ArticleSave articleRequest = new ArticleSave(ConstantsDomain.VALUE_1,null
+                ,null,ConstantsDomain.VALUE_4, 0.0
+                ,null, new ArrayList<>());
+
+        when(articlePersistencePort.getArticleById(ConstantsDomain.VALUE_1)).thenReturn(articleDataBase);
+
+        articleUseCase.updateArticle(articleRequest);
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getArticleById(ConstantsDomain.VALUE_1);
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .updateArticle(articleDataBase);
+    }
+
+    @Test
+    void shouldThrowsTheArticleDoesNotExistException() {
+        ArticleSave articleRequest = new ArticleSave(ConstantsDomain.VALUE_1,null
+                ,null,ConstantsDomain.VALUE_4, 0.0
+                ,null, new ArrayList<>());
+
+        when(articlePersistencePort.getArticleById(ConstantsDomain.VALUE_1)).thenReturn(null);
+
+        assertThrows(TheArticleDoesNotExistException.class, () -> {
+            articleUseCase.updateArticle(articleRequest);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getArticleById(ConstantsDomain.VALUE_1);
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
+                .updateArticle(Mockito.any(ArticleSave.class));
     }
 }
