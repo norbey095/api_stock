@@ -2,10 +2,7 @@ package com.emazon.api_stock.infraestructure.exceptionhandler;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
-import com.emazon.api_stock.domain.exception.article.ArticleAlreadyExistsException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryException;
-import com.emazon.api_stock.domain.exception.article.InvalidArticleCategoryNumberException;
-import com.emazon.api_stock.domain.exception.article.RepeatedCategoryException;
+import com.emazon.api_stock.domain.exception.article.*;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -88,5 +85,19 @@ class ControllerArticleAdvisorTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
                         .value(ConstantsInfraestructure.REPEATED_CATEGORIES));
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
+    void whenTheArticleDoesNotExistException_thenReturnsConflict() throws Exception {
+        Mockito.doThrow(new TheArticleDoesNotExistException()).when(articleHandler)
+                .saveArticle(Mockito.any(ArticleRequestDto.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_CREATE_ARTICLE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ConstantsInfraestructure.JSON_ARTICLE_REQUEST))
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.ARTICLE_DOES_EXISTS));
     }
 }

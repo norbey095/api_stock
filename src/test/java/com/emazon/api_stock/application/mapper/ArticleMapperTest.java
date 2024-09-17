@@ -2,6 +2,7 @@ package com.emazon.api_stock.application.mapper;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
@@ -74,5 +75,18 @@ class ArticleMapperTest {
         List<ArticleResponseDto> articleResponseDtos = articleMapper.toArticleDtoList(null);
 
         Assertions.assertNull(articleResponseDtos);
+    }
+
+    @Test
+    void testArticleUpdateDtoToArticleSave() {
+        ArticleUpdateRequestDto articleUpdateRequestDto = new ArticleUpdateRequestDto();
+        articleUpdateRequestDto.setId(ConstantsApplication.VALOR_1);
+        articleUpdateRequestDto.setQuantity(ConstantsApplication.VALOR_1);
+
+        ArticleSave article = articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto);
+
+        Assertions.assertNotNull(article);
+        Assertions.assertEquals(ConstantsApplication.VALOR_1, article.getId());
+        Assertions.assertEquals(ConstantsApplication.VALOR_1, article.getQuantity());
     }
 }

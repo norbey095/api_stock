@@ -49,6 +49,7 @@ public class ConstantsInfraestructure {
     public static final double PRICE = 20000;
     public static final String USER_NAME = "testuser";
     public static final String ADMIN = "ADMIN";
+    public static final String ARTICLE_DOES_EXISTS="The article does not exist.";
 
 
     private ConstantsInfraestructure() {

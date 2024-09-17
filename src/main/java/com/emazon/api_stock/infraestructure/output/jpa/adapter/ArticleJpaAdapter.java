@@ -1,5 +1,6 @@
 package com.emazon.api_stock.infraestructure.output.jpa.adapter;
 
+import com.emazon.api_stock.domain.exception.article.TheArticleDoesNotExistException;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,13 +40,25 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         return articleRepository.findByName(name).isPresent();
     }
 
+    @Transactional
+    @Override
+    public void updateArticle(ArticleSave articleSave) {
+        articleRepository.save(articleEntityMapper.articleToArticleEntity(articleSave));
+    }
+
+    @Override
+    public ArticleSave getArticleById(Integer id) {
+        ArticleEntity articleEntity = articleRepository.findById(id).orElseThrow(TheArticleDoesNotExistException::new);
+        return articleEntityMapper.articleEntityToArticleSave(articleEntity);
+    }
+
     private Pageable createPageable(Integer page, Integer size, boolean descending,String filterBy) {
         Sort.Direction direction = descending ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(direction, getSortField(filterBy));
         return PageRequest.of(page, size, sort);
     }
 
-    private String getSortField(String filterBy) {
+    String getSortField(String filterBy) {
         return switch (filterBy.toLowerCase()) {
             case InfraestructureConstants.BRAND -> InfraestructureConstants.BRAND_NAME;
             case InfraestructureConstants.CATEGORY -> InfraestructureConstants.CATEGORY_NAME;
