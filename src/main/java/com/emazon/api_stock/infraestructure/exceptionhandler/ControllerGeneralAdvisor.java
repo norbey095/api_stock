@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 @ControllerAdvice
 public class ControllerGeneralAdvisor {
 
@@ -43,4 +45,12 @@ public class ControllerGeneralAdvisor {
                 InfraestructureConstants.NEGATIVE_NOT_ALLOWED
                 , HttpStatus.BAD_REQUEST.toString()));
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ExceptionResponse> handleAccessDeniedException (AccessDeniedException  exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionResponse(
+                InfraestructureConstants.ACCESS_DENE,
+                HttpStatus.FORBIDDEN.toString()));
+    }
+
 }

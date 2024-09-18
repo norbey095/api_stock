@@ -31,6 +31,7 @@ public class InfraestructureConstants {
     public static final String APPLICATION_JSON = "application/json";
     public static final String TOKEN_INVALID = "Invalid token: signature does not match.";
     public static final String ARTICLE_NOT_FOUND = "The article does not exist.";
+    public static final String ACCESS_DENE = "Access denied";
 
     private InfraestructureConstants() {
     }
