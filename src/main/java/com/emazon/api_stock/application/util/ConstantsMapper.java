@@ -3,7 +3,7 @@ package com.emazon.api_stock.application.util;
 import lombok.Getter;
 
 @Getter
-public class Constants {
+public class ConstantsMapper {
     public static final String NAME_REQUIRED = "The parameter 'name' cannot be empty";
     public static final String DESCRIPTION_REQUIRED = "The parameter 'description' cannot be empty";
     public static final String QUANTITY_NOT_NULL = "The quantity cannot be null";
@@ -21,7 +21,7 @@ public class Constants {
     public static final String UPDATE_SUCCESS = "The amount was updated correctly";
     public static final int VALUE_0 = 0;
 
-    private Constants() {
+    private ConstantsMapper() {
 
     }
 }

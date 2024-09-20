@@ -13,4 +13,6 @@ public interface IArticleServicePort {
 
       void updateArticle(ArticleSave articleSave);
 
+      boolean getArticlesById(Integer articleId);
+
 }

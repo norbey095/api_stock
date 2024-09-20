@@ -50,6 +50,12 @@ public class ArticleUseCase implements IArticleServicePort {
         this.articlePersistencePort.updateArticle(articleDataBase);
     }
 
+    @Override
+    public boolean getArticlesById(Integer id) {
+        ArticleSave articleSave = this.articlePersistencePort.getArticleById(id);
+        return articleSave != null;
+    }
+
     private void validatedNamePresent(String name){
         if(this.articlePersistencePort.getArticleByName(name)) {
             throw new ArticleAlreadyExistsException();

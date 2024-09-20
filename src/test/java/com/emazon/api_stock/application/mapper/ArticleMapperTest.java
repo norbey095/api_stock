@@ -80,7 +80,7 @@ class ArticleMapperTest {
     @Test
     void testArticleUpdateDtoToArticleSave() {
         ArticleUpdateRequestDto articleUpdateRequestDto = new ArticleUpdateRequestDto();
-        articleUpdateRequestDto.setId(ConstantsApplication.VALOR_1);
+        articleUpdateRequestDto.setArticleId(ConstantsApplication.VALOR_1);
         articleUpdateRequestDto.setQuantity(ConstantsApplication.VALOR_1);
 
         ArticleSave article = articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto);
