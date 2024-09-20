@@ -15,4 +15,6 @@ public interface IArticleHandler {
 
     ResponseSuccess updateArticle(ArticleUpdateRequestDto articleUpdateRequestDto);
 
+    boolean getArticlesById(Integer articleId);
+
 }
