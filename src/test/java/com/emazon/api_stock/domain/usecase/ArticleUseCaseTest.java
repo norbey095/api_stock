@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class ArticleUseCaseTest {
@@ -266,5 +266,29 @@ class ArticleUseCaseTest {
                 .getArticleById(ConstantsDomain.VALUE_1);
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
                 .updateArticle(Mockito.any(ArticleSave.class));
+    }
+
+    @Test
+    void getArticlesById_ShouldReturnTrue_WhenArticleExists() {
+        Integer articleId = ConstantsDomain.VALUE_1;
+        ArticleSave articleSave = new ArticleSave(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_ARTICLE_DESCRIPTION
+                , ConstantsDomain.VALUE_1, ConstantsDomain.PRICE, ConstantsDomain.VALUE_1,
+                Collections.singletonList(ConstantsDomain.VALUE_1));
+
+        when(articlePersistencePort.getArticleById(articleId)).thenReturn(articleSave);
+
+        boolean result = articleUseCase.getArticlesById(articleId);
+        assertTrue(result);
+    }
+
+    @Test
+    void getArticlesById_ShouldReturnFalse_WhenArticleDoesNotExist() {
+        Integer articleId =ConstantsDomain.VALUE_1;
+
+        when(articlePersistencePort.getArticleById(articleId)).thenReturn(null);
+
+        boolean result = articleUseCase.getArticlesById(articleId);
+        assertFalse(result);
     }
 }

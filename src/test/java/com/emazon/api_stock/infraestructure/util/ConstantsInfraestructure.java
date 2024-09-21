@@ -41,6 +41,7 @@ public class ConstantsInfraestructure {
     public static final Integer VALUE_1 = 1;
     public static final Integer VALUE_2 = 2;
     public static final Integer VALUE_3 = 3;
+    public static final String TRUE = "true";
     public static final boolean VALUE_FALSE = false;
     public static final String ARTICLE = "article";
     public static final String COMILLAS = "";
@@ -49,7 +50,11 @@ public class ConstantsInfraestructure {
     public static final double PRICE = 20000;
     public static final String USER_NAME = "testuser";
     public static final String ADMIN = "ADMIN";
+    public static final String AUX_WAREHOUSE = "AUX_WAREHOUSE";
     public static final String ARTICLE_DOES_EXISTS="The article does not exist.";
+    public static final String ACCESS_DENE = "Access denied";
+    public static final String URL_UPDATE_ARTICLE = "/stock/article/update";
+    public static final String URL_GET_A_ARTICLE = "/stock/article/{articleId}";
 
 
     private ConstantsInfraestructure() {

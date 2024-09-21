@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -58,5 +59,22 @@ class ControllerGeneralAdvisorTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
                         .value(ConstantsInfraestructure.NEGATIVE_NOT_ALLOWED));
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.USER_NAME})
+    void whenAccessDeniedException_thenReturnsfORBIDDEN() throws Exception {
+        Mockito.doThrow(new AccessDeniedException(ConstantsInfraestructure.COMILLAS))
+                .when(categoryHandler)
+                .getAllCategories(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1
+                        ,ConstantsInfraestructure.VALUE_FALSE);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_CATEGORY)
+                        .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
+                        .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS)
+                        .value(ConstantsInfraestructure.ACCESS_DENE));
     }
 }
