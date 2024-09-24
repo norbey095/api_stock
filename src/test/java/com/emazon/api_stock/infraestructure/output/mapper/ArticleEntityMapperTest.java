@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class ArticleEntityMapperTest {
@@ -20,20 +19,17 @@ class ArticleEntityMapperTest {
 
     @Test
     void testArticleToArticleEntity() {
-        ArticleSave article = new ArticleSave(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
-                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, ConstantsInfraestructure.VALUE_1
-                , ConstantsInfraestructure.PRICE,ConstantsInfraestructure.VALUE_1
-                , Collections.singletonList(ConstantsInfraestructure.VALUE_1));
+        ArticleResponse article =  new ArticleResponse(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,ConstantsInfraestructure.VALUE_2
+                , ConstantsInfraestructure.PRICE, null,null);
 
         ArticleEntity articleEntity = articleEntityMapper.articleToArticleEntity(article);
 
         Assertions.assertNotNull(articleEntity);
         Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, articleEntity.getName());
-        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, articleEntity.getDescription());
-        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleEntity.getQuantity());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION, articleEntity.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.VALUE_2,articleEntity.getQuantity());
         Assertions.assertEquals(ConstantsInfraestructure.PRICE,articleEntity.getPrice());
-        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleEntity.getIdbrand());
-        Assertions.assertEquals(Collections.singletonList(ConstantsInfraestructure.VALUE_1), article.getCategories());
     }
 
     @Test
@@ -64,7 +60,7 @@ class ArticleEntityMapperTest {
         articleList.add(articleEntity);
 
 
-        List<ArticleResponse> articleResponses = articleEntityMapper.articleEntityToArticleResponse(articleList);
+        List<ArticleResponse> articleResponses = articleEntityMapper.articleEntityToArticleResponseList(articleList);
 
 
         Assertions.assertNotNull(articleResponses);
@@ -80,7 +76,7 @@ class ArticleEntityMapperTest {
 
     @Test
     void testBrandEntityToBrand_NullInput() {
-        List<ArticleResponse> articleResponses = articleEntityMapper.articleEntityToArticleResponse(null);
+        List<ArticleResponse> articleResponses = articleEntityMapper.articleEntityToArticleResponseList(null);
 
         Assertions.assertNull(articleResponses);
     }

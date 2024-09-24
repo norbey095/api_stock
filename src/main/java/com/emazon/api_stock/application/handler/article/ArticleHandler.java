@@ -37,14 +37,14 @@ public class ArticleHandler implements IArticleHandler {
     }
 
     @Override
-    public ResponseSuccess updateArticle(ArticleUpdateRequestDto articleUpdateRequestDto) {
+    public ResponseSuccess updateQuantity(ArticleUpdateRequestDto articleUpdateRequestDto) {
         ArticleSave article = articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto);
-        articleServicePort.updateArticle(article);
+        articleServicePort.updateQuantity(article);
         return new ResponseSuccess(ConstantsHandler.UPDATE_SUCCESS,HttpStatus.CREATED.toString());
     }
 
     @Override
-    public boolean getArticlesById(Integer articleId) {
-        return articleServicePort.getArticlesById(articleId);
+    public ArticleResponseDto getArticlesById(Integer articleId) {
+        return articleMapper.toArticleDto(articleServicePort.getArticlesById(articleId));
     }
 }

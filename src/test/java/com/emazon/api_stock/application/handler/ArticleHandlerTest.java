@@ -110,13 +110,13 @@ class ArticleHandlerTest {
                 , NUMBER_3, PRICE, NUMBER_1, Collections.singletonList(1));
         when(articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto)).thenReturn(articleSave);
 
-        articleHandler.updateArticle(articleUpdateRequestDto);
+        articleHandler.updateQuantity(articleUpdateRequestDto);
 
 
         Mockito.verify(articleMapper, Mockito.times(NUMBER_1)).
                 articleUpdateDtoToArticlesave(articleUpdateRequestDto);
         Mockito.verify(articleServicePort, Mockito.times(NUMBER_1)).
-                updateArticle(articleSave);
+                updateQuantity(articleSave);
     }
 
     @Test

@@ -71,14 +71,14 @@ public class ArticleRestController {
     })
     @PreAuthorize("hasRole('ROLE_AUX_WAREHOUSE')")
     @PostMapping("/update")
-    public ResponseEntity<ResponseSuccess> updateArticle(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
-        ResponseSuccess responseSuccess = articleHandler.updateArticle(articleUpdateRequestDto);
+    public ResponseEntity<ResponseSuccess> updateQuantity(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
+        ResponseSuccess responseSuccess = articleHandler.updateQuantity(articleUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseSuccess);
     }
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<Boolean> getArticlesById(@PathVariable Integer articleId) {
+    public ResponseEntity<ArticleResponseDto> getArticlesById(@PathVariable Integer articleId) {
         return ResponseEntity.ok(articleHandler.getArticlesById(articleId));
     }
 }

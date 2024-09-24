@@ -24,7 +24,7 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     @Override
     public Integer saveArticle(ArticleSave article) {
-        ArticleEntity articleEntity = articleRepository.save(articleEntityMapper.articleToArticleEntity(article));
+        ArticleEntity articleEntity = articleRepository.save(articleEntityMapper.articleSaveToArticleEntity(article));
         return articleEntity.getId();
     }
 
@@ -32,7 +32,7 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
     public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
         Pageable pagination = createPageable(page, size, descending,filterBy);
         List<ArticleEntity> articleEntities = articleRepository.findAllItemsByBrandName(pagination).getContent();
-        return articleEntityMapper.articleEntityToArticleResponse(articleEntities);
+        return articleEntityMapper.articleEntityToArticleResponseList(articleEntities);
     }
 
     @Override
@@ -42,14 +42,14 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     @Transactional
     @Override
-    public void updateArticle(ArticleSave articleSave) {
-        articleRepository.save(articleEntityMapper.articleToArticleEntity(articleSave));
+    public void updateArticle(ArticleResponse articleResponse) {
+        articleRepository.save(articleEntityMapper.articleToArticleEntity(articleResponse));
     }
 
     @Override
-    public ArticleSave getArticleById(Integer id) {
+    public ArticleResponse getArticleById(Integer id) {
         ArticleEntity articleEntity = articleRepository.findById(id).orElseThrow(TheArticleDoesNotExistException::new);
-        return articleEntityMapper.articleEntityToArticleSave(articleEntity);
+        return articleEntityMapper.articleEntityToArticleResponse(articleEntity);
     }
 
     private Pageable createPageable(Integer page, Integer size, boolean descending,String filterBy) {

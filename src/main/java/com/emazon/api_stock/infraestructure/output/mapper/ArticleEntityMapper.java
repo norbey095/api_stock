@@ -13,12 +13,18 @@ import java.util.List;
 public interface ArticleEntityMapper {
 
     @Mapping(target = InfraestructureConstants.CATEGORIES, ignore = true)
-    ArticleEntity articleToArticleEntity(ArticleSave article);
+    @Mapping(source = "articleResponse.brand.id", target = "idbrand")
+    ArticleEntity articleToArticleEntity(ArticleResponse articleResponse);
+
+    @Mapping(target = InfraestructureConstants.CATEGORIES, ignore = true)
+    ArticleEntity articleSaveToArticleEntity(ArticleSave articleSave);
 
     @Mapping(target = InfraestructureConstants.ID_BRAND, ignore = true)
-    List<ArticleResponse> articleEntityToArticleResponse(List<ArticleEntity> articleEntity);
+    List<ArticleResponse> articleEntityToArticleResponseList(List<ArticleEntity> articleEntity);
 
     @Mapping(target = InfraestructureConstants.CATEGORIES, ignore = true)
     ArticleSave articleEntityToArticleSave(ArticleEntity articleEntity);
+
+    ArticleResponse articleEntityToArticleResponse(ArticleEntity articleEntity);
 
 }

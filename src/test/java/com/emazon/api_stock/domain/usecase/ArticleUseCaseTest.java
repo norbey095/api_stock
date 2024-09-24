@@ -18,10 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -37,9 +34,21 @@ class ArticleUseCaseTest {
     @InjectMocks
     private ArticleUseCase articleUseCase;
 
+    private ArticleResponse articleDataBase;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_DESCRIPTION);
+
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_DESCRIPTION));
+
+        articleDataBase = new ArticleResponse(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_ARTICLES_DESCRIPTION,ConstantsDomain.VALUE_2
+                , ConstantsDomain.PRICE, brand,categoryList);
     }
 
     @Test
@@ -232,17 +241,13 @@ class ArticleUseCaseTest {
 
     @Test
     void shouldThrowsUpdateSuccessfully() {
-        ArticleSave articleDataBase  = new ArticleSave(ConstantsDomain.VALUE_1,ConstantsDomain.FIELD_NAME
-        ,ConstantsDomain.FIELD_ARTICLE_DESCRIPTION,ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1
-        ,ConstantsDomain.VALUE_1, new ArrayList<>());
-
         ArticleSave articleRequest = new ArticleSave(ConstantsDomain.VALUE_1,null
                 ,null,ConstantsDomain.VALUE_4, 0.0
                 ,null, new ArrayList<>());
 
         when(articlePersistencePort.getArticleById(ConstantsDomain.VALUE_1)).thenReturn(articleDataBase);
 
-        articleUseCase.updateArticle(articleRequest);
+        articleUseCase.updateQuantity(articleRequest);
 
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getArticleById(ConstantsDomain.VALUE_1);
@@ -259,27 +264,22 @@ class ArticleUseCaseTest {
         when(articlePersistencePort.getArticleById(ConstantsDomain.VALUE_1)).thenReturn(null);
 
         assertThrows(TheArticleDoesNotExistException.class, () -> {
-            articleUseCase.updateArticle(articleRequest);
+            articleUseCase.updateQuantity(articleRequest);
         });
 
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getArticleById(ConstantsDomain.VALUE_1);
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
-                .updateArticle(Mockito.any(ArticleSave.class));
+                .updateArticle(Mockito.any(ArticleResponse.class));
     }
 
     @Test
     void getArticlesById_ShouldReturnTrue_WhenArticleExists() {
         Integer articleId = ConstantsDomain.VALUE_1;
-        ArticleSave articleSave = new ArticleSave(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
-                , ConstantsDomain.FIELD_ARTICLE_DESCRIPTION
-                , ConstantsDomain.VALUE_1, ConstantsDomain.PRICE, ConstantsDomain.VALUE_1,
-                Collections.singletonList(ConstantsDomain.VALUE_1));
+        when(articlePersistencePort.getArticleById(articleId)).thenReturn(articleDataBase);
 
-        when(articlePersistencePort.getArticleById(articleId)).thenReturn(articleSave);
-
-        boolean result = articleUseCase.getArticlesById(articleId);
-        assertTrue(result);
+        ArticleResponse articleResponse = articleUseCase.getArticlesById(articleId);
+        assertNotNull(articleResponse);
     }
 
     @Test
@@ -288,7 +288,7 @@ class ArticleUseCaseTest {
 
         when(articlePersistencePort.getArticleById(articleId)).thenReturn(null);
 
-        boolean result = articleUseCase.getArticlesById(articleId);
-        assertFalse(result);
+        ArticleResponse result = articleUseCase.getArticlesById(articleId);
+        assertNull(result);
     }
 }

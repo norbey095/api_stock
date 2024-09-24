@@ -52,7 +52,7 @@ class ArticleJpaAdapterTest {
         ArticleEntity articleEntityResponse = new ArticleEntity();
         articleEntityResponse.setId(ConstantsInfraestructure.VALUE_1);
 
-        Mockito.when(articleEntityMapper.articleToArticleEntity(article)).thenReturn(articleEntity);
+        Mockito.when(articleEntityMapper.articleSaveToArticleEntity(article)).thenReturn(articleEntity);
         Mockito.when(articleRepository.save(articleEntity)).thenReturn(articleEntityResponse);
 
         articleJpaAdapter.saveArticle(article);
@@ -75,7 +75,7 @@ class ArticleJpaAdapterTest {
                 ConstantsInfraestructure.ARTICLE_NAME));
 
         Mockito.when(articleRepository.findAllItemsByBrandName(pagination)).thenReturn(new PageImpl<>(articleEntities));
-        Mockito.when(articleEntityMapper.articleEntityToArticleResponse(articleEntities)).thenReturn(articleResponse);
+        Mockito.when(articleEntityMapper.articleEntityToArticleResponseList(articleEntities)).thenReturn(articleResponse);
 
         List<ArticleResponse> result = articleJpaAdapter.getAllArticles(page, size,
                 ConstantsInfraestructure.VALUE_FALSE,
@@ -108,7 +108,7 @@ class ArticleJpaAdapterTest {
         Mockito.when(articleRepository.findById(ConstantsInfraestructure.VALUE_1))
                 .thenReturn(Optional.of(articleEntity));
 
-        ArticleSave result = articleJpaAdapter.getArticleById(ConstantsInfraestructure.VALUE_1);
+        ArticleResponse result = articleJpaAdapter.getArticleById(ConstantsInfraestructure.VALUE_1);
 
         Mockito.verify(articleJpaAdapter, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getArticleById(ConstantsInfraestructure.VALUE_1);
@@ -139,10 +139,9 @@ class ArticleJpaAdapterTest {
 
     @Test
     void testUpdateArticle() {
-        ArticleSave article = new ArticleSave(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
-                , ConstantsInfraestructure.FIELD_ARTICLE_DESCRIPTION
-                , ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.PRICE, ConstantsInfraestructure.VALUE_1
-                , Collections.singletonList(ConstantsInfraestructure.VALUE_1));
+        ArticleResponse article = new ArticleResponse(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,ConstantsInfraestructure.VALUE_2
+                , ConstantsInfraestructure.PRICE, null,null);
         ArticleEntity articleEntity = new ArticleEntity();
 
         Mockito.when(articleEntityMapper.articleToArticleEntity(article)).thenReturn(articleEntity);

@@ -11,8 +11,7 @@ public interface IArticleServicePort {
 
       List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
 
-      void updateArticle(ArticleSave articleSave);
+      void updateQuantity(ArticleSave articleSave);
 
-      boolean getArticlesById(Integer articleId);
-
+      ArticleResponse getArticlesById(Integer articleId);
 }

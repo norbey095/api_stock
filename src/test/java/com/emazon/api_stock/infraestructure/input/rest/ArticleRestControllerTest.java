@@ -110,20 +110,19 @@ class ArticleRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
-                .updateArticle(articleUpdateRequestDto);
+                .updateQuantity(articleUpdateRequestDto);
     }
 
     @Test
     @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
     void getArticleById_ShouldReturnBoolean() throws Exception {
         Mockito.when(articleHandler.getArticlesById(ConstantsInfraestructure.VALUE_1))
-                .thenReturn(true);
+                .thenReturn(new ArticleResponseDto());
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_A_ARTICLE,
                         ConstantsInfraestructure.VALUE_1))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(ConstantsInfraestructure.TRUE));
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
         Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getArticlesById(ConstantsInfraestructure.VALUE_1);

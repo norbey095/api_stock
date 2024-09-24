@@ -20,7 +20,6 @@ public interface ArticleMapper {
     ArticleSave articleDtoToArticle(ArticleRequestDto articleRequestDto);
 
     @Mapping(source = "articleUpdateRequestDto.articleId", target = "id")
-    @Mapping(source = "articleUpdateRequestDto.quantity", target = "quantity")
     ArticleSave articleUpdateDtoToArticlesave(ArticleUpdateRequestDto articleUpdateRequestDto);
 
     @Mapping(source = ConstantsMapper.BRAND, target = ConstantsMapper.BRAND)
