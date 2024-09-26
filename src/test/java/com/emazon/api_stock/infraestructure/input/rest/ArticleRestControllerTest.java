@@ -2,6 +2,7 @@ package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
+import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +37,9 @@ class ArticleRestControllerTest {
 
     private ArticleRequestDto articleRequestDto;
 
+    private ArticleUpdateRequestDto articleUpdateRequestDto;
+
+
     private ArticleResponseDto articleResponseDto;
 
     @BeforeEach
@@ -53,6 +57,10 @@ class ArticleRestControllerTest {
         articleResponseDto.setQuantity(ConstantsInfraestructure.VALUE_3);
         articleResponseDto.setPrice(ConstantsInfraestructure.PRICE);
         articleRequestDto.setIdbrand(ConstantsInfraestructure.VALUE_1);
+
+        articleUpdateRequestDto = new ArticleUpdateRequestDto();
+        articleUpdateRequestDto.setArticleId(ConstantsInfraestructure.VALUE_1);
+        articleUpdateRequestDto.setQuantity(ConstantsInfraestructure.VALUE_3);
     }
 
     @Test
@@ -91,5 +99,32 @@ class ArticleRestControllerTest {
         Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getAllArticles(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.VALUE_1
                         ,ConstantsInfraestructure.VALUE_FALSE,ConstantsInfraestructure.ARTICLE);
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.AUX_WAREHOUSE})
+    void updateArticle_ShouldReturnStatusCreated() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_UPDATE_ARTICLE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(articleUpdateRequestDto)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .updateQuantity(articleUpdateRequestDto);
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
+    void getArticleById_ShouldReturnBoolean() throws Exception {
+        Mockito.when(articleHandler.getArticlesById(ConstantsInfraestructure.VALUE_1))
+                .thenReturn(new ArticleResponseDto());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_A_ARTICLE,
+                        ConstantsInfraestructure.VALUE_1))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .getArticlesById(ConstantsInfraestructure.VALUE_1);
     }
 }

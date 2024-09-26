@@ -70,14 +70,15 @@ class CategoryHandlerTest {
         categoryList.add(category);
 
         when(categoryMapper.toCategoryDtoList(categoryList)).thenReturn(categoryDtoList);
-        when(categoryServicePort.getAllCategories(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1,
+        when(categoryServicePort.getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1,
                 ConstantsApplication.VALUE_FALSE)).thenReturn(categoryList);
 
-        categoryHandler.getAllCategories(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE);
+        categoryHandler.getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
+                , ConstantsApplication.VALUE_FALSE);
 
 
         verify(categoryMapper).toCategoryDtoList(categoryList);
-        verify(categoryServicePort).getAllCategories(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1,
+        verify(categoryServicePort).getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1,
                 ConstantsApplication.VALUE_FALSE);
     }
 }

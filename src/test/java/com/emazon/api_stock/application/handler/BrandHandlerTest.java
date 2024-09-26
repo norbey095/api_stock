@@ -70,13 +70,16 @@ class BrandHandlerTest {
         brandList.add(brand);
 
         when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandResponseDtoList);
-        when(brandServicePort.getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE))
+        when(brandServicePort.getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
+                , ConstantsApplication.VALUE_FALSE))
                 .thenReturn(brandList);
 
-        brandHandler.getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE);
+        brandHandler.getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
+                , ConstantsApplication.VALUE_FALSE);
 
 
         verify(brandMapper).toBrandDtoList(brandList);
-        verify(brandServicePort).getAllBrands(ConstantsApplication.VALOR_1, ConstantsApplication.VALOR_1, ConstantsApplication.VALUE_FALSE);
+        verify(brandServicePort).getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
+                , ConstantsApplication.VALUE_FALSE);
     }
 }

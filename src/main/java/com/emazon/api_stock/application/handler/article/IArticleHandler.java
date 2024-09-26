@@ -13,6 +13,8 @@ public interface IArticleHandler {
 
     List<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
 
-    ResponseSuccess updateArticle(ArticleUpdateRequestDto articleUpdateRequestDto);
+    ResponseSuccess updateQuantity(ArticleUpdateRequestDto articleUpdateRequestDto);
+
+    ArticleResponseDto getArticlesById(Integer articleId);
 
 }

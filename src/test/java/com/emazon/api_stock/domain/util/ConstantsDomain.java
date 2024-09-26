@@ -30,6 +30,7 @@ public class ConstantsDomain {
     public static final String BRAND_NAME = "b.name";
     public static final String ARTICLE_NAME = "a.name";
     public static final String ARTICLE = "article";
+    public static final String FIELD_ARTICLES_DESCRIPTION="articles for electronics";
 
 
 

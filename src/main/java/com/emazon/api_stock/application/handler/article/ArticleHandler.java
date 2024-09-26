@@ -5,11 +5,12 @@ import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
-import com.emazon.api_stock.application.util.Constants;
+import com.emazon.api_stock.application.util.ConstantsHandler;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ArticleHandler implements IArticleHandler {
     public ResponseSuccess saveArticle(ArticleRequestDto articleRequestDto) {
         ArticleSave article = articleMapper.articleDtoToArticle(articleRequestDto);
         articleServicePort.saveArticle(article);
-        return new ResponseSuccess(Constants.MESSAGES_SUCCESS);
+        return new ResponseSuccess(ConstantsHandler.MESSAGES_SUCCESS, HttpStatus.CREATED.toString());
     }
 
     @Override
@@ -36,9 +37,14 @@ public class ArticleHandler implements IArticleHandler {
     }
 
     @Override
-    public ResponseSuccess updateArticle(ArticleUpdateRequestDto articleUpdateRequestDto) {
+    public ResponseSuccess updateQuantity(ArticleUpdateRequestDto articleUpdateRequestDto) {
         ArticleSave article = articleMapper.articleUpdateDtoToArticlesave(articleUpdateRequestDto);
-        articleServicePort.updateArticle(article);
-        return new ResponseSuccess(Constants.UPDATE_SUCCESS);
+        articleServicePort.updateQuantity(article);
+        return new ResponseSuccess(ConstantsHandler.UPDATE_SUCCESS,HttpStatus.CREATED.toString());
+    }
+
+    @Override
+    public ArticleResponseDto getArticlesById(Integer articleId) {
+        return articleMapper.toArticleDto(articleServicePort.getArticlesById(articleId));
     }
 }

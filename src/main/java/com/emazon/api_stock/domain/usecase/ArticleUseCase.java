@@ -44,10 +44,16 @@ public class ArticleUseCase implements IArticleServicePort {
     }
 
     @Override
-    public void updateArticle(ArticleSave articleRequest){
-        ArticleSave articleDataBase = getArticleDatabase(articleRequest.getId());
-        updatedQuantity(articleRequest,articleDataBase);
-        this.articlePersistencePort.updateArticle(articleDataBase);
+    public void updateQuantity(ArticleSave articleRequest){
+        ArticleResponse articleResponse = getArticleDatabase(articleRequest.getId());
+        updatedQuantity(articleRequest,articleResponse);
+        this.articlePersistencePort.updateArticle(articleResponse);
+    }
+
+    @Override
+    public ArticleResponse getArticlesById(Integer id) {
+        return this.articlePersistencePort.getArticleById(id);
+
     }
 
     private void validatedNamePresent(String name){
@@ -96,15 +102,15 @@ public class ArticleUseCase implements IArticleServicePort {
         }
     }
 
-    private ArticleSave getArticleDatabase(Integer id){
-        ArticleSave articleSave = this.articlePersistencePort.getArticleById(id);
-        if(articleSave == null) {
+    private ArticleResponse getArticleDatabase(Integer id){
+        ArticleResponse articleResponse = this.articlePersistencePort.getArticleById(id);
+        if(articleResponse == null) {
             throw new TheArticleDoesNotExistException();
         }
-        return articleSave;
+        return articleResponse;
     }
 
-    private void updatedQuantity(ArticleSave articleRequest,ArticleSave articleDataBase){
+    private void updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
         Integer updatedQuantity = articleRequest.getQuantity() + articleDataBase.getQuantity();
         articleDataBase.setQuantity(updatedQuantity);
     }

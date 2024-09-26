@@ -37,7 +37,7 @@ class CategoryMapperTest {
 
     @Test
     void testToCategoryDtoList() {
-        Category category = new Category(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+        Category category = new Category(ConstantsApplication.NUMBER_1, ConstantsApplication.FIELD_NAME
                 , ConstantsApplication.FIELD_DESCRIPTION);
 
         List<Category> categoryList = new ArrayList<>();
@@ -46,9 +46,10 @@ class CategoryMapperTest {
         List<CategoryResponseDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
 
         Assertions.assertNotNull(categoryDtoList);
-        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, categoryDtoList.get(ConstantsApplication.VALOR_0).getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, categoryDtoList.get(ConstantsApplication.NUMBER_0)
+                .getName());
         Assertions.assertEquals(ConstantsApplication.FIELD_DESCRIPTION, categoryDtoList
-                .get(ConstantsApplication.VALOR_0).getDescription());
+                .get(ConstantsApplication.NUMBER_0).getDescription());
     }
 
     @Test

@@ -63,18 +63,22 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));
     }
 
-    @Operation(summary = "Add a new article",
-            description = "Save an article, each article must have its respective brand, a minimum of one " +
-                    "associated category and a maximum of 3 categories.")
+    @Operation(summary = "add supply",
+            description = "add supply")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "article created", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
+            @ApiResponse(responseCode = "201", description = "The amount was updated correctly", content = @Content),
+            @ApiResponse(responseCode = "409", description = "Invalid fields", content = @Content)
     })
     @PreAuthorize("hasRole('ROLE_AUX_WAREHOUSE')")
     @PostMapping("/update")
-    public ResponseEntity<ResponseSuccess> updateArticle(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
-        ResponseSuccess responseSuccess = articleHandler.updateArticle(articleUpdateRequestDto);
+    public ResponseEntity<ResponseSuccess> updateQuantity(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
+        ResponseSuccess responseSuccess = articleHandler.updateQuantity(articleUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseSuccess);
+    }
+
+    @GetMapping("/{articleId}")
+    public ResponseEntity<ArticleResponseDto> getArticlesById(@PathVariable Integer articleId) {
+        return ResponseEntity.ok(articleHandler.getArticlesById(articleId));
     }
 }

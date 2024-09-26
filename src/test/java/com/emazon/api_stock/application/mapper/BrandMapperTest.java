@@ -37,7 +37,7 @@ class BrandMapperTest {
 
     @Test
     void testToBrandDtoList() {
-        Brand brand = new Brand(ConstantsApplication.VALOR_1, ConstantsApplication.FIELD_NAME
+        Brand brand = new Brand(ConstantsApplication.NUMBER_1, ConstantsApplication.FIELD_NAME
                 , ConstantsApplication.FIELD_BRAND_DESCRIPTION);
 
         List<Brand> brandList = new ArrayList<>();
@@ -46,8 +46,10 @@ class BrandMapperTest {
         List<BrandResponseDto> brandDtoList = brandMapper.toBrandDtoList(brandList);
 
         Assertions.assertNotNull(brandDtoList);
-        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, brandDtoList.get(ConstantsApplication.VALOR_0).getName());
-        Assertions.assertEquals(ConstantsApplication.FIELD_BRAND_DESCRIPTION, brandDtoList.get(ConstantsApplication.VALOR_0)
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, brandDtoList.get(ConstantsApplication.NUMBER_0)
+                .getName());
+        Assertions.assertEquals(ConstantsApplication.FIELD_BRAND_DESCRIPTION, brandDtoList.get(ConstantsApplication
+                        .NUMBER_0)
                 .getDescription());
     }
 

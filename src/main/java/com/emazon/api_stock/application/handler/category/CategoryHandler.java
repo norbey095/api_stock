@@ -4,11 +4,12 @@ import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.mapper.CategoryMapper;
-import com.emazon.api_stock.application.util.Constants;
+import com.emazon.api_stock.application.util.ConstantsHandler;
 import com.emazon.api_stock.domain.api.ICategoryServicePort;
 import com.emazon.api_stock.domain.model.Category;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class CategoryHandler implements ICategoryHandler {
     public ResponseSuccess saveCategory(CategoryRequestDto categoryDto) {
         Category category = categoryMapper.categoryDtoToCategory(categoryDto);
         categoryServicePort.saveCategory(category);
-        return new ResponseSuccess(Constants.CATEGORY_MESSAGES_SUCCESS);
+        return new ResponseSuccess(ConstantsHandler.CATEGORY_MESSAGES_SUCCESS, HttpStatus.CREATED.toString());
     }
 
     @Override
