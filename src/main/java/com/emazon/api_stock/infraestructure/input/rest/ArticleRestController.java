@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
@@ -80,5 +81,12 @@ public class ArticleRestController {
     @GetMapping("/{articleId}")
     public ResponseEntity<ArticleResponseDto> getArticlesById(@PathVariable Integer articleId) {
         return ResponseEntity.ok(articleHandler.getArticlesById(articleId));
+    }
+
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/getItemsCart")
+    public ResponseEntity<List<ArticleResponseDto>> getArticleByIds(@RequestBody ArticleCartRequestDto articleCartRequestDto) {
+        return ResponseEntity.ok(articleHandler.getArticleByIds(articleCartRequestDto));
     }
 }

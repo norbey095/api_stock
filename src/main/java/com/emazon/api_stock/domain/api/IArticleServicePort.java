@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.api;
 
+import com.emazon.api_stock.domain.model.ArticleCartRequest;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 
@@ -14,4 +15,6 @@ public interface IArticleServicePort {
       void updateQuantity(ArticleSave articleSave);
 
       ArticleResponse getArticlesById(Integer articleId);
+
+      List<ArticleResponse> getArticleByIds( ArticleCartRequest articleCartRequest);
 }

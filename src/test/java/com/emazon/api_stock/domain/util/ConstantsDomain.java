@@ -26,8 +26,6 @@ public class ConstantsDomain {
     public static final boolean VALUE_TRUE = true;
     public static final boolean VALUE_FALSE = false;
     public static final String COMILLAS = "";
-    public static final String CATEGORY_NAME = "c.name";
-    public static final String BRAND_NAME = "b.name";
     public static final String ARTICLE_NAME = "a.name";
     public static final String ARTICLE = "article";
     public static final String FIELD_ARTICLES_DESCRIPTION="articles for electronics";

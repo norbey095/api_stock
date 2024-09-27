@@ -74,7 +74,8 @@ class ArticleJpaAdapterTest {
         Pageable pagination = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC,
                 ConstantsInfraestructure.ARTICLE_NAME));
 
-        Mockito.when(articleRepository.findAllItemsByBrandName(pagination)).thenReturn(new PageImpl<>(articleEntities));
+        Mockito.when(articleRepository.findAllItemsByBrandName(
+                null,null,null,pagination)).thenReturn(new PageImpl<>(articleEntities));
         Mockito.when(articleEntityMapper.articleEntityToArticleResponseList(articleEntities)).thenReturn(articleResponse);
 
         List<ArticleResponse> result = articleJpaAdapter.getAllArticles(page, size,

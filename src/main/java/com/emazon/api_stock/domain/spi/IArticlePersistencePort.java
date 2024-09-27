@@ -17,5 +17,9 @@ public interface IArticlePersistencePort {
     void updateArticle(ArticleResponse articleSave);
 
     ArticleResponse getArticleById(Integer id);
+
+    List<ArticleResponse> getArticleByIds(Integer page, Integer size, boolean descending, List<Integer> articleIds,
+                                          String categoryName, String brandName);
+
 }
 

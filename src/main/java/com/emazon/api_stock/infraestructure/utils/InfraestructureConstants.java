@@ -16,6 +16,7 @@ public class InfraestructureConstants {
     public static final String CATEGORY = "category";
     public static final String CATEGORY_NAME = "c.name";
     public static final String BRAND_NAME = "b.name";
+    public static final String ARTICLE = "article";
     public static final String ARTICLE_NAME = "a.name";
     public static final String CATEGORIES = "categories";
     public static final String ID_BRAND = "idbrand";

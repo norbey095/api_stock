@@ -1,15 +1,15 @@
 package com.emazon.api_stock.application.handler;
 
+import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.handler.article.ArticleHandler;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
+import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.Brand;
-import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.*;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -125,5 +125,32 @@ class ArticleHandlerTest {
 
         Mockito.verify(articleServicePort, Mockito.times(NUMBER_1)).
                 getArticlesById(ID);
+    }
+
+    @Test
+    void shouldgetArticleByIds() {
+        ArticleCartRequestDto articleCartRequestDto = new ArticleCartRequestDto(ConstantsApplication.NUMBER_0,
+                ConstantsApplication.NUMBER_1, true, new ArrayList<>()
+                , ConstantsApplication.ARTICLE, ConstantsApplication.FIELD_NAME);
+
+        ArticleCartRequest articleCartRequest = new ArticleCartRequest(ConstantsApplication.NUMBER_0,
+                ConstantsApplication.NUMBER_1, true, new ArrayList<>()
+                , ConstantsApplication.ARTICLE, ConstantsApplication.FIELD_NAME);
+
+        when(articleMapper.articleCartRequestDtoToArticleCartRequest(articleCartRequestDto))
+                .thenReturn(articleCartRequest);
+
+        when(articleMapper.toArticleDtoList(Mockito.any()))
+                .thenReturn(new ArrayList<>());
+
+        articleHandler.getArticleByIds(articleCartRequestDto);
+
+
+        Mockito.verify(articleMapper, Mockito.times(NUMBER_1)).
+                articleCartRequestDtoToArticleCartRequest(articleCartRequestDto);
+        Mockito.verify(articleMapper, Mockito.times(NUMBER_1)).
+                toArticleDtoList(Mockito.any());
+        Mockito.verify(articleServicePort, Mockito.times(NUMBER_1)).
+                getArticleByIds(articleCartRequest);
     }
 }

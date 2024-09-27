@@ -4,6 +4,7 @@ import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.article.*;
+import com.emazon.api_stock.domain.model.ArticleCartRequest;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.ArticleXCategory;
@@ -53,7 +54,13 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public ArticleResponse getArticlesById(Integer id) {
         return this.articlePersistencePort.getArticleById(id);
+    }
 
+    @Override
+    public List<ArticleResponse> getArticleByIds(ArticleCartRequest articleCartRequest) {
+        return this.articlePersistencePort.getArticleByIds(articleCartRequest.getPage()
+                , articleCartRequest.getSize(), articleCartRequest.isDescending(), articleCartRequest.getArticleIds(),
+                articleCartRequest.getCategoryName(), articleCartRequest.getBrandName());
     }
 
     private void validatedNamePresent(String name){
