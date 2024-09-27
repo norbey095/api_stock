@@ -17,6 +17,7 @@ public interface ArticleEntityMapper {
     ArticleEntity articleToArticleEntity(ArticleResponse articleResponse);
 
     @Mapping(target = InfraestructureConstants.CATEGORIES, ignore = true)
+    @Mapping(target = InfraestructureConstants.BRAND, ignore = true)
     ArticleEntity articleSaveToArticleEntity(ArticleSave articleSave);
 
     @Mapping(target = InfraestructureConstants.ID_BRAND, ignore = true)

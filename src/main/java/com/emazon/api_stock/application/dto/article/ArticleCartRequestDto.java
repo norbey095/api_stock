@@ -1,9 +1,11 @@
 package com.emazon.api_stock.application.dto.article;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Data
 public class ArticleCartRequestDto {
 

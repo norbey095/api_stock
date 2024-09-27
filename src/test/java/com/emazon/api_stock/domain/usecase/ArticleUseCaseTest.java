@@ -3,10 +3,7 @@ package com.emazon.api_stock.domain.usecase;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.article.*;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.Brand;
-import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.*;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
 import com.emazon.api_stock.domain.spi.IArticleXCategoryPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsDomain;
@@ -290,5 +287,21 @@ class ArticleUseCaseTest {
 
         ArticleResponse result = articleUseCase.getArticlesById(articleId);
         assertNull(result);
+    }
+
+    @Test
+    void getgetArticleByIds() {
+        ArticleCartRequest articleCartRequest = new ArticleCartRequest(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
+                , true
+                , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME);
+
+        when(articlePersistencePort.getArticleByIds(articleCartRequest.getPage(),articleCartRequest.getSize(),
+                articleCartRequest.isDescending(),articleCartRequest.getArticleIds(),
+                articleCartRequest.getCategoryName(),articleCartRequest.getBrandName()))
+                .thenReturn(new ArrayList<ArticleResponse>());
+
+        List<ArticleResponse> result = articleUseCase.getArticleByIds(articleCartRequest);
+
+        assertNotNull(result);
     }
 }
