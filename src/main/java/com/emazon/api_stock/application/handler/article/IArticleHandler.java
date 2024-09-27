@@ -1,6 +1,7 @@
 package com.emazon.api_stock.application.handler.article;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
@@ -16,5 +17,7 @@ public interface IArticleHandler {
     ResponseSuccess updateQuantity(ArticleUpdateRequestDto articleUpdateRequestDto);
 
     ArticleResponseDto getArticlesById(Integer articleId);
+
+    List<ArticleResponseDto> getArticleByIds(ArticleCartRequestDto articleCartRequestDto);
 
 }

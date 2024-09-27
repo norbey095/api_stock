@@ -1,10 +1,12 @@
 package com.emazon.api_stock.application.mapper;
 
+import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.ConstantsMapper;
+import com.emazon.api_stock.domain.model.ArticleCartRequest;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.model.Category;
@@ -33,4 +35,6 @@ public interface ArticleMapper {
     CategoryResponseListDto toCategoryResponseListDto(Category category);
 
     List<CategoryResponseListDto> toCategoryResponseListDtoList(List<Category> categories);
+
+    ArticleCartRequest articleCartRequestDtoToArticleCartRequest(ArticleCartRequestDto articleCartRequestDto);
 }
