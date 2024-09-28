@@ -4,10 +4,7 @@ import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
 import com.emazon.api_stock.domain.exception.article.*;
-import com.emazon.api_stock.domain.model.ArticleCartRequest;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.ArticleXCategory;
+import com.emazon.api_stock.domain.model.*;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
 import com.emazon.api_stock.domain.spi.IArticleXCategoryPersistencePort;
 import com.emazon.api_stock.domain.util.Constants;
@@ -57,10 +54,15 @@ public class ArticleUseCase implements IArticleServicePort {
     }
 
     @Override
-    public List<ArticleResponse> getArticleByIds(ArticleCartRequest articleCartRequest) {
-        return this.articlePersistencePort.getArticleByIds(articleCartRequest.getPage()
-                , articleCartRequest.getSize(), articleCartRequest.isDescending(), articleCartRequest.getArticleIds(),
-                articleCartRequest.getCategoryName(), articleCartRequest.getBrandName());
+    public List<ArticleResponse> getArticleByIds(Integer page, Integer size,boolean descending,List<Integer> ids,
+                                                 String categoryName,String brandName) {
+        return this.articlePersistencePort.getArticleByIds(page
+                , size, descending, ids, categoryName, brandName);
+    }
+
+    @Override
+    public List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds) {
+        return this.articlePersistencePort.getPriceByIds(articlesIds);
     }
 
     private void validatedNamePresent(String name){

@@ -1,7 +1,7 @@
 package com.emazon.api_stock.application.handler.article;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
-import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
+import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
@@ -18,6 +18,8 @@ public interface IArticleHandler {
 
     ArticleResponseDto getArticlesById(Integer articleId);
 
-    List<ArticleResponseDto> getArticleByIds(ArticleCartRequestDto articleCartRequestDto);
+    List<ArticleResponseDto> getArticleByIds(Integer page, Integer size,boolean descending,List<Integer> ids,
+                                             String categoryName,String brandName);
 
+    List<ArticlePriceResponseDto> getPriceByIds(List<Integer> articlesIds);
 }

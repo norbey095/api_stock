@@ -1,5 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.mapper;
 
+import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
+import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.infraestructure.output.entity.ArticleEntity;
@@ -27,5 +29,11 @@ public interface ArticleEntityMapper {
     ArticleSave articleEntityToArticleSave(ArticleEntity articleEntity);
 
     ArticleResponse articleEntityToArticleResponse(ArticleEntity articleEntity);
+
+    @Mapping(source = "articleEntity.id", target = "id")
+    @Mapping(source = "articleEntity.price", target = "price")
+    @Mapping(source = "articleEntity.quantity", target = "quantity")
+    List<ArticlePriceResponse> articleEntityToArticlePriceResponse
+            (List<ArticleEntity> articleEntity);
 
 }

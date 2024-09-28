@@ -1,6 +1,6 @@
 package com.emazon.api_stock.domain.api;
 
-import com.emazon.api_stock.domain.model.ArticleCartRequest;
+import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 
@@ -16,5 +16,8 @@ public interface IArticleServicePort {
 
       ArticleResponse getArticlesById(Integer articleId);
 
-      List<ArticleResponse> getArticleByIds( ArticleCartRequest articleCartRequest);
+      List<ArticleResponse> getArticleByIds(Integer page, Integer size,boolean descending,List<Integer> ids,
+                                            String categoryName,String brandName);
+
+      List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds);
 }

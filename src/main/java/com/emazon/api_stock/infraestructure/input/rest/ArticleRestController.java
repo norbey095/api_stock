@@ -1,7 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
-import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
+import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
 import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
 import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
@@ -64,8 +64,8 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));
     }
 
-    @Operation(summary = "add supply",
-            description = "add supply")
+    @Operation(summary = "Quantity of an item update",
+            description = "Quantity of an item update")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "The amount was updated correctly", content = @Content),
             @ApiResponse(responseCode = "409", description = "Invalid fields", content = @Content)
@@ -86,7 +86,20 @@ public class ArticleRestController {
 
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/getItemsCart")
-    public ResponseEntity<List<ArticleResponseDto>> getArticleByIds(@RequestBody ArticleCartRequestDto articleCartRequestDto) {
-        return ResponseEntity.ok(articleHandler.getArticleByIds(articleCartRequestDto));
+    public ResponseEntity<List<ArticleResponseDto>> getArticleByIds(
+            @RequestParam Integer page,
+            @RequestParam Integer size,
+            @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending,
+            @RequestParam List<Integer> articlesId,
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String brandName) {
+        return ResponseEntity.ok(articleHandler.getArticleByIds(page,size,descending,articlesId,categoryName,brandName));
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/getPriceByIds")
+    public ResponseEntity<List<ArticlePriceResponseDto>> getPriceByIds(
+            @RequestParam List<Integer> articlesIds) {
+        return ResponseEntity.ok(articleHandler.getPriceByIds(articlesIds));
     }
 }

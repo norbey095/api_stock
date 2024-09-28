@@ -290,17 +290,15 @@ class ArticleUseCaseTest {
     }
 
     @Test
-    void getgetArticleByIds() {
-        ArticleCartRequest articleCartRequest = new ArticleCartRequest(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
+    void getArticleByIds() {
+        when(articlePersistencePort.getArticleByIds(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
                 , true
-                , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME);
-
-        when(articlePersistencePort.getArticleByIds(articleCartRequest.getPage(),articleCartRequest.getSize(),
-                articleCartRequest.isDescending(),articleCartRequest.getArticleIds(),
-                articleCartRequest.getCategoryName(),articleCartRequest.getBrandName()))
+                , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME))
                 .thenReturn(new ArrayList<ArticleResponse>());
 
-        List<ArticleResponse> result = articleUseCase.getArticleByIds(articleCartRequest);
+        List<ArticleResponse> result = articleUseCase.getArticleByIds(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
+                , true
+                , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME);
 
         assertNotNull(result);
     }
