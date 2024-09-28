@@ -290,18 +290,27 @@ class ArticleUseCaseTest {
     }
 
     @Test
-    void getgetArticleByIds() {
-        ArticleCartRequest articleCartRequest = new ArticleCartRequest(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
+    void getArticleByIds() {
+        when(articlePersistencePort.getArticleByIds(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
+                , true
+                , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME))
+                .thenReturn(new ArrayList<ArticleResponse>());
+
+        List<ArticleResponse> result = articleUseCase.getArticleByIds(ConstantsDomain.VALUE_0, ConstantsDomain.VALUE_1
                 , true
                 , new ArrayList<>(), ConstantsDomain.ARTICLE, ConstantsDomain.ARTICLE_NAME);
 
-        when(articlePersistencePort.getArticleByIds(articleCartRequest.getPage(),articleCartRequest.getSize(),
-                articleCartRequest.isDescending(),articleCartRequest.getArticleIds(),
-                articleCartRequest.getCategoryName(),articleCartRequest.getBrandName()))
-                .thenReturn(new ArrayList<ArticleResponse>());
+        assertNotNull(result);
+    }
 
-        List<ArticleResponse> result = articleUseCase.getArticleByIds(articleCartRequest);
+    @Test
+    void testGetPriceByIds() {
+        List<Integer> articleIds = new ArrayList<>();
+        articleIds.add(ConstantsDomain.VALUE_1);
 
+        when(articlePersistencePort.getPriceByIds(articleIds)).thenReturn(new ArrayList<>());
+
+        List<ArticlePriceResponse> result = articleUseCase.getPriceByIds(articleIds);
         assertNotNull(result);
     }
 }

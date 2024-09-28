@@ -1,14 +1,10 @@
 package com.emazon.api_stock.application.handler.article;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
-import com.emazon.api_stock.application.dto.article.ArticleCartRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
 import com.emazon.api_stock.application.util.ConstantsHandler;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
-import com.emazon.api_stock.domain.model.ArticleCartRequest;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +47,16 @@ public class ArticleHandler implements IArticleHandler {
     }
 
     @Override
-    public List<ArticleResponseDto> getArticleByIds(ArticleCartRequestDto articleCartRequestDto) {
-        ArticleCartRequest articleCartRequest = articleMapper.
-                articleCartRequestDtoToArticleCartRequest(articleCartRequestDto);
-        return articleMapper.toArticleDtoList(articleServicePort.getArticleByIds(articleCartRequest));
+    public List<ArticleResponseDto> getArticleByIds(Integer page, Integer size,boolean descending,List<Integer> ids,
+                                                    String categoryName,String brandName) {
+        return articleMapper.toArticleDtoList(articleServicePort.getArticleByIds(page,size,descending,ids,
+                categoryName,brandName));
     }
+
+    @Override
+    public List<ArticlePriceResponseDto> getPriceByIds(List<Integer> articleIds) {
+        return articleMapper.articlePriceResponseToArticlePriceResponseDtoList(
+                articleServicePort.getPriceByIds(articleIds));
+    }
+
 }

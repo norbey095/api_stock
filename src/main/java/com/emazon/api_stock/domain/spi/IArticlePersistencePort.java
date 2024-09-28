@@ -1,5 +1,6 @@
 package com.emazon.api_stock.domain.spi;
 
+import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 
@@ -21,5 +22,6 @@ public interface IArticlePersistencePort {
     List<ArticleResponse> getArticleByIds(Integer page, Integer size, boolean descending, List<Integer> articleIds,
                                           String categoryName, String brandName);
 
+    List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds);
 }
 

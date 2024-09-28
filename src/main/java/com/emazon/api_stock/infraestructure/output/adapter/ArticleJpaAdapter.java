@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
 import com.emazon.api_stock.domain.exception.article.TheArticleDoesNotExistException;
+import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
@@ -60,6 +61,12 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         List<ArticleEntity> articleEntities = articleRepository.findAllItemsByBrandName(
                 brandName,categoryName,articleIds,pagination).getContent();
         return articleEntityMapper.articleEntityToArticleResponseList(articleEntities);
+    }
+
+    @Override
+    public List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds) {
+        List<ArticleEntity> articleEntities = articleRepository.findPricesByIds(articlesIds);
+        return articleEntityMapper.articleEntityToArticlePriceResponse(articleEntities);
     }
 
     private Pageable createPageable(Integer page, Integer size, boolean descending,String filterBy) {
