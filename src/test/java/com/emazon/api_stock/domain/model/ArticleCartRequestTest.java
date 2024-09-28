@@ -21,6 +21,7 @@ class ArticleCartRequestTest {
         assertTrue(article.isDescending());
         assertEquals(ConstantsDomain.ARTICLE, article.getCategoryName());
         assertEquals(ConstantsDomain.ARTICLE_NAME, article.getBrandName());
+        assertEquals(new ArrayList<>(), article.getArticleIds());
     }
 
     @Test

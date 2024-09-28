@@ -98,4 +98,36 @@ class ArticleEntityMapperTest {
         Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleSave.getQuantity());
         Assertions.assertEquals(ConstantsInfraestructure.PRICE,articleSave.getPrice());
     }
+
+    @Test
+    void testArticleEntityToArticleSaveNull() {
+
+        ArticleSave articleSave = articleEntityMapper.articleEntityToArticleSave(null);
+
+        Assertions.assertNull(articleSave);
+    }
+
+    @Test
+    void testArticleSaveToArticleEntity() {
+        ArticleSave articleSave = new ArticleSave(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
+                , ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, ConstantsInfraestructure.VALUE_1
+                , ConstantsInfraestructure.PRICE,ConstantsInfraestructure.VALUE_1
+                , null);
+
+        ArticleEntity articleEntity = articleEntityMapper.articleSaveToArticleEntity(articleSave);
+
+        Assertions.assertNotNull(articleEntity);
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_NAME, articleEntity.getName());
+        Assertions.assertEquals(ConstantsInfraestructure.FIELD_BRAND_DESCRIPTION, articleEntity.getDescription());
+        Assertions.assertEquals(ConstantsInfraestructure.VALUE_1,articleEntity.getQuantity());
+        Assertions.assertEquals(ConstantsInfraestructure.PRICE,articleEntity.getPrice());
+    }
+
+    @Test
+    void testArticleSaveToArticleEntityNull() {
+
+        ArticleEntity articleEntity = articleEntityMapper.articleSaveToArticleEntity(null);
+
+        Assertions.assertNull(articleEntity);
+    }
 }

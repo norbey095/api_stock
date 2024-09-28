@@ -302,4 +302,15 @@ class ArticleUseCaseTest {
 
         assertNotNull(result);
     }
+
+    @Test
+    void testGetPriceByIds() {
+        List<Integer> articleIds = new ArrayList<>();
+        articleIds.add(ConstantsDomain.VALUE_1);
+
+        when(articlePersistencePort.getPriceByIds(articleIds)).thenReturn(new ArrayList<>());
+
+        List<ArticlePriceResponse> result = articleUseCase.getPriceByIds(articleIds);
+        assertNotNull(result);
+    }
 }
