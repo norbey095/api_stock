@@ -65,6 +65,15 @@ public class ArticleUseCase implements IArticleServicePort {
         return this.articlePersistencePort.getPriceByIds(articlesIds);
     }
 
+    @Override
+    public void subtractQuantityArticle(List<SubtractArticleRequest> subtractArticleRequests){
+        for(SubtractArticleRequest sales: subtractArticleRequests){
+            ArticleResponse articleResponse = getArticleDatabase(sales.getId());
+            subtractQuantity(sales.getQuantity(),articleResponse);
+            this.articlePersistencePort.updateArticle(articleResponse);
+        }
+    }
+
     private void validatedNamePresent(String name){
         if(this.articlePersistencePort.getArticleByName(name)) {
             throw new ArticleAlreadyExistsException();
@@ -121,6 +130,11 @@ public class ArticleUseCase implements IArticleServicePort {
 
     private void updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
         Integer updatedQuantity = articleRequest.getQuantity() + articleDataBase.getQuantity();
+        articleDataBase.setQuantity(updatedQuantity);
+    }
+
+    private void subtractQuantity(Integer quantityRequest,ArticleResponse articleDataBase){
+        Integer updatedQuantity = articleDataBase.getQuantity() - quantityRequest;
         articleDataBase.setQuantity(updatedQuantity);
     }
 }

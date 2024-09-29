@@ -6,6 +6,7 @@ import com.emazon.api_stock.application.mapper.ArticleMapper;
 import com.emazon.api_stock.application.util.ConstantsHandler;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.model.ArticleSave;
+import com.emazon.api_stock.domain.model.SubtractArticleRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,14 @@ public class ArticleHandler implements IArticleHandler {
     public List<ArticlePriceResponseDto> getPriceByIds(List<Integer> articleIds) {
         return articleMapper.articlePriceResponseToArticlePriceResponseDtoList(
                 articleServicePort.getPriceByIds(articleIds));
+    }
+
+    @Override
+    public ResponseSuccess subtractQuantityArticle(List<SubtractArticleRequestDto> subtractArticleRequest) {
+        List<SubtractArticleRequest> subtractArticleRequests = articleMapper
+                .subtractArticleRequestDtoToSubtractArticleRequest(subtractArticleRequest);
+        articleServicePort.subtractQuantityArticle(subtractArticleRequests);
+        return new ResponseSuccess(ConstantsHandler.UPDATE_SUCCESS,HttpStatus.CREATED.toString());
     }
 
 }

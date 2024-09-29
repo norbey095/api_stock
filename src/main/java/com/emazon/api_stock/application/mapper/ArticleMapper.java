@@ -1,15 +1,9 @@
 package com.emazon.api_stock.application.mapper;
 
-import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.ConstantsMapper;
-import com.emazon.api_stock.domain.model.ArticlePriceResponse;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -38,4 +32,7 @@ public interface ArticleMapper {
 
     List<ArticlePriceResponseDto> articlePriceResponseToArticlePriceResponseDtoList
             (List<ArticlePriceResponse> articlePriceResponse);
+
+    List<SubtractArticleRequest> subtractArticleRequestDtoToSubtractArticleRequest(
+            List<SubtractArticleRequestDto> subtractArticleRequest);
 }
