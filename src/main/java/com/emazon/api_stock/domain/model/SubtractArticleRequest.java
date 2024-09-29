@@ -2,23 +2,23 @@ package com.emazon.api_stock.domain.model;
 
 public class SubtractArticleRequest {
 
-    private Integer id;
+    private Integer articleId;
     private Integer quantity;
 
     public SubtractArticleRequest() {
     }
 
-    public SubtractArticleRequest(Integer id, Integer quantity) {
-        this.id = id;
+    public SubtractArticleRequest(Integer articleId, Integer quantity) {
+        this.articleId = articleId;
         this.quantity = quantity;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 
     public Integer getQuantity() {

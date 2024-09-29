@@ -68,7 +68,7 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public void subtractQuantityArticle(List<SubtractArticleRequest> subtractArticleRequests){
         for(SubtractArticleRequest sales: subtractArticleRequests){
-            ArticleResponse articleResponse = getArticleDatabase(sales.getId());
+            ArticleResponse articleResponse = getArticleDatabase(sales.getArticleId());
             subtractQuantity(sales.getQuantity(),articleResponse);
             this.articlePersistencePort.updateArticle(articleResponse);
         }

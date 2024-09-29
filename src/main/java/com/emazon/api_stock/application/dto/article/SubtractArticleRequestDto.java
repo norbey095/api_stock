@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class SubtractArticleRequestDto {
 
-    private Integer id;
+    private Integer articleId;
     private Integer quantity;
 }
