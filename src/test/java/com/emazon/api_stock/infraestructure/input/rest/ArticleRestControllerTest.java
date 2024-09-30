@@ -1,9 +1,9 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.ResponseSuccess;
+import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import com.emazon.api_stock.infraestructure.util.ConstantsInfraestructure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,5 +126,76 @@ class ArticleRestControllerTest {
 
         Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getArticlesById(ConstantsInfraestructure.VALUE_1);
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.CLIENT})
+    void getArticleByIds_ShouldReturn() throws Exception {
+        List<Integer> articleIds = new ArrayList<>();
+        articleIds.add(ConstantsDomain.VALUE_1);
+
+        Mockito.when(articleHandler.getArticleByIds(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1,
+                        false, articleIds,ConstantsInfraestructure.FIELD_NAME,
+                        ConstantsInfraestructure.FIELD_NAME))
+                .thenReturn(new ArrayList<ArticleResponseDto>());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_ITEMSCART)
+                        .param("page", ConstantsInfraestructure.VALUE_UNO)
+                        .param("size", ConstantsInfraestructure.VALUE_UNO)
+                        .param("descending", String.valueOf(false))
+                        .param("articlesId", String.valueOf(ConstantsDomain.VALUE_1))
+                        .param("categoryName", ConstantsInfraestructure.FIELD_NAME)
+                        .param("brandName", ConstantsInfraestructure.FIELD_NAME)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .getArticleByIds(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1,
+                        false, articleIds,ConstantsInfraestructure.FIELD_NAME,
+                        ConstantsInfraestructure.FIELD_NAME);
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.CLIENT})
+    void getPriceByIds_ShouldReturn() throws Exception {
+        List<Integer> articleIds = new ArrayList<>();
+        articleIds.add(ConstantsDomain.VALUE_1);
+
+        Mockito.when(articleHandler.getPriceByIds(articleIds))
+                .thenReturn(null);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_PRICE)
+                        .param("articlesIds", String.valueOf(ConstantsDomain.VALUE_1))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .getPriceByIds(articleIds);
+    }
+
+    @Test
+    @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.CLIENT})
+    void subtractQuantityArticle_ShouldReturnStatusCreated() throws Exception {
+        SubtractArticleRequestDto subtractArticleRequestDto = new SubtractArticleRequestDto();
+        subtractArticleRequestDto.setArticleId(ConstantsInfraestructure.VALUE_1);
+        subtractArticleRequestDto.setQuantity(ConstantsInfraestructure.VALUE_3);
+
+        List<SubtractArticleRequestDto> subtractArticleRequestDtoList = new ArrayList<>();
+        subtractArticleRequestDtoList.add(subtractArticleRequestDto);
+
+
+        Mockito.when(articleHandler.subtractQuantityArticle(subtractArticleRequestDtoList))
+                .thenReturn(new ResponseSuccess());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ConstantsInfraestructure.URL_SUBTRACT_ARTICLE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(subtractArticleRequestDtoList)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .subtractQuantityArticle(subtractArticleRequestDtoList);
     }
 }

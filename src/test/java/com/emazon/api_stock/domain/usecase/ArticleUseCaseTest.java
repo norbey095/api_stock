@@ -313,4 +313,25 @@ class ArticleUseCaseTest {
         List<ArticlePriceResponse> result = articleUseCase.getPriceByIds(articleIds);
         assertNotNull(result);
     }
+
+    @Test
+    void testSubtractQuantityArticle() {
+        SubtractArticleRequest subtractArticleRequest = new SubtractArticleRequest(ConstantsDomain.VALUE_1
+                , ConstantsDomain.VALUE_1);
+
+        List<SubtractArticleRequest> subtractArticleRequestsList = new ArrayList<>();
+        subtractArticleRequestsList.add(subtractArticleRequest);
+
+        ArticleResponse articleResponse = new ArticleResponse(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME
+                , ConstantsDomain.FIELD_ARTICLE_DESCRIPTION, ConstantsDomain.VALUE_1, ConstantsDomain.PRICE,
+                null,null);
+
+        when(articlePersistencePort.getArticleById(ConstantsDomain.VALUE_1)).thenReturn(articleResponse);
+
+
+        articleUseCase.subtractQuantityArticle(subtractArticleRequestsList);
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getArticleById(ConstantsDomain.VALUE_1);
+    }
 }

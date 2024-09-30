@@ -1,7 +1,5 @@
 package com.emazon.api_stock.infraestructure.output.repository;
 
-import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
-import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.infraestructure.output.entity.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;

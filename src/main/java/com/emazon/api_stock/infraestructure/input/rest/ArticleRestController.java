@@ -32,7 +32,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "201", description = "article created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createArticle(@Validated @RequestBody ArticleRequestDto articleRequestDto){
         ResponseSuccess responseSuccess = articleHandler.saveArticle(articleRequestDto);
@@ -82,7 +82,7 @@ public class ArticleRestController {
     }
 
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @GetMapping("/getItemsCart")
     public ResponseEntity<List<ArticleResponseDto>> getArticleByIds(
             @RequestParam Integer page,
@@ -94,7 +94,7 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleHandler.getArticleByIds(page,size,descending,articlesId,categoryName,brandName));
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @GetMapping("/getPriceByIds")
     public ResponseEntity<List<ArticlePriceResponseDto>> getPriceByIds(
             @RequestParam List<Integer> articlesIds) {
