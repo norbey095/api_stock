@@ -44,8 +44,8 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public void updateQuantity(ArticleSave articleRequest){
         ArticleResponse articleResponse = getArticleDatabase(articleRequest.getId());
-        updatedQuantity(articleRequest,articleResponse);
-        this.articlePersistencePort.updateArticle(articleResponse);
+        Integer quantity = updatedQuantity(articleRequest,articleResponse);
+        this.articlePersistencePort.updateArticle(articleResponse.getId(),quantity);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class ArticleUseCase implements IArticleServicePort {
     public void subtractQuantityArticle(List<SubtractArticleRequest> subtractArticleRequests){
         for(SubtractArticleRequest sales: subtractArticleRequests){
             ArticleResponse articleResponse = getArticleDatabase(sales.getArticleId());
-            subtractQuantity(sales.getQuantity(),articleResponse);
-            this.articlePersistencePort.updateArticle(articleResponse);
+            Integer quantity = subtractQuantity(sales.getQuantity(),articleResponse);
+            this.articlePersistencePort.updateArticle(articleResponse.getId(),quantity);
         }
     }
 
@@ -128,13 +128,11 @@ public class ArticleUseCase implements IArticleServicePort {
         return articleResponse;
     }
 
-    private void updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
-        Integer updatedQuantity = articleRequest.getQuantity() + articleDataBase.getQuantity();
-        articleDataBase.setQuantity(updatedQuantity);
+    private Integer updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
+        return articleRequest.getQuantity() + articleDataBase.getQuantity();
     }
 
-    private void subtractQuantity(Integer quantityRequest,ArticleResponse articleDataBase){
-        Integer updatedQuantity = articleDataBase.getQuantity() - quantityRequest;
-        articleDataBase.setQuantity(updatedQuantity);
+    private Integer subtractQuantity(Integer quantityRequest,ArticleResponse articleDataBase){
+       return articleDataBase.getQuantity() - quantityRequest;
     }
 }

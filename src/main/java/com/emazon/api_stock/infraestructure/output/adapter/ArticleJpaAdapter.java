@@ -44,8 +44,8 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     @Transactional
     @Override
-    public void updateArticle(ArticleResponse articleResponse) {
-        articleRepository.save(articleEntityMapper.articleToArticleEntity(articleResponse));
+    public void updateArticle(Integer id,Integer quantity) {
+        articleRepository.updateQuantityById(id,quantity);
     }
 
     @Override

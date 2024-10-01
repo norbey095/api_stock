@@ -249,7 +249,7 @@ class ArticleUseCaseTest {
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getArticleById(ConstantsDomain.VALUE_1);
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
-                .updateArticle(articleDataBase);
+                .updateArticle(Mockito.any(),Mockito.any());
     }
 
     @Test
@@ -267,7 +267,7 @@ class ArticleUseCaseTest {
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getArticleById(ConstantsDomain.VALUE_1);
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_0))
-                .updateArticle(Mockito.any(ArticleResponse.class));
+                .updateArticle(Mockito.any(),Mockito.any());
     }
 
     @Test

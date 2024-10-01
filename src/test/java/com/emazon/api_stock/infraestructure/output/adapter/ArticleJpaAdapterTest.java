@@ -147,7 +147,7 @@ class ArticleJpaAdapterTest {
 
         Mockito.when(articleEntityMapper.articleToArticleEntity(article)).thenReturn(articleEntity);
 
-        articleJpaAdapter.updateArticle(article);
+        articleJpaAdapter.updateArticle(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1);
 
         Mockito.verify(articleEntityMapper).articleToArticleEntity(article);
 
