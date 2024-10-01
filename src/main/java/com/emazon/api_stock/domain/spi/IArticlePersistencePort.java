@@ -15,7 +15,7 @@ public interface IArticlePersistencePort {
 
     boolean getArticleByName(String name);
 
-    void updateArticle(ArticleResponse articleSave);
+    void updateArticle(Integer id,Integer quantity);
 
     ArticleResponse getArticleById(Integer id);
 

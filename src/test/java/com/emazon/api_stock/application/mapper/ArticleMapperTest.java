@@ -1,18 +1,15 @@
 package com.emazon.api_stock.application.mapper;
 
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
+import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.ConstantsApplication;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.Brand;
-import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class ArticleMapperTest {
@@ -92,5 +89,61 @@ class ArticleMapperTest {
         Assertions.assertNotNull(article);
         Assertions.assertEquals(ConstantsApplication.NUMBER_1, article.getId());
         Assertions.assertEquals(ConstantsApplication.NUMBER_1, article.getQuantity());
+    }
+
+    @Test
+    void testToCategoryResponseListDto() {
+        Category category = new Category();
+        category.setId(ConstantsApplication.NUMBER_1);
+        category.setName(ConstantsApplication.FIELD_NAME);
+
+        CategoryResponseListDto dto = articleMapper.toCategoryResponseListDto(category);
+
+        Assertions.assertNotNull(dto);
+        Assertions.assertEquals(ConstantsApplication.NUMBER_1, dto.getId());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, dto.getName());
+    }
+
+    @Test
+    void testToCategoryResponseListDtoList() {
+        List<Category> categories = Arrays.asList(
+                new Category(ConstantsApplication.NUMBER_1, ConstantsApplication.FIELD_NAME,
+                        ConstantsApplication.FIELD_DESCRIPTION)
+        );
+
+        List<CategoryResponseListDto> dtoList = articleMapper.toCategoryResponseListDtoList(categories);
+
+        Assertions.assertEquals(ConstantsApplication.NUMBER_1, dtoList.size());
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, dtoList.get(ConstantsApplication.NUMBER_0).getName());
+    }
+
+    @Test
+    void testArticlePriceResponseToArticlePriceResponseDtoList() {
+        List<ArticlePriceResponse> articlePrices = Arrays.asList(
+                new ArticlePriceResponse(ConstantsApplication.NUMBER_1, ConstantsApplication.PRICE
+                        ,ConstantsApplication.NUMBER_1)
+        );
+
+        List<ArticlePriceResponseDto> dtoList = articleMapper
+                .articlePriceResponseToArticlePriceResponseDtoList(articlePrices);
+
+        Assertions.assertEquals(ConstantsApplication.NUMBER_1, dtoList.size());
+        Assertions.assertEquals(ConstantsApplication.PRICE, dtoList.get(ConstantsApplication.NUMBER_0).getPrice());
+    }
+
+    @Test
+    void testSubtractArticleRequestDtoToSubtractArticleRequest() {
+        List<SubtractArticleRequestDto> requestDtos = Arrays.asList(
+                new SubtractArticleRequestDto(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_2)
+        );
+
+        List<SubtractArticleRequest> requests = articleMapper
+                .subtractArticleRequestDtoToSubtractArticleRequest(requestDtos);
+
+        Assertions.assertEquals(ConstantsApplication.NUMBER_1, requests.size());
+        Assertions.assertEquals(ConstantsApplication.NUMBER_1, requests
+                .get(ConstantsApplication.NUMBER_0).getArticleId());
+        Assertions.assertEquals(ConstantsApplication.NUMBER_2, requests
+                .get(ConstantsApplication.NUMBER_0).getQuantity());
     }
 }

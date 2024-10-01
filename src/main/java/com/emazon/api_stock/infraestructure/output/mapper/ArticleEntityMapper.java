@@ -1,6 +1,5 @@
 package com.emazon.api_stock.infraestructure.output.mapper;
 
-import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
 import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;

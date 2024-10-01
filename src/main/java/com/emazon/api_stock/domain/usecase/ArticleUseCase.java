@@ -44,8 +44,8 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public void updateQuantity(ArticleSave articleRequest){
         ArticleResponse articleResponse = getArticleDatabase(articleRequest.getId());
-        updatedQuantity(articleRequest,articleResponse);
-        this.articlePersistencePort.updateArticle(articleResponse);
+        Integer quantity = updatedQuantity(articleRequest,articleResponse);
+        this.articlePersistencePort.updateArticle(articleResponse.getId(),quantity);
     }
 
     @Override
@@ -63,6 +63,15 @@ public class ArticleUseCase implements IArticleServicePort {
     @Override
     public List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds) {
         return this.articlePersistencePort.getPriceByIds(articlesIds);
+    }
+
+    @Override
+    public void subtractQuantityArticle(List<SubtractArticleRequest> subtractArticleRequests){
+        for(SubtractArticleRequest sales: subtractArticleRequests){
+            ArticleResponse articleResponse = getArticleDatabase(sales.getArticleId());
+            Integer quantity = subtractQuantity(sales.getQuantity(),articleResponse);
+            this.articlePersistencePort.updateArticle(articleResponse.getId(),quantity);
+        }
     }
 
     private void validatedNamePresent(String name){
@@ -119,8 +128,11 @@ public class ArticleUseCase implements IArticleServicePort {
         return articleResponse;
     }
 
-    private void updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
-        Integer updatedQuantity = articleRequest.getQuantity() + articleDataBase.getQuantity();
-        articleDataBase.setQuantity(updatedQuantity);
+    private Integer updatedQuantity(ArticleSave articleRequest,ArticleResponse articleDataBase){
+        return articleRequest.getQuantity() + articleDataBase.getQuantity();
+    }
+
+    private Integer subtractQuantity(Integer quantityRequest,ArticleResponse articleDataBase){
+       return articleDataBase.getQuantity() - quantityRequest;
     }
 }

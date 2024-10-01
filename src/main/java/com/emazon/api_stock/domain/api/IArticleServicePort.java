@@ -3,6 +3,7 @@ package com.emazon.api_stock.domain.api;
 import com.emazon.api_stock.domain.model.ArticlePriceResponse;
 import com.emazon.api_stock.domain.model.ArticleResponse;
 import com.emazon.api_stock.domain.model.ArticleSave;
+import com.emazon.api_stock.domain.model.SubtractArticleRequest;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface IArticleServicePort {
                                             String categoryName,String brandName);
 
       List<ArticlePriceResponse> getPriceByIds(List<Integer> articlesIds);
+
+      void subtractQuantityArticle(List<SubtractArticleRequest> subtractArticleRequests);
 }

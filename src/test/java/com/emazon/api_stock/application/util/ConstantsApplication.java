@@ -9,6 +9,7 @@ public class ConstantsApplication {
     public static final String ARTICLE = "article";
     public static final Integer NUMBER_0 = 0;
     public static final Integer NUMBER_1 = 1;
+    public static final Integer NUMBER_2 = 2;
     public static final Integer NUMBER_3 = 3;
     public static final Integer ID = 1;
     public static final double PRICE = 2.000;

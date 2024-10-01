@@ -1,13 +1,12 @@
 package com.emazon.api_stock.application.handler;
 
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.ArticleHandler;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
 import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.IArticleServicePort;
 import com.emazon.api_stock.domain.model.*;
+import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -126,7 +125,7 @@ class ArticleHandlerTest {
     }
 
     @Test
-    void shouldgetArticleByIds() {
+    void shouldGetArticleByIds() {
         when(articleMapper.toArticleDtoList(Mockito.any()))
                 .thenReturn(new ArrayList<>());
 
@@ -141,5 +140,42 @@ class ArticleHandlerTest {
                 getArticleByIds(ConstantsApplication.NUMBER_0,
                         ConstantsApplication.NUMBER_1, true, new ArrayList<>()
                         , ConstantsApplication.ARTICLE, ConstantsApplication.FIELD_NAME);
+    }
+
+    @Test
+    void shouldSubtractQuantityArticle() {
+        SubtractArticleRequestDto subtractArticleRequestDto = new SubtractArticleRequestDto();
+        subtractArticleRequestDto.setArticleId(ConstantsDomain.VALUE_1);
+        subtractArticleRequestDto.setQuantity(ConstantsDomain.VALUE_1);
+
+        List<SubtractArticleRequestDto> subtractArticleRequestDtoList = new ArrayList<>();
+        subtractArticleRequestDtoList.add(subtractArticleRequestDto);
+
+
+        SubtractArticleRequest subtractArticleRequest = new SubtractArticleRequest(ConstantsDomain.VALUE_1
+                , ConstantsDomain.VALUE_1);
+        List<SubtractArticleRequest> subtractArticleRequestsList = new ArrayList<>();
+        subtractArticleRequestsList.add(subtractArticleRequest);
+
+        when(articleMapper.subtractArticleRequestDtoToSubtractArticleRequest(subtractArticleRequestDtoList))
+                .thenReturn(subtractArticleRequestsList);
+
+        articleHandler.subtractQuantityArticle(subtractArticleRequestDtoList);
+
+
+        Mockito.verify(articleMapper, Mockito.times(NUMBER_1)).
+                subtractArticleRequestDtoToSubtractArticleRequest(subtractArticleRequestDtoList);
+    }
+
+    @Test
+    void shouldGetPriceByIds() {
+        List<Integer> articleIds = new ArrayList<>();
+        articleIds.add(NUMBER_1);
+
+        articleHandler.getPriceByIds(articleIds);
+
+
+        Mockito.verify(articleServicePort, Mockito.times(NUMBER_1)).
+                getPriceByIds(articleIds);
     }
 }

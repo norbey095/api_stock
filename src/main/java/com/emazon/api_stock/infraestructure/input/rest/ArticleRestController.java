@@ -1,10 +1,7 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
-import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,7 +32,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "201", description = "article created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createArticle(@Validated @RequestBody ArticleRequestDto articleRequestDto){
         ResponseSuccess responseSuccess = articleHandler.saveArticle(articleRequestDto);
@@ -72,7 +69,8 @@ public class ArticleRestController {
     })
     @PreAuthorize("hasRole('ROLE_AUX_WAREHOUSE')")
     @PostMapping("/update")
-    public ResponseEntity<ResponseSuccess> updateQuantity(@Validated @RequestBody ArticleUpdateRequestDto articleUpdateRequestDto){
+    public ResponseEntity<ResponseSuccess> updateQuantity(@Validated @RequestBody
+                                                              ArticleUpdateRequestDto articleUpdateRequestDto){
         ResponseSuccess responseSuccess = articleHandler.updateQuantity(articleUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseSuccess);
@@ -84,7 +82,7 @@ public class ArticleRestController {
     }
 
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @GetMapping("/getItemsCart")
     public ResponseEntity<List<ArticleResponseDto>> getArticleByIds(
             @RequestParam Integer page,
@@ -96,10 +94,19 @@ public class ArticleRestController {
         return ResponseEntity.ok(articleHandler.getArticleByIds(page,size,descending,articlesId,categoryName,brandName));
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @GetMapping("/getPriceByIds")
     public ResponseEntity<List<ArticlePriceResponseDto>> getPriceByIds(
             @RequestParam List<Integer> articlesIds) {
         return ResponseEntity.ok(articleHandler.getPriceByIds(articlesIds));
+    }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @PostMapping("/subtract")
+    public ResponseEntity<ResponseSuccess> subtractQuantityArticle(@Validated @RequestBody
+                                                           List<SubtractArticleRequestDto> subtractArticleRequest){
+        ResponseSuccess responseSuccess = articleHandler.subtractQuantityArticle(subtractArticleRequest);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(responseSuccess);
     }
 }

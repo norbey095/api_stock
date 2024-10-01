@@ -1,10 +1,7 @@
 package com.emazon.api_stock.application.handler.article;
 
 import com.emazon.api_stock.application.dto.ResponseSuccess;
-import com.emazon.api_stock.application.dto.article.ArticlePriceResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleRequestDto;
-import com.emazon.api_stock.application.dto.article.ArticleResponseDto;
-import com.emazon.api_stock.application.dto.article.ArticleUpdateRequestDto;
+import com.emazon.api_stock.application.dto.article.*;
 
 import java.util.List;
 
@@ -22,4 +19,6 @@ public interface IArticleHandler {
                                              String categoryName,String brandName);
 
     List<ArticlePriceResponseDto> getPriceByIds(List<Integer> articlesIds);
+
+    ResponseSuccess subtractQuantityArticle(List<SubtractArticleRequestDto> subtractArticleRequest);
 }
