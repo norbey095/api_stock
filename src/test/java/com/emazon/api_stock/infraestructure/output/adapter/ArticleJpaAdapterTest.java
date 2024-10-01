@@ -140,18 +140,10 @@ class ArticleJpaAdapterTest {
 
     @Test
     void testUpdateArticle() {
-        ArticleResponse article = new ArticleResponse(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.FIELD_NAME
-                , ConstantsInfraestructure.FIELD_ARTICLES_DESCRIPTION,ConstantsInfraestructure.VALUE_2
-                , ConstantsInfraestructure.PRICE, null,null);
-        ArticleEntity articleEntity = new ArticleEntity();
-
-        Mockito.when(articleEntityMapper.articleToArticleEntity(article)).thenReturn(articleEntity);
-
         articleJpaAdapter.updateArticle(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1);
 
-        Mockito.verify(articleEntityMapper).articleToArticleEntity(article);
-
-        Mockito.verify(articleRepository).save(articleEntity);
+        Mockito.verify(articleRepository, Mockito.times(ConstantsInfraestructure.VALUE_1))
+                .updateQuantityById(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1);
     }
 
     @Test
