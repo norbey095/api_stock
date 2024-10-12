@@ -153,19 +153,24 @@ class ArticleUseCaseTest {
                 brand,categories);
         List<ArticleResponse> articleList = new ArrayList<>();
         articleList.add(articleResponse);
+        Pagination<ArticleResponse> articleResponsePagination = new Pagination<>();
+        articleResponsePagination.setContentList(articleList);
 
         Mockito.when(articlePersistencePort.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
-                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(articleList);
+                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(articleResponsePagination);
 
-        List<ArticleResponse> result = articleUseCase.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+        Pagination<ArticleResponse> result = articleUseCase.getAllArticles(ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_1
                 ,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE);
 
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE
                         , ConstantsDomain.ARTICLE);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getName(), articleResponse.getName());
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getDescription(), articleResponse.getDescription());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0).getName()
+                ,articleResponse.getName());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0)
+                .getDescription(), articleResponse.getDescription());
     }
 
     @Test
@@ -223,7 +228,7 @@ class ArticleUseCaseTest {
     @Test
     void shouldGetAllArticleNoData() {
         Mockito.when(articlePersistencePort.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
-                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(new ArrayList<>());
+                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(new Pagination<>());
 
         assertThrows(NoDataFoundException.class, () -> {
             articleUseCase.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
@@ -334,4 +339,38 @@ class ArticleUseCaseTest {
         Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getArticleById(ConstantsDomain.VALUE_1);
     }
+
+    @Test
+    void shouldGetAllArticleIsEmpty() {
+        Pagination<ArticleResponse> articlePagination = new Pagination<>();
+        articlePagination.setContentList(new ArrayList<>());
+
+        Mockito.when(articlePersistencePort.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(articlePagination);
+
+        assertThrows(NoDataFoundException.class, () -> {
+            articleUseCase.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE
+                        , ConstantsDomain.ARTICLE);
+    }
+
+    @Test
+    void shouldGetAllArticleIsNull() {
+        Mockito.when(articlePersistencePort.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE,ConstantsDomain.ARTICLE)).thenReturn(null);
+
+        assertThrows(NoDataFoundException.class, () -> {
+            articleUseCase.getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE, ConstantsDomain.ARTICLE);
+        });
+
+        Mockito.verify(articlePersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllArticles(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE
+                        , ConstantsDomain.ARTICLE);
+    }
+
 }

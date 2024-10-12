@@ -1,5 +1,6 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/stock/article")
 @RequiredArgsConstructor
+@CrossOrigin(origins="*",methods = {RequestMethod.GET,RequestMethod.POST})
 public class ArticleRestController {
 
     private final IArticleHandler articleHandler;
@@ -32,7 +34,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "201", description = "article created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid fields", content = @Content)
     })
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/registry")
     public ResponseEntity<ResponseSuccess> createArticle(@Validated @RequestBody ArticleRequestDto articleRequestDto){
         ResponseSuccess responseSuccess = articleHandler.saveArticle(articleRequestDto);
@@ -55,7 +57,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
     @GetMapping("/")
-    public ResponseEntity<List<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
+    public ResponseEntity<PaginationDto<ArticleResponseDto>> getAllArticles(@RequestParam Integer page, @RequestParam Integer size
             , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending
             , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_ARTICLE) String filterBy) {
         return ResponseEntity.ok(articleHandler.getAllArticles(page, size, descending, filterBy));

@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.ArticleHandler;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
@@ -77,6 +78,8 @@ class ArticleHandlerTest {
     void shouldGetAllArticle() {
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
         articleResponseDtoList.add(articleResponseDto);
+        PaginationDto<ArticleResponseDto> paginationDto = new PaginationDto<>();
+        paginationDto.setContentList(articleResponseDtoList);
 
         Brand brand = new Brand(NUMBER_1, FIELD_NAME
                 , FIELD_ARTICLE_DESCRIPTION);
@@ -87,15 +90,17 @@ class ArticleHandlerTest {
                 , FIELD_BRAND_DESCRIPTION, NUMBER_1, PRICE, brand,categories);
         List<ArticleResponse> articleResponses = new ArrayList<>();
         articleResponses.add(articleResponse);
+        Pagination<ArticleResponse> articleResponsePagination = new Pagination<>();
+        articleResponsePagination.setContentList(articleResponses);
 
-        when(articleMapper.toArticleDtoList(articleResponses)).thenReturn(articleResponseDtoList);
+        when(articleMapper.toArticleDtoListPagination(articleResponsePagination)).thenReturn(paginationDto);
         when(articleServicePort.getAllArticles(NUMBER_1, NUMBER_1,false, ARTICLE))
-                .thenReturn(articleResponses);
+                .thenReturn(articleResponsePagination);
 
         articleHandler.getAllArticles(NUMBER_1, NUMBER_1,false, ARTICLE);
 
 
-        verify(articleMapper).toArticleDtoList(articleResponses);
+        verify(articleMapper).toArticleDtoListPagination(articleResponsePagination);
         verify(articleServicePort).getAllArticles(NUMBER_1, NUMBER_1,
                 false, ARTICLE);
     }

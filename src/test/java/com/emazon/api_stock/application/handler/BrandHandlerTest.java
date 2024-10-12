@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
 import com.emazon.api_stock.application.handler.brand.BrandHandler;
@@ -7,6 +8,7 @@ import com.emazon.api_stock.application.mapper.BrandMapper;
 import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.IBrandServicePort;
 import com.emazon.api_stock.domain.model.Brand;
+import com.emazon.api_stock.domain.model.Pagination;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -63,22 +65,26 @@ class BrandHandlerTest {
     void shouldGetAllCategory() {
         List<BrandResponseDto> brandResponseDtoList = new ArrayList<>();
         brandResponseDtoList.add(brandResponseDto);
+        PaginationDto<BrandResponseDto> paginationDto = new PaginationDto<>();
+        paginationDto.setContentList(brandResponseDtoList);
 
         Brand brand = new Brand(null, ConstantsApplication.FIELD_NAME
                 , ConstantsApplication.FIELD_BRAND_DESCRIPTION);
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
+        Pagination<Brand> brandPagination = new Pagination<>();
+        brandPagination.setContentList(brandList);
 
-        when(brandMapper.toBrandDtoList(brandList)).thenReturn(brandResponseDtoList);
+        when(brandMapper.toBrandDtoList(brandPagination)).thenReturn(paginationDto);
         when(brandServicePort.getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
                 , ConstantsApplication.VALUE_FALSE))
-                .thenReturn(brandList);
+                .thenReturn(brandPagination);
 
         brandHandler.getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
                 , ConstantsApplication.VALUE_FALSE);
 
 
-        verify(brandMapper).toBrandDtoList(brandList);
+        verify(brandMapper).toBrandDtoList(brandPagination);
         verify(brandServicePort).getAllBrands(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
                 , ConstantsApplication.VALUE_FALSE);
     }

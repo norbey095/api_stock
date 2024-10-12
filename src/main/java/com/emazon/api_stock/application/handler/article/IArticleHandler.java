@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler.article;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.*;
 
@@ -9,7 +10,7 @@ public interface IArticleHandler {
 
     ResponseSuccess saveArticle(ArticleRequestDto articleRequestDto);
 
-    List<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
+    PaginationDto<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
 
     ResponseSuccess updateQuantity(ArticleUpdateRequestDto articleUpdateRequestDto);
 

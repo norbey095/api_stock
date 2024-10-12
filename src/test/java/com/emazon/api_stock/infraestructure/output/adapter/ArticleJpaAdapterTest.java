@@ -1,9 +1,6 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
-import com.emazon.api_stock.domain.model.Brand;
-import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.*;
 import com.emazon.api_stock.infraestructure.output.entity.ArticleEntity;
 import com.emazon.api_stock.infraestructure.output.mapper.ArticleEntityMapper;
 import com.emazon.api_stock.infraestructure.output.repository.IArticleRepository;
@@ -78,16 +75,16 @@ class ArticleJpaAdapterTest {
                 null,null,null,pagination)).thenReturn(new PageImpl<>(articleEntities));
         Mockito.when(articleEntityMapper.articleEntityToArticleResponseList(articleEntities)).thenReturn(articleResponse);
 
-        List<ArticleResponse> result = articleJpaAdapter.getAllArticles(page, size,
+        Pagination<ArticleResponse> result = articleJpaAdapter.getAllArticles(page, size,
                 ConstantsInfraestructure.VALUE_FALSE,
                 ConstantsInfraestructure.ARTICLE);
 
         assertNotNull(result);
-        assertEquals(articleResponse.size(), result.size());
+        assertEquals(articleResponse.size(), result.getContentList().size());
         assertEquals(articleResponse.get(ConstantsInfraestructure.VALUE_0).getName(),
-                result.get(ConstantsInfraestructure.VALUE_0).getName());
+                result.getContentList().get(ConstantsInfraestructure.VALUE_0).getName());
         assertEquals(articleResponse.get(ConstantsInfraestructure.VALUE_0).getDescription(),
-                result.get(ConstantsInfraestructure.VALUE_0).getDescription());
+                result.getContentList().get(ConstantsInfraestructure.VALUE_0).getDescription());
     }
 
 

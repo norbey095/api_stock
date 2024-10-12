@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler.brand;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
@@ -31,7 +32,7 @@ public class BrandHandler implements IBrandHandler {
     }
 
     @Override
-    public List<BrandResponseDto> getAllBrands(Integer page, Integer size, boolean descending) {
+    public PaginationDto<BrandResponseDto> getAllBrands(Integer page, Integer size, boolean descending) {
         return brandMapper.toBrandDtoList(brandServicePort.getAllBrands(page,size,descending));
     }
 }

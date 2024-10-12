@@ -6,6 +6,7 @@ import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
 import com.emazon.api_stock.domain.model.Brand;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.Assertions;
@@ -134,19 +135,22 @@ class BrandUseCaseTest {
         Brand brand = new Brand(ConstantsDomain.VALUE_1, ConstantsDomain.FIELD_NAME, ConstantsDomain.COMILLAS);
         List<Brand> brandList = new ArrayList<>();
         brandList.add(brand);
+        Pagination<Brand> brandPagination = new Pagination<>();
+        brandPagination.setContentList(brandList);
 
         Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,
                         ConstantsDomain.VALUE_FALSE))
-                .thenReturn(brandList);
+                .thenReturn(brandPagination);
 
-        List<Brand> result = brandUseCase.getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,
+        Pagination<Brand> result = brandUseCase.getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,
                 ConstantsDomain.VALUE_FALSE);
 
         Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getAllBrands(ConstantsDomain.VALUE_1, ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getName(), brand.getName());
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getDescription(), brand.getDescription());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0).getName(), brand.getName());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0)
+                .getDescription(), brand.getDescription());
     }
 
     @Test
@@ -204,7 +208,38 @@ class BrandUseCaseTest {
     @Test
     void shouldGetAllBrandNoData() {
         Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
-                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new ArrayList<>());
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new Pagination<>());
+
+        assertThrows(NoDataFoundException.class, () -> {
+            brandUseCase.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllBrandIsEmpty() {
+        Pagination<Brand> brandPagination = new Pagination<>();
+        brandPagination.setContentList(new ArrayList<>());
+
+        Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(brandPagination);
+
+        assertThrows(NoDataFoundException.class, () -> {
+            brandUseCase.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(brandPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllBrandIsNull() {
+        Mockito.when(brandPersistencePort.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(null);
 
         assertThrows(NoDataFoundException.class, () -> {
             brandUseCase.getAllBrands(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1

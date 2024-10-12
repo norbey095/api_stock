@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.mapper;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.ConstantsMapper;
@@ -22,8 +23,8 @@ public interface ArticleMapper {
     @Mapping(source = ConstantsMapper.CATEGORIES, target = ConstantsMapper.CATEGORIES)
     ArticleResponseDto toArticleDto(ArticleResponse article);
 
-    @Mapping(source = ConstantsMapper.BRAND, target = ConstantsMapper.BRAND)
-    @Mapping(source = ConstantsMapper.CATEGORIES, target = ConstantsMapper.CATEGORIES)
+    PaginationDto<ArticleResponseDto> toArticleDtoListPagination(Pagination<ArticleResponse> articles);
+
     List<ArticleResponseDto> toArticleDtoList(List<ArticleResponse> articles);
 
     CategoryResponseListDto toCategoryResponseListDto(Category category);
