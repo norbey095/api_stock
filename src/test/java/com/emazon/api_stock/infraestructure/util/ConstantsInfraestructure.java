@@ -13,12 +13,12 @@ public class ConstantsInfraestructure {
             " \"Category for electronics\"}";
     public static final String JSON_BRAND_REQUEST = "{\"name\": \"Electronics\", \"description\":" +
             " \"brand for electronics\"}";
-    public static final String CATEGORY_EXISTS = "There is already a category with that name";
+    public static final String CATEGORY_EXISTS = "Ya existe una categoría con ese nombre";
     public static final String BRAND_EXISTS = "There is already a brand with that name";
     public static final String INVALID_NAME = "Invalid argument";
     public static final String INVALID_DESCRIPTION = "Invalid argument";
-    public static final String NO_DATA_FOUND_EXCEPTION_MESSAGE = "No data found in the database";
-    public static final String NEGATIVE_NOT_ALLOWED = "The page and size fields cannot be negative or null.";
+    public static final String NO_DATA_FOUND_EXCEPTION_MESSAGE = "No se encontraron datos";
+    public static final String NEGATIVE_NOT_ALLOWED = "Los campos de página y tamaño no pueden ser negativos o nulos.";
     public static final String FIELD_ARTICLE_DESCRIPTION = "article for electronics";
     public static final String FIELD_CATEGORIES_INVALID_NUMBER = "An article cannot have more than 3 categories.";
     public static final String URL_CREATE_ARTICLE = "/stock/article/registry";
