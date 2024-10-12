@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler.article;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.mapper.ArticleMapper;
@@ -31,8 +32,8 @@ public class ArticleHandler implements IArticleHandler {
     }
 
     @Override
-    public List<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
-        return articleMapper.toArticleDtoList(articleServicePort.getAllArticles(page,size,descending,filterBy));
+    public PaginationDto<ArticleResponseDto> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
+        return articleMapper.toArticleDtoListPagination(articleServicePort.getAllArticles(page,size,descending,filterBy));
     }
 
     @Override

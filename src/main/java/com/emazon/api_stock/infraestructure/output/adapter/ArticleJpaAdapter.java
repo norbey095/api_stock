@@ -1,15 +1,14 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
 import com.emazon.api_stock.domain.exception.article.TheArticleDoesNotExistException;
-import com.emazon.api_stock.domain.model.ArticlePriceResponse;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
+import com.emazon.api_stock.domain.model.*;
 import com.emazon.api_stock.domain.spi.IArticlePersistencePort;
 import com.emazon.api_stock.infraestructure.output.entity.ArticleEntity;
 import com.emazon.api_stock.infraestructure.output.mapper.ArticleEntityMapper;
 import com.emazon.api_stock.infraestructure.output.repository.IArticleRepository;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,11 +29,18 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
     }
 
     @Override
-    public List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
+    public Pagination<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy) {
         Pageable pagination = createPageable(page, size, descending,filterBy);
-        List<ArticleEntity> articleEntities = articleRepository.findAllItemsByBrandName(
-                null,null,null,pagination).getContent();
-        return articleEntityMapper.articleEntityToArticleResponseList(articleEntities);
+        Page<ArticleEntity> articleEntities = articleRepository.findAllItemsByBrandName(
+                null,null,null,pagination);
+
+        List<ArticleResponse> articleList = articleEntityMapper.
+                articleEntityToArticleResponseList(articleEntities.getContent());
+
+        return new Pagination<>(
+                articleList,
+                articleEntities.getTotalElements()
+        );
     }
 
     @Override

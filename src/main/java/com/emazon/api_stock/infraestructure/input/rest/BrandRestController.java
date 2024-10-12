@@ -1,5 +1,6 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.brand.BrandRequestDto;
 import com.emazon.api_stock.application.dto.brand.BrandResponseDto;
@@ -16,11 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/stock/brand")
 @RequiredArgsConstructor
+@CrossOrigin(origins="*",methods = {RequestMethod.GET,RequestMethod.POST})
 public class BrandRestController {
 
     private final IBrandHandler brandHandler;
@@ -53,7 +53,7 @@ public class BrandRestController {
             @ApiResponse(responseCode = "404", description = "No data was found for the parameters provided.")
     })
     @GetMapping("/")
-    public ResponseEntity<List<BrandResponseDto>> getAllBrands(@RequestParam Integer page, @RequestParam Integer size
+    public ResponseEntity<PaginationDto<BrandResponseDto>> getAllBrands(@RequestParam Integer page, @RequestParam Integer size
             , @RequestParam(required = false, defaultValue = InfraestructureConstants.VALUE_FALSE) boolean descending) {
         return ResponseEntity.ok(brandHandler.getAllBrands(page,size,descending));
     }

@@ -1,12 +1,14 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.infraestructure.output.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.repository.ICategoryRepository;
 import com.emazon.api_stock.infraestructure.utils.InfraestructureConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,10 +28,15 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     }
 
     @Override
-    public List<Category> getAllCategories(Integer page, Integer size,boolean descending) {
+    public Pagination<Category> getAllCategories(Integer page, Integer size,boolean descending) {
         Pageable pagination = createPageable(page, size, descending);
-        List<CategoryEntity> categoryEntities = categoryRepository.findAll(pagination).getContent();
-        return categoryEntityMapper.categoryEntityToCategory(categoryEntities);
+        Page<CategoryEntity> categoryEntities = categoryRepository.findAll(pagination);
+        List<Category> categoryList = categoryEntityMapper.categoryEntityToCategory(categoryEntities.getContent());
+
+        return new Pagination<>(
+                categoryList,
+                categoryEntities.getTotalElements()
+        );
     }
 
     @Override

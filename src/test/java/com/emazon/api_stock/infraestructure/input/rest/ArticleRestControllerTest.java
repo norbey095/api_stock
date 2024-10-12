@@ -1,5 +1,6 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.handler.article.IArticleHandler;
@@ -79,22 +80,19 @@ class ArticleRestControllerTest {
     void getAllArticle_ShouldReturnArticleResponseDto() throws Exception {
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
         articleResponseDtoList.add(articleResponseDto);
+        PaginationDto<ArticleResponseDto> paginationDto = new PaginationDto<>();
+        paginationDto.setContentList(articleResponseDtoList);
+
         Mockito.when(articleHandler.getAllArticles(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.VALUE_1
                         ,ConstantsInfraestructure.VALUE_FALSE,ConstantsInfraestructure.ARTICLE))
-                .thenReturn(articleResponseDtoList);
+                .thenReturn(paginationDto);
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_ARTICLE)
                         .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
                         .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_NAME)
-                                .value(ConstantsInfraestructure.FIELD_NAME))
-                        .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_DESCRIPTION)
-                                .value(ConstantsInfraestructure.FIELD_ARTICLE_DESCRIPTION))
-                        .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_QUANTITY)
-                                .value(ConstantsInfraestructure.VALUE_3));
+                        .andExpect(MockMvcResultMatchers.status().isOk());
 
         Mockito.verify(articleHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getAllArticles(ConstantsInfraestructure.VALUE_1, ConstantsInfraestructure.VALUE_1

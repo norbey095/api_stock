@@ -4,13 +4,12 @@ import com.emazon.api_stock.domain.api.ICategoryServicePort;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.Constants;
 import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.NoDataFoundException;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
-
-import java.util.List;
 
 public class CategoryUseCase implements ICategoryServicePort {
 
@@ -29,9 +28,9 @@ public class CategoryUseCase implements ICategoryServicePort {
     }
 
     @Override
-    public List<Category> getAllCategories(Integer page, Integer size, boolean descending) {
+    public Pagination<Category> getAllCategories(Integer page, Integer size, boolean descending) {
         validateNegativeData(page,size);
-        List<Category> categoryList = this.categoryPersistencePort.getAllCategories(page, size,descending);
+        Pagination<Category> categoryList = this.categoryPersistencePort.getAllCategories(page, size,descending);
         validateData(categoryList);
         return categoryList;
     }
@@ -69,8 +68,8 @@ public class CategoryUseCase implements ICategoryServicePort {
         }
     }
 
-    private void validateData(List<Category> categoryList){
-        if (categoryList.isEmpty()) {
+    private void validateData(Pagination<Category> categoryList){
+        if (categoryList == null || categoryList.getContentList() == null || categoryList.getContentList().isEmpty()) {
             throw new NoDataFoundException();
         }
     }

@@ -3,8 +3,6 @@ package com.emazon.api_stock.domain.model;
 import com.emazon.api_stock.domain.util.ConstantsDomain;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SubtractArticleRequestTest {

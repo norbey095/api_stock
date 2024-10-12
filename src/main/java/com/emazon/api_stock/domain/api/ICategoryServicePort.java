@@ -1,13 +1,12 @@
 package com.emazon.api_stock.domain.api;
 
 import com.emazon.api_stock.domain.model.Category;
-
-import java.util.List;
+import com.emazon.api_stock.domain.model.Pagination;
 
 public interface ICategoryServicePort {
 
         void saveCategory(Category category);
 
-        List<Category> getAllCategories(Integer page, Integer size, boolean descending);
+        Pagination<Category> getAllCategories(Integer page, Integer size, boolean descending);
 
 }

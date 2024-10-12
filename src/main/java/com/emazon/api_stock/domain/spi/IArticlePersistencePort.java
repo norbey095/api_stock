@@ -1,8 +1,6 @@
 package com.emazon.api_stock.domain.spi;
 
-import com.emazon.api_stock.domain.model.ArticlePriceResponse;
-import com.emazon.api_stock.domain.model.ArticleResponse;
-import com.emazon.api_stock.domain.model.ArticleSave;
+import com.emazon.api_stock.domain.model.*;
 
 import java.util.List;
 
@@ -11,7 +9,7 @@ public interface IArticlePersistencePort {
 
     Integer saveArticle(ArticleSave articleSave);
 
-    List<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
+    Pagination<ArticleResponse> getAllArticles(Integer page, Integer size, boolean descending, String filterBy);
 
     boolean getArticleByName(String name);
 

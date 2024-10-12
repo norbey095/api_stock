@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.mapper;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.article.*;
 import com.emazon.api_stock.application.dto.category.CategoryResponseListDto;
 import com.emazon.api_stock.application.util.ConstantsApplication;
@@ -73,7 +74,7 @@ class ArticleMapperTest {
 
     @Test
     void testToBrandDtoList_NullInput() {
-        List<ArticleResponseDto> articleResponseDtos = articleMapper.toArticleDtoList(null);
+        PaginationDto<ArticleResponseDto> articleResponseDtos = articleMapper.toArticleDtoListPagination(null);
 
         Assertions.assertNull(articleResponseDtos);
     }

@@ -7,10 +7,9 @@ import com.emazon.api_stock.domain.exception.brand.BrandAlreadyExistsException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandDescriptionException;
 import com.emazon.api_stock.domain.exception.brand.InvalidBrandNameException;
 import com.emazon.api_stock.domain.model.Brand;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.domain.spi.IBrandPersistencePort;
 import com.emazon.api_stock.domain.util.Constants;
-
-import java.util.List;
 
 public class BrandUseCase implements IBrandServicePort {
 
@@ -29,9 +28,9 @@ public class BrandUseCase implements IBrandServicePort {
     }
 
     @Override
-    public List<Brand> getAllBrands(Integer page, Integer size, boolean descending) {
+    public Pagination<Brand> getAllBrands(Integer page, Integer size, boolean descending) {
         validateNegativeData(page,size);
-        List<Brand> brandList = this.brandPersistencePort.getAllBrands(page, size,descending);
+        Pagination<Brand> brandList = this.brandPersistencePort.getAllBrands(page, size,descending);
         validateData(brandList);
         return brandList;
     }
@@ -69,8 +68,8 @@ public class BrandUseCase implements IBrandServicePort {
         }
     }
 
-    private void validateData( List<Brand> brandList){
-        if (brandList.isEmpty()) {
+    private void validateData(Pagination<Brand> brandList){
+        if (brandList == null || brandList.getContentList() == null || brandList.getContentList().isEmpty()) {
             throw new NoDataFoundException();
         }
     }

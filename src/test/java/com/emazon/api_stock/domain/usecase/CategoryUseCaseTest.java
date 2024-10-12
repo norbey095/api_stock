@@ -5,6 +5,7 @@ import com.emazon.api_stock.domain.exception.category.CategoryAlreadyExistsExcep
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryDescriptionException;
 import com.emazon.api_stock.domain.exception.category.InvalidCategoryNameException;
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.domain.spi.ICategoryPersistencePort;
 import com.emazon.api_stock.domain.util.ConstantsDomain;
 import com.emazon.api_stock.domain.exception.PaginationNotAllowedException;
@@ -137,17 +138,20 @@ class CategoryUseCaseTest {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
 
-        Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
-                ,ConstantsDomain.VALUE_FALSE)).thenReturn(categoryList);
+        Pagination<Category> pagination = new Pagination<>();
+        pagination.setContentList(categoryList);
 
-        List<Category> result = categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+        Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(pagination);
+
+        Pagination<Category> result = categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
                 ,ConstantsDomain.VALUE_FALSE);
 
         Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
                 .getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getName(), category.getName());
-        Assertions.assertEquals(result.get(ConstantsDomain.VALUE_0).getDescription(), category.getDescription());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0).getName(), category.getName());
+        Assertions.assertEquals(result.getContentList().get(ConstantsDomain.VALUE_0).getDescription(), category.getDescription());
     }
 
     @Test
@@ -205,7 +209,38 @@ class CategoryUseCaseTest {
     @Test
     void shouldGetAllCategoryNoData() {
         Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
-                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new ArrayList<>());
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(new Pagination<>());
+
+        assertThrows(NoDataFoundException.class, () -> {
+            categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllCategoryIsEmpty() {
+        Pagination<Category> categoryPagination = new Pagination<>();
+        categoryPagination.setContentList(new ArrayList<>());
+
+        Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(categoryPagination);
+
+        assertThrows(NoDataFoundException.class, () -> {
+            categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                    ,ConstantsDomain.VALUE_FALSE);
+        });
+
+        Mockito.verify(categoryPersistencePort, Mockito.times(ConstantsDomain.VALUE_1))
+                .getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_FALSE);
+    }
+
+    @Test
+    void shouldGetAllCategoryIsNull() {
+        Mockito.when(categoryPersistencePort.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1
+                ,ConstantsDomain.VALUE_FALSE)).thenReturn(null);
 
         assertThrows(NoDataFoundException.class, () -> {
             categoryUseCase.getAllCategories(ConstantsDomain.VALUE_1,ConstantsDomain.VALUE_1

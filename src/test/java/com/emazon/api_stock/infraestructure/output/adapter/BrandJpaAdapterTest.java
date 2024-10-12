@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
 import com.emazon.api_stock.domain.model.Brand;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.infraestructure.output.entity.BrandEntity;
 import com.emazon.api_stock.infraestructure.output.mapper.BrandEntityMapper;
 import com.emazon.api_stock.infraestructure.output.repository.IBrandRepository;
@@ -65,14 +66,14 @@ class BrandJpaAdapterTest {
         Mockito.when(brandRepository.findAll(pagination)).thenReturn(new PageImpl<>(brandEntities));
         Mockito.when(brandEntityMapper.brandEntityToBrand(brandEntities)).thenReturn(brands);
 
-        List<Brand> result = brandJpaAdapter.getAllBrands(page, size, ConstantsInfraestructure.VALUE_FALSE);
+        Pagination<Brand> result = brandJpaAdapter.getAllBrands(page, size, ConstantsInfraestructure.VALUE_FALSE);
 
         assertNotNull(result);
-        assertEquals(brands.size(), result.size());
+        assertEquals(brands.size(), result.getContentList().size());
         assertEquals(brands.get(ConstantsInfraestructure.VALUE_0).getName(),
-                result.get(ConstantsInfraestructure.VALUE_0).getName());
+                result.getContentList().get(ConstantsInfraestructure.VALUE_0).getName());
         assertEquals(brands.get(ConstantsInfraestructure.VALUE_0).getDescription(),
-                result.get(ConstantsInfraestructure.VALUE_0).getDescription());
+                result.getContentList().get(ConstantsInfraestructure.VALUE_0).getDescription());
     }
 
     @Test

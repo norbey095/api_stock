@@ -1,5 +1,6 @@
 package com.emazon.api_stock.application.handler.category;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.ResponseSuccess;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class CategoryHandler implements ICategoryHandler {
     }
 
     @Override
-    public List<CategoryResponseDto> getAllCategories(Integer page, Integer size, boolean descending) {
+    public PaginationDto<CategoryResponseDto> getAllCategories(Integer page, Integer size, boolean descending) {
         return categoryMapper.toCategoryDtoList(categoryServicePort.getAllCategories(page,size,descending));
     }
 }
