@@ -13,7 +13,7 @@ public class ConstantsDomain {
     public static final String DESCRIPTION_BRAND_INVALID = "This description is too long and exceeds the maximum allowed " +
             "length of 120 characters. Please adjust the description comment to make it a valid length.";
     public static final String MSN_DESCRIPTION_CARACTER = "El campo 'descripción' no puede superar los 90 caracteres";
-    public static final String MSN_DESCRIPTION_BRAND_CARACTER = "The 'description' field cannot exceed 120 characters";
+    public static final String MSN_DESCRIPTION_BRAND_CARACTER = "El campo 'descripción' no puede superar los 120 caracteres";
     public static final String MSN_DESCRIPTION_NULL = "El campo 'descripción' no puede estar vacío";
     public static final String FIELD_ARTICLE_DESCRIPTION = "article for electronics";
     public static final Integer VALUE_0 = 0;

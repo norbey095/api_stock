@@ -7,8 +7,8 @@ public class InfraestructureConstants {
     public static final String CATEGORY_ALREADY_EXISTS = "Ya existe una categoría con ese nombre";
     public static final String NO_DATA_FOUND_EXCEPTION_MESSAGE = "No se encontraron datos";
     public static final String NEGATIVE_NOT_ALLOWED = "Los campos de página y tamaño no pueden ser negativos o nulos.";
-    public static final String BRAND_ALREADY_EXISTS = "There is already a brand with that name";
-    public static final String ARTICLE_ALREADY_EXISTS = "There is already an article with that name";
+    public static final String BRAND_ALREADY_EXISTS = "Ya existe una marca con ese nombre";
+    public static final String ARTICLE_ALREADY_EXISTS = "Ya existe un artículo con ese nombre";
     public static final String VALUE_FALSE = "false";
     public static final String VALUE_ARTICLE = "article";
     public static final String NAME = "name";
