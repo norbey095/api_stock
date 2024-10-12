@@ -1,9 +1,11 @@
 package com.emazon.api_stock.application.mapper;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -42,19 +44,22 @@ class CategoryMapperTest {
 
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
+        Pagination<Category> pagination = new Pagination<>();
+        pagination.setContentList(categoryList);
 
-        List<CategoryResponseDto> categoryDtoList = categoryMapper.toCategoryDtoList(categoryList);
+        PaginationDto<CategoryResponseDto> categoryDtoList = categoryMapper.toCategoryDtoList(pagination);
 
         Assertions.assertNotNull(categoryDtoList);
-        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, categoryDtoList.get(ConstantsApplication.NUMBER_0)
+        Assertions.assertEquals(ConstantsApplication.FIELD_NAME, categoryDtoList.getContentList()
+                .get(ConstantsApplication.NUMBER_0)
                 .getName());
-        Assertions.assertEquals(ConstantsApplication.FIELD_DESCRIPTION, categoryDtoList
+        Assertions.assertEquals(ConstantsApplication.FIELD_DESCRIPTION, categoryDtoList.getContentList()
                 .get(ConstantsApplication.NUMBER_0).getDescription());
     }
 
     @Test
     void testToCategoryDtoList_NullInput() {
-        List<CategoryResponseDto> categoryDtos = categoryMapper.toCategoryDtoList(null);
+        PaginationDto<CategoryResponseDto> categoryDtos = categoryMapper.toCategoryDtoList(null);
 
         Assertions.assertNull(categoryDtos);
     }

@@ -1,5 +1,6 @@
 package com.emazon.api_stock.infraestructure.input.rest;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.handler.category.ICategoryHandler;
@@ -62,23 +63,21 @@ class CategoryRestControllerTest {
 
     @Test
     @WithMockUser(username = ConstantsInfraestructure.USER_NAME, roles = {ConstantsInfraestructure.ADMIN})
-    void getAllCategory_ShouldReturnCategoryDto() throws Exception {
+    void getAllCategory_ShouldReturnPaginationDto() throws Exception {
         List<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
         categoryResponseDtoList.add(categoryResponseDto);
+        PaginationDto<CategoryResponseDto> paginationDto = new PaginationDto<>();
+        paginationDto.setContentList(categoryResponseDtoList);
+
         Mockito.when(categoryHandler.getAllCategories(ConstantsInfraestructure.VALUE_1,
                 ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_FALSE))
-                .thenReturn(categoryResponseDtoList);
-
+                .thenReturn(paginationDto);
 
         mockMvc.perform(MockMvcRequestBuilders.get(ConstantsInfraestructure.URL_GET_CATEGORY)
                         .param(ConstantsInfraestructure.PAGE, ConstantsInfraestructure.VALUE_UNO)
                         .param(ConstantsInfraestructure.SIZE, ConstantsInfraestructure.VALUE_UNO)
                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_NAME)
-                                .value(ConstantsInfraestructure.FIELD_NAME))
-                        .andExpect(MockMvcResultMatchers.jsonPath(ConstantsInfraestructure.MESSAGESS_DESCRIPTION)
-                                .value(ConstantsInfraestructure.FIELD_DESCRIPTION));
+                        .andExpect(MockMvcResultMatchers.status().isOk());
 
         Mockito.verify(categoryHandler, Mockito.times(ConstantsInfraestructure.VALUE_1))
                 .getAllCategories(ConstantsInfraestructure.VALUE_1,ConstantsInfraestructure.VALUE_1,

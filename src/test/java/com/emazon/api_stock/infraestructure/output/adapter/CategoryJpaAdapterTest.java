@@ -1,6 +1,7 @@
 package com.emazon.api_stock.infraestructure.output.adapter;
 
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import com.emazon.api_stock.infraestructure.output.entity.CategoryEntity;
 import com.emazon.api_stock.infraestructure.output.mapper.CategoryEntityMapper;
 import com.emazon.api_stock.infraestructure.output.repository.ICategoryRepository;
@@ -65,14 +66,14 @@ class CategoryJpaAdapterTest {
         Mockito.when(categoryRepository.findAll(pagination)).thenReturn(new PageImpl<>(categoryEntities));
         Mockito.when(categoryEntityMapper.categoryEntityToCategory(categoryEntities)).thenReturn(categories);
 
-        List<Category> result = categoryJpaAdapter.getAllCategories(page, size, ConstantsInfraestructure.VALUE_FALSE);
+        Pagination<Category> result = categoryJpaAdapter.getAllCategories(page, size, ConstantsInfraestructure.VALUE_FALSE);
 
         assertNotNull(result);
-        assertEquals(categories.size(), result.size());
+        assertEquals(categories.size(), result.getContentList().size());
         assertEquals(categories.get(ConstantsInfraestructure.VALUE_0).getName()
-                , result.get(ConstantsInfraestructure.VALUE_0).getName());
+                , result.getContentList().get(ConstantsInfraestructure.VALUE_0).getName());
         assertEquals(categories.get(ConstantsInfraestructure.VALUE_0).getDescription()
-                , result.get(ConstantsInfraestructure.VALUE_0).getDescription());
+                , result.getContentList().get(ConstantsInfraestructure.VALUE_0).getDescription());
     }
 
     @Test

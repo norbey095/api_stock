@@ -3,6 +3,7 @@ package com.emazon.api_stock.application.handler;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.emazon.api_stock.application.dto.PaginationDto;
 import com.emazon.api_stock.application.dto.category.CategoryRequestDto;
 import com.emazon.api_stock.application.dto.category.CategoryResponseDto;
 import com.emazon.api_stock.application.handler.category.CategoryHandler;
@@ -10,6 +11,7 @@ import com.emazon.api_stock.application.mapper.CategoryMapper;
 import com.emazon.api_stock.application.util.ConstantsApplication;
 import com.emazon.api_stock.domain.api.ICategoryServicePort;
 import com.emazon.api_stock.domain.model.Category;
+import com.emazon.api_stock.domain.model.Pagination;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -64,20 +66,26 @@ class CategoryHandlerTest {
         List<CategoryResponseDto> categoryDtoList = new ArrayList<>();
         categoryDtoList.add(categoryResponseDto);
 
+        PaginationDto<CategoryResponseDto> paginationDto = new PaginationDto<>();
+        paginationDto.setContentList(categoryDtoList);
+
         Category category = new Category(null, ConstantsApplication.FIELD_NAME
                 , ConstantsApplication.FIELD_DESCRIPTION);
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
 
-        when(categoryMapper.toCategoryDtoList(categoryList)).thenReturn(categoryDtoList);
+        Pagination<Category> pagination = new Pagination<>();
+        pagination.setContentList(categoryList);
+
+        when(categoryMapper.toCategoryDtoList(pagination)).thenReturn(paginationDto);
         when(categoryServicePort.getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1,
-                ConstantsApplication.VALUE_FALSE)).thenReturn(categoryList);
+                ConstantsApplication.VALUE_FALSE)).thenReturn(pagination);
 
         categoryHandler.getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1
                 , ConstantsApplication.VALUE_FALSE);
 
 
-        verify(categoryMapper).toCategoryDtoList(categoryList);
+        verify(categoryMapper).toCategoryDtoList(pagination);
         verify(categoryServicePort).getAllCategories(ConstantsApplication.NUMBER_1, ConstantsApplication.NUMBER_1,
                 ConstantsApplication.VALUE_FALSE);
     }
